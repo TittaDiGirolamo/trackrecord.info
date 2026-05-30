@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-       
+      
         :root {
             --primary: #0F172A;
         }
-       
+      
         body {
             font-family: 'Inter', system_ui, sans-serif;
         }
-       
+      
         .font-display {
             font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
             font-weight: 600;
@@ -64,7 +64,7 @@
             <h1 class="text-6xl md:text-7xl font-display font-semibold tracking-tighter leading-none mb-6">
                 Verify public<br>predictions against<br>real-world outcomes
             </h1>
-           
+          
             <p class="max-w-lg text-xl text-slate-600 leading-relaxed mb-10">
                 Trackrecord.info has the ambition to systematically compare public predictions against actual outcomes and publish transparent accuracy metrics.
             </p>
@@ -87,7 +87,7 @@
                     <p class="text-xs text-slate-500 text-center">We’ll only email you when we have meaningful updates.</p>
                 </form>
             </div>
-           
+          
             <div class="flex items-center gap-x-3 mt-8 text-sm text-slate-500">
                 <div class="flex -space-x-2">
                     <div class="w-7 h-7 bg-slate-200 border border-white rounded-full overflow-hidden ring-1 ring-white"><img src="https://pbs.twimg.com/profile_images/1771254203358355456/BZFn0E-J.jpg" class="w-full h-full object-cover"></div>
@@ -156,7 +156,7 @@
                     <h4 class="font-semibold text-xl mb-3">0–100 Accuracy Score</h4>
                     <p class="text-slate-600">An intuitive metric that makes it easy to understand prediction quality at a glance.</p>
                 </div>
-               
+              
                 <div class="bg-slate-50 rounded-3xl p-8">
                     <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
                         <i class="fa-solid fa-tags text-2xl text-emerald-600"></i>
@@ -164,7 +164,7 @@
                     <h4 class="font-semibold text-xl mb-3">Topic Tagging</h4>
                     <p class="text-slate-600">Every prediction is tagged by topic (NBA Draft, College Basketball, etc.) for easy filtering and comparison.</p>
                 </div>
-               
+              
                 <div class="bg-slate-50 rounded-3xl p-8">
                     <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
                         <i class="fa-solid fa-sync text-2xl text-emerald-600"></i>
@@ -219,7 +219,7 @@
                         </td>
                         <td class="px-8 py-6 text-sm text-slate-600">Leads on current sample</td>
                     </tr>
-                   
+                  
                     <tr class="prediction-row">
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
@@ -243,7 +243,7 @@
                         </td>
                         <td class="px-8 py-6 text-sm text-slate-600">Small sample size</td>
                     </tr>
-                   
+                  
                     <tr class="prediction-row">
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
@@ -270,13 +270,13 @@
                 </tbody>
             </table>
         </div>
-       
+      
         <div class="text-center mt-6 text-sm text-slate-500">
             Scores based on current resolved sample. More data coming soon.
         </div>
     </div>
 
-    <!-- Why This Matters -->
+    <!-- Why This Matters (Updated to match "The problem" style) -->
     <div class="max-w-5xl mx-auto px-6 py-20">
         <div class="max-w-2xl">
             <div class="text-sm font-medium text-emerald-600 mb-4">Our mission</div>
@@ -284,7 +284,7 @@
             <p class="mt-6 text-xl text-slate-600">Trackrecord.info aims to create a permanent, transparent record so we can all see who gets it right over time.</p>
         </div>
     </div>
-    
+
     <!-- How to Follow -->
     <div class="bg-slate-900 text-white">
         <div class="max-w-5xl mx-auto px-6 py-16">
@@ -292,7 +292,7 @@
                 <h3 class="text-3xl font-semibold mb-4">Stay updated</h3>
                 <p class="text-slate-400 text-lg max-w-xl">We’re building this in public. Follow along for updates and new forecasters.</p>
             </div>
-           
+          
             <div class="max-w-md">
                 <form id="stay-updated-form" class="space-y-4">
                     <div>
@@ -322,13 +322,13 @@
                 <div class="text-slate-500">
                     © 2026 Trackrecord.info. Built in public.
                 </div>
-               
+              
                 <div class="flex items-center gap-x-6 text-slate-500 text-xs">
                     <a href="#" class="hover:text-slate-900">Methodology</a>
                     <a href="#" class="hover:text-slate-900">GitHub</a>
                     <a href="#" class="hover:text-slate-900">X</a>
                 </div>
-               
+              
                 <div class="text-xs text-slate-400">
                     Early Public Preview • Data as of Feb 29, 2026
                 </div>
@@ -340,21 +340,21 @@
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#0F172A');
         }
-       
+      
         window.onload = function() {
             initializeTailwind();
-           
+          
             // Email capture form handler (Hero)
             const form = document.getElementById('interest-form');
             if (form) {
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
-                   
+                  
                     const name = document.getElementById('name').value;
                     const email = document.getElementById('email').value;
-                   
+                  
                     console.log('New subscriber (Hero):', { name, email });
-                   
+                  
                     form.innerHTML = `
                         <div class="text-center py-8">
                             <div class="text-emerald-600 text-5xl mb-4">✓</div>
@@ -364,17 +364,18 @@
                     `;
                 });
             }
+          
             // Email capture form handler (Stay Updated)
             const stayForm = document.getElementById('stay-updated-form');
             if (stayForm) {
                 stayForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                   
+                  
                     const name = document.getElementById('stay-name').value;
                     const email = document.getElementById('stay-email').value;
-                   
+                  
                     console.log('New subscriber (Stay Updated):', { name, email });
-                   
+                  
                     stayForm.innerHTML = `
                         <div class="text-center py-8">
                             <div class="text-white text-5xl mb-4">✓</div>

@@ -33,8 +33,9 @@
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
-    <!-- Success Banner -->
-    <div id="success-banner" class="hidden bg-emerald-50 border-b border-emerald-200">
+    <!-- Success Banner - FIXED at the top (always visible) -->
+    <div id="success-banner" 
+         class="hidden fixed top-0 left-0 right-0 z-[9999] bg-emerald-50 border-b border-emerald-200 shadow-md">
         <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-x-3">
                 <div class="text-emerald-600 text-2xl">✓</div>
@@ -44,7 +45,7 @@
                 </div>
             </div>
             <button onclick="hideSuccessBanner()" 
-                    class="text-emerald-600 hover:text-emerald-800 text-2xl leading-none px-2">×</button>
+                    class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1 rounded-full hover:bg-emerald-100 transition-colors">×</button>
         </div>
     </div>
 
@@ -105,7 +106,7 @@
                                class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
 
-                    <!-- Honeypot field (for spam protection) -->
+                    <!-- Honeypot field -->
                     <div class="honeypot">
                         <label for="website">Website</label>
                         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
@@ -341,7 +342,7 @@
                                class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
                     </div>
 
-                    <!-- Honeypot field (for spam protection) -->
+                    <!-- Honeypot field -->
                     <div class="honeypot">
                         <label for="website2">Website</label>
                         <input type="text" id="website2" name="website" tabindex="-1" autocomplete="off">
@@ -389,9 +390,12 @@
                 banner.classList.remove('hidden');
                 banner.classList.add('block');
                 
+                // Optional: scroll to top so user sees the banner immediately
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
                 setTimeout(() => {
                     hideSuccessBanner();
-                }, 7000);
+                }, 8000);
             }
         }
 
@@ -405,10 +409,9 @@
 
         // Function to handle form submission via AJAX + Honeypot check
         async function handleFormSubmit(form) {
-            // Honeypot check - if filled, it's likely a bot
+            // Honeypot check
             const honeypot = form.querySelector('input[name="website"]');
             if (honeypot && honeypot.value.trim() !== '') {
-                // Silently ignore bot submissions
                 console.log('Honeypot triggered - possible spam submission ignored');
                 form.reset();
                 return;
@@ -439,7 +442,7 @@
         window.onload = function() {
             initializeTailwind();
 
-            // Hero form handler
+            // Hero form
             const heroForm = document.getElementById('interest-form');
             if (heroForm) {
                 heroForm.addEventListener('submit', function(e) {
@@ -448,7 +451,7 @@
                 });
             }
 
-            // Stay Updated form handler
+            // Stay Updated form
             const stayForm = document.getElementById('stay-updated-form');
             if (stayForm) {
                 stayForm.addEventListener('submit', function(e) {

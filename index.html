@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-     
+    
         :root {
             --primary: #0F172A;
         }
-     
+    
         body {
             font-family: 'Inter', system_ui, sans-serif;
         }
-     
+    
         .font-display {
             font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
             font-weight: 600;
@@ -63,20 +63,20 @@
             <h1 class="text-6xl md:text-7xl font-display font-semibold tracking-tighter leading-none mb-6">
                 Verify public<br>predictions against<br>real-world outcomes
             </h1>
-         
+        
             <p class="max-w-lg text-xl text-slate-600 leading-relaxed mb-10">
                 Trackrecord.info has the ambition to systematically compare public predictions against actual outcomes and publish transparent accuracy metrics.
             </p>
             <div class="max-w-md">
-                <form id="interest-form" class="space-y-4">
+                <form id="interest-form" action="https://formspree.io/f/xjgznjrr" method="POST" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-1.5">Your name</label>
-                        <input type="text" id="name" required
+                        <input type="text" id="name" name="name" required
                                class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
-                        <input type="email" id="email" required
+                        <input type="email" id="email" name="email" required
                                class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <button type="submit"
@@ -86,7 +86,7 @@
                     <p class="text-xs text-slate-500 text-center">We’ll only email you when we have meaningful updates.</p>
                 </form>
             </div>
-         
+        
             <div class="flex items-center gap-x-3 mt-8 text-sm text-slate-500">
                 <div class="flex -space-x-2">
                     <div class="w-7 h-7 bg-slate-200 border border-white rounded-full overflow-hidden ring-1 ring-white"><img src="https://pbs.twimg.com/profile_images/1771254203358355456/BZFn0E-J.jpg" class="w-full h-full object-cover"></div>
@@ -104,7 +104,7 @@
                 <div class="md:col-span-1">
                     <div class="text-sm font-medium text-slate-500 mb-3">Overall accuracy</div>
                     <div class="flex items-baseline gap-x-3">
-                        <div class="text-7xl font-semibold tabular-nums tracking-tighter">62.5</div>
+                        <div class="text-7xl font-semibold tabular-nums">62.5</div>
                         <div class="text-3xl text-emerald-600 font-medium">/ 100</div>
                     </div>
                     <div class="mt-3 flex items-center gap-x-2 text-sm">
@@ -152,7 +152,7 @@
                     <h4 class="font-semibold text-xl mb-3">0–100 Accuracy Score</h4>
                     <p class="text-slate-600">An intuitive metric that makes it easy to understand prediction quality at a glance.</p>
                 </div>
-             
+            
                 <div class="bg-slate-50 rounded-3xl p-8">
                     <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
                         <i class="fa-solid fa-tags text-2xl text-emerald-600"></i>
@@ -160,7 +160,7 @@
                     <h4 class="font-semibold text-xl mb-3">Topic Tagging</h4>
                     <p class="text-slate-600">Every prediction is tagged by topic (NBA Draft, College Basketball, etc.) for easy filtering and comparison.</p>
                 </div>
-             
+            
                 <div class="bg-slate-50 rounded-3xl p-8">
                     <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
                         <i class="fa-solid fa-sync text-2xl text-emerald-600"></i>
@@ -219,7 +219,7 @@
                         </td>
                         <td class="px-8 py-6 text-sm text-slate-600">Perfect record on resolved</td>
                     </tr>
-                 
+                
                     <!-- Ken Pomeroy -->
                     <tr class="prediction-row">
                         <td class="px-8 py-6">
@@ -247,7 +247,7 @@
                         </td>
                         <td class="px-8 py-6 text-sm text-slate-600">Updated sample</td>
                     </tr>
-                 
+                
                     <!-- Nate Silver -->
                     <tr class="prediction-row">
                         <td class="px-8 py-6">
@@ -278,7 +278,7 @@
                 </tbody>
             </table>
         </div>
-     
+    
         <div class="text-center mt-6 text-sm text-slate-500">
             Scores based on 6 resolved predictions.
         </div>
@@ -290,17 +290,17 @@
                 <h3 class="text-3xl font-semibold mb-4">Stay updated</h3>
                 <p class="text-slate-400 text-lg max-w-xl">We’re building this in public. Follow along for updates and new forecasters.</p>
             </div>
-         
+        
             <div class="max-w-md">
-                <form id="stay-updated-form" class="space-y-4">
+                <form id="stay-updated-form" action="https://formspree.io/f/xjgznjrr" method="POST" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-white mb-1.5">Your name</label>
-                        <input type="text" id="stay-name" required
+                        <input type="text" id="stay-name" name="name" required
                                class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-white mb-1.5">Email address</label>
-                        <input type="email" id="stay-email" required
+                        <input type="email" id="stay-email" name="email" required
                                class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
                     </div>
                     <button type="submit"
@@ -319,13 +319,13 @@
                 <div class="text-slate-500">
                     © 2026 Trackrecord.info. Built in public.
                 </div>
-             
+            
                 <div class="flex items-center gap-x-6 text-slate-500 text-xs">
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="hover:text-slate-900">Methodology</a>
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="hover:text-slate-900">GitHub</a>
                     <a href="https://x.com/titta_girolamo" class="hover:text-slate-900">X</a>
                 </div>
-             
+            
                 <div class="text-xs text-slate-400">
                     Early Public Preview • Data as of 2026-06-02
                 </div>
@@ -336,47 +336,10 @@
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#0F172A');
         }
-     
+    
         window.onload = function() {
             initializeTailwind();
-         
-            // Email capture form handler (Hero)
-            const form = document.getElementById('interest-form');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                 
-                    const name = document.getElementById('name').value;
-                    const email = document.getElementById('email').value;
-                 
-                    form.innerHTML = `
-                        <div class="text-center py-8">
-                            <div class="text-emerald-600 text-5xl mb-4">✓</div>
-                            <h4 class="text-xl font-semibold mb-2">Thank you!</h4>
-                            <p class="text-slate-600">You're now on the list. We'll keep you updated.</p>
-                        </div>
-                    `;
-                });
-            }
-         
-            // Email capture form handler (Stay Updated)
-            const stayForm = document.getElementById('stay-updated-form');
-            if (stayForm) {
-                stayForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                 
-                    const name = document.getElementById('stay-name').value;
-                    const email = document.getElementById('stay-email').value;
-                 
-                    stayForm.innerHTML = `
-                        <div class="text-center py-8">
-                            <div class="text-white text-5xl mb-4">✓</div>
-                            <h4 class="text-xl font-semibold mb-2 text-white">Thank you!</h4>
-                            <p class="text-white/80">You're now on the list. We'll keep you updated.</p>
-                        </div>
-                    `;
-                });
-            }
+            // Form submissions are now handled natively by Formspree (both forms post to the same endpoint)
         }
     </script>
 </body>

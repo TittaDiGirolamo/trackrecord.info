@@ -24,6 +24,21 @@
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
+    <!-- Success Banner (shown after form submission) -->
+    <div id="success-banner" class="hidden bg-emerald-50 border-b border-emerald-200">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="text-emerald-600 text-2xl">✓</div>
+                <div>
+                    <span class="font-semibold text-emerald-800">Thank you!</span>
+                    <span class="text-emerald-700"> You're now on the list. We'll keep you updated.</span>
+                </div>
+            </div>
+            <button onclick="hideSuccessBanner()" 
+                    class="text-emerald-600 hover:text-emerald-800 text-2xl leading-none px-2">×</button>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="border-b border-slate-200 bg-white">
         <div class="max-w-7xl mx-auto px-6">
@@ -79,6 +94,7 @@
                         <input type="email" id="email" name="email" required
                                class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
+                    <input type="hidden" name="_next" value="https://trackrecord.info?form=success">
                     <button type="submit"
                             class="w-full px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-3xl transition-all text-lg active:scale-[0.985]">
                         Signal my interest
@@ -303,6 +319,7 @@
                         <input type="email" id="stay-email" name="email" required
                                class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
                     </div>
+                    <input type="hidden" name="_next" value="https://trackrecord.info?form=success">
                     <button type="submit"
                             class="w-full px-8 py-4 bg-white hover:bg-slate-100 text-slate-900 font-semibold rounded-3xl transition-all text-lg active:scale-[0.985]">
                         Signal my interest
@@ -332,14 +349,47 @@
             </div>
         </div>
     </footer>
+
     <script>
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#0F172A');
         }
-    
+
+        function showSuccessBanner() {
+            const banner = document.getElementById('success-banner');
+            if (banner) {
+                banner.classList.remove('hidden');
+                banner.classList.add('block');
+                
+                // Auto-hide after 7 seconds
+                setTimeout(() => {
+                    hideSuccessBanner();
+                }, 7000);
+            }
+        }
+
+        function hideSuccessBanner() {
+            const banner = document.getElementById('success-banner');
+            if (banner) {
+                banner.classList.remove('block');
+                banner.classList.add('hidden');
+            }
+            
+            // Clean the URL so ?form=success doesn't stay in browser history
+            if (window.history.replaceState) {
+                const cleanUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+        }
+
         window.onload = function() {
             initializeTailwind();
-            // Form submissions are now handled natively by Formspree (both forms post to the same endpoint)
+
+            // Check if we were redirected here after a successful form submission
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('form') === 'success') {
+                showSuccessBanner();
+            }
         }
     </script>
 </body>

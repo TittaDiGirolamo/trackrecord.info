@@ -21,6 +21,15 @@
             font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
             font-weight: 600;
         }
+
+        /* Honeypot - visually hidden but accessible to bots */
+        .honeypot {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -95,6 +104,13 @@
                         <input type="email" id="email" name="email" required
                                class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
+
+                    <!-- Honeypot field (for spam protection) -->
+                    <div class="honeypot">
+                        <label for="website">Website</label>
+                        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <button type="submit"
                             class="w-full px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-3xl transition-all text-lg active:scale-[0.985]">
                         Signal my interest
@@ -324,6 +340,13 @@
                         <input type="email" id="stay-email" name="email" required
                                class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
                     </div>
+
+                    <!-- Honeypot field (for spam protection) -->
+                    <div class="honeypot">
+                        <label for="website2">Website</label>
+                        <input type="text" id="website2" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <button type="submit"
                             class="w-full px-8 py-4 bg-white hover:bg-slate-100 text-slate-900 font-semibold rounded-3xl transition-all text-lg active:scale-[0.985]">
                         Signal my interest
@@ -380,8 +403,17 @@
             }
         }
 
-        // Function to handle form submission via AJAX
-        async function handleFormSubmit(form, successMessage) {
+        // Function to handle form submission via AJAX + Honeypot check
+        async function handleFormSubmit(form) {
+            // Honeypot check - if filled, it's likely a bot
+            const honeypot = form.querySelector('input[name="website"]');
+            if (honeypot && honeypot.value.trim() !== '') {
+                // Silently ignore bot submissions
+                console.log('Honeypot triggered - possible spam submission ignored');
+                form.reset();
+                return;
+            }
+
             const formData = new FormData(form);
             
             try {
@@ -394,9 +426,8 @@
                 });
 
                 if (response.ok) {
-                    // Show success banner on the site
                     showSuccessBanner();
-                    form.reset(); // Clear the form
+                    form.reset();
                 } else {
                     alert('Something went wrong. Please try again.');
                 }

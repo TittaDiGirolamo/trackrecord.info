@@ -34,10 +34,31 @@
             opacity: 0.8;
             cursor: not-allowed;
         }
+
+        .table-container {
+            position: relative;
+        }
+        
+        .table-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(to right, transparent, #f8fafc);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .table-container.scrolling::after {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
-    <!-- Success Banner - Fixed + Improved Accessibility -->
+    <!-- Success Banner -->
     <div id="success-banner" 
          role="status" 
          aria-live="polite"
@@ -91,7 +112,7 @@
         <div class="max-w-3xl">
             <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-white border border-slate-200 rounded-3xl text-sm font-medium mb-6">
                 <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span class="text-slate-600">v0.7</span>
+                <span class="text-slate-600">v0.8</span>
             </div>
             <h1 class="text-6xl md:text-7xl font-display font-semibold tracking-tighter leading-none mb-6">
                 Verify public<br>predictions against<br>real-world outcomes
@@ -104,36 +125,23 @@
                 <form id="interest-form" class="space-y-4">
                     <div>
                         <label for="name" class="block text-sm font-medium text-slate-700 mb-1.5">Your name</label>
-                        <input type="text" id="name" name="name" required
-                               class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div>
                         <label for="email" class="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
-                        <input type="email" id="email" name="email" required
-                               class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
 
-                    <!-- Honeypot -->
                     <div class="honeypot">
                         <label for="website">Website</label>
                         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
                     </div>
 
-                    <button type="submit" id="hero-submit-btn"
-                            class="w-full px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-3xl transition-all text-lg active:scale-[0.985] flex items-center justify-center gap-x-2">
+                    <button type="submit" id="hero-submit-btn" class="w-full px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-3xl transition-all text-lg active:scale-[0.985] flex items-center justify-center gap-x-2">
                         <span id="hero-btn-text">Signal my interest</span>
                     </button>
                     <p class="text-xs text-slate-500 text-center">We’ll only email you when we have meaningful updates.</p>
                 </form>
-            </div>
-        
-            <div class="flex items-center gap-x-3 mt-8 text-sm text-slate-500">
-                <div class="flex -space-x-2">
-                    <div class="w-7 h-7 bg-slate-200 border border-white rounded-full overflow-hidden ring-1 ring-white"><img src="https://pbs.twimg.com/profile_images/1771254203358355456/BZFn0E-J.jpg" class="w-full h-full object-cover"></div>
-                    <div class="w-7 h-7 bg-slate-200 border border-white rounded-full overflow-hidden ring-1 ring-white"><img src="https://pbs.twimg.com/profile_images/923308837876011009/nAnSeGx2.jpg" class="w-full h-full object-cover"></div>
-                    <div class="w-7 h-7 bg-slate-200 border border-white rounded-full overflow-hidden ring-1 ring-white"><img src="https://pbs.twimg.com/profile_images/751475466645565440/KEnhZagn.jpg" class="w-full h-full object-cover"></div>
-                </div>
-                <span>3 forecasters • 25 predictions tracked</span>
             </div>
         </div>
     </div>
@@ -195,28 +203,26 @@
                     <h4 class="font-semibold text-xl mb-3">0–100 Accuracy Score</h4>
                     <p class="text-slate-600">An intuitive metric that makes it easy to understand prediction quality at a glance.</p>
                 </div>
-            
                 <div class="bg-slate-50 rounded-3xl p-8">
                     <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
                         <i class="fa-solid fa-tags text-2xl text-emerald-600"></i>
                     </div>
                     <h4 class="font-semibold text-xl mb-3">Topic Tagging</h4>
-                    <p class="text-slate-600">Every prediction is tagged by topic (NBA Draft, College Basketball, etc.) for easy filtering and comparison.</p>
+                    <p class="text-slate-600">Every prediction is tagged by topic for easy filtering and comparison.</p>
                 </div>
-            
                 <div class="bg-slate-50 rounded-3xl p-8">
                     <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
                         <i class="fa-solid fa-sync text-2xl text-emerald-600"></i>
                     </div>
                     <h4 class="font-semibold text-xl mb-3">Daily Automated Updates</h4>
-                    <p class="text-slate-600">The system runs automatically every day and updates all reports with the latest resolutions.</p>
+                    <p class="text-slate-600">The system runs automatically every day and updates all reports.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Current Forecasters -->
-    <div class="max-w-5xl mx-auto px-6 py-20">
+    <div id="current-forecasters" class="max-w-5xl mx-auto px-6 py-20">
         <div class="text-center mb-4">
             <div class="text-sm font-medium text-emerald-600 mb-4">Current forecasters</div>
             <h3 class="text-4xl font-semibold tracking-tight">Who we're tracking</h3>
@@ -224,23 +230,23 @@
         <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="hidden md:flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 mt-2 mb-4">
             View all forecasters <i class="ml-2 fa-solid fa-arrow-right"></i>
         </a>
-        <div class="bg-white border border-slate-200 rounded-3xl overflow-x-auto">
+        
+        <div class="table-container bg-white border border-slate-200 rounded-3xl overflow-x-auto">
             <table class="w-full min-w-[600px]">
                 <thead>
                     <tr class="border-b border-slate-100">
                         <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Forecaster</th>
                         <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
-                        <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Predictions</th>
                         <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Resolved</th>
                         <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Notes</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    <tr class="prediction-row">
+                    <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
                                 <div class="w-11 h-11 bg-slate-100 rounded-2xl overflow-hidden flex-shrink-0">
-                                    <img src="https://pbs.twimg.com/profile_images/751475466645565440/KEnhZagn.jpg" class="w-full h-full object-cover">
+                                    <img src="https://pbs.twimg.com/profile_images/751475466645565440/KEnhZagn.jpg" class="w-full h-full object-cover" loading="lazy">
                                 </div>
                                 <div>
                                     <div class="font-semibold">Sam Vecenie</div>
@@ -255,19 +261,15 @@
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
-                            <span class="text-2xl font-semibold tabular-nums">6</span>
-                        </td>
-                        <td class="px-6 py-6 text-center">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/2</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/6</span>
                         </td>
                         <td class="px-8 py-6 text-sm text-slate-600">Perfect record on resolved</td>
                     </tr>
-                
-                    <tr class="prediction-row">
+                    <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
                                 <div class="w-11 h-11 bg-slate-100 rounded-2xl overflow-hidden flex-shrink-0">
-                                    <img src="https://pbs.twimg.com/profile_images/923308837876011009/nAnSeGx2.jpg" class="w-full h-full object-cover">
+                                    <img src="https://pbs.twimg.com/profile_images/923308837876011009/nAnSeGx2.jpg" class="w-full h-full object-cover" loading="lazy">
                                 </div>
                                 <div>
                                     <div class="font-semibold">Ken Pomeroy</div>
@@ -282,19 +284,15 @@
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
-                            <span class="text-2xl font-semibold tabular-nums">6</span>
-                        </td>
-                        <td class="px-6 py-6 text-center">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/2</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/6</span>
                         </td>
                         <td class="px-8 py-6 text-sm text-slate-600">Updated sample</td>
                     </tr>
-                
-                    <tr class="prediction-row">
+                    <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
                                 <div class="w-11 h-11 bg-slate-100 rounded-2xl overflow-hidden flex-shrink-0">
-                                    <img src="https://pbs.twimg.com/profile_images/1771254203358355456/BZFn0E-J.jpg" class="w-full h-full object-cover">
+                                    <img src="https://pbs.twimg.com/profile_images/1771254203358355456/BZFn0E-J.jpg" class="w-full h-full object-cover" loading="lazy">
                                 </div>
                                 <div>
                                     <div class="font-semibold">Nate Silver</div>
@@ -309,10 +307,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
-                            <span class="text-2xl font-semibold tabular-nums">7</span>
-                        </td>
-                        <td class="px-6 py-6 text-center">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/2</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/7</span>
                         </td>
                         <td class="px-8 py-6 text-sm text-slate-600">Updated sample</td>
                     </tr>
@@ -321,11 +316,11 @@
         </div>
     
         <div class="text-center mt-6 text-sm text-slate-500">
-            Scores based on 6 resolved predictions.
+            Accuracy based on resolved predictions only
         </div>
     </div>
 
-    <!-- How to Follow / Stay Updated -->
+    <!-- Stay Updated -->
     <div class="bg-slate-900 text-white">
         <div class="max-w-5xl mx-auto px-6 py-16">
             <div class="max-w-2xl mb-8">
@@ -337,23 +332,19 @@
                 <form id="stay-updated-form" class="space-y-4">
                     <div>
                         <label for="stay-name" class="block text-sm font-medium text-white mb-1.5">Your name</label>
-                        <input type="text" id="stay-name" name="name" required
-                               class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
+                        <input type="text" id="stay-name" name="name" required class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
                     </div>
                     <div>
                         <label for="stay-email" class="block text-sm font-medium text-white mb-1.5">Email address</label>
-                        <input type="email" id="stay-email" name="email" required
-                               class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
+                        <input type="email" id="stay-email" name="email" required class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
                     </div>
 
-                    <!-- Honeypot -->
                     <div class="honeypot">
                         <label for="website2">Website</label>
                         <input type="text" id="website2" name="website" tabindex="-1" autocomplete="off">
                     </div>
 
-                    <button type="submit" id="stay-submit-btn"
-                            class="w-full px-8 py-4 bg-white hover:bg-slate-100 text-slate-900 font-semibold rounded-3xl transition-all text-lg active:scale-[0.985] flex items-center justify-center gap-x-2">
+                    <button type="submit" id="stay-submit-btn" class="w-full px-8 py-4 bg-white hover:bg-slate-100 text-slate-900 font-semibold rounded-3xl transition-all text-lg active:scale-[0.985] flex items-center justify-center gap-x-2">
                         <span id="stay-btn-text">Signal my interest</span>
                     </button>
                     <p class="text-xs text-white/60 text-center">We’ll only email you when we have meaningful updates.</p>
@@ -369,13 +360,11 @@
                 <div class="text-slate-500">
                     © 2026 Trackrecord.info. Built in public.
                 </div>
-            
                 <div class="flex items-center gap-x-6 text-slate-500 text-xs">
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="hover:text-slate-900">Methodology</a>
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="hover:text-slate-900">GitHub</a>
                     <a href="https://x.com/titta_girolamo" class="hover:text-slate-900">X</a>
                 </div>
-            
                 <div class="text-xs text-slate-400">
                     Early Public Preview • Data as of 2026-06-02
                 </div>
@@ -395,10 +384,8 @@
             if (banner) {
                 banner.classList.remove('hidden');
                 banner.classList.add('block');
-                
                 document.body.style.paddingTop = '64px';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                
                 setTimeout(hideSuccessBanner, 8000);
             }
         }
@@ -408,7 +395,7 @@
             if (banner) {
                 banner.classList.remove('block');
                 banner.classList.add('hidden');
-                document.body.style.paddingTop = '0px';
+                document.body.style.paddingTop = '0';
             }
         }
 
@@ -456,7 +443,6 @@
         window.onload = function() {
             initializeTailwind();
 
-            // Hero form
             const heroForm = document.getElementById('interest-form');
             const heroBtn = document.getElementById('hero-submit-btn');
             const heroBtnText = document.getElementById('hero-btn-text');
@@ -467,7 +453,6 @@
                 });
             }
 
-            // Stay Updated form
             const stayForm = document.getElementById('stay-updated-form');
             const stayBtn = document.getElementById('stay-submit-btn');
             const stayBtnText = document.getElementById('stay-btn-text');
@@ -475,6 +460,13 @@
                 stayForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     handleFormSubmit(stayForm, stayBtn, stayBtnText);
+                });
+            }
+
+            const tableContainer = document.querySelector('.table-container');
+            if (tableContainer) {
+                tableContainer.addEventListener('scroll', () => {
+                    tableContainer.classList.toggle('scrolling', tableContainer.scrollLeft > 10);
                 });
             }
         };

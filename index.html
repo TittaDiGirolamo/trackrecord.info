@@ -8,20 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-    
+   
         :root {
             --primary: #0F172A;
         }
-    
+   
         body {
             font-family: 'Inter', system_ui, sans-serif;
         }
-    
+   
         .font-display {
             font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
             font-weight: 600;
         }
-
         .honeypot {
             position: absolute;
             left: -9999px;
@@ -29,16 +28,14 @@
             height: 1px;
             overflow: hidden;
         }
-
         .form-submitting button {
             opacity: 0.8;
             cursor: not-allowed;
         }
-
         .table-container {
             position: relative;
         }
-        
+       
         .table-container::after {
             content: '';
             position: absolute;
@@ -51,18 +48,38 @@
             opacity: 0;
             transition: opacity 0.2s;
         }
-        
+       
         .table-container.scrolling::after {
             opacity: 1;
+        }
+        .topic-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 10px;
+            background-color: #10b981;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            flex-shrink: 0;
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
+
     <!-- Success Banner -->
-    <div id="success-banner" 
-         role="status" 
-         aria-live="polite"
-         class="hidden fixed top-0 left-0 right-0 z-[9999] bg-emerald-50 border-b border-emerald-200 shadow-md">
+    <div id="success-banner" role="status" aria-live="polite" class="hidden fixed top-0 left-0 right-0 z-[9999] bg-emerald-50 border-b border-emerald-200 shadow-md">
         <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-x-3">
                 <div class="text-emerald-600 text-2xl">✓</div>
@@ -71,9 +88,7 @@
                     <span class="text-emerald-700"> You're now on the list. We'll keep you updated.</span>
                 </div>
             </div>
-            <button onclick="hideSuccessBanner()" 
-                    aria-label="Close success message"
-                    class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1 rounded-full hover:bg-emerald-100 transition-colors">×</button>
+            <button onclick="hideSuccessBanner()" aria-label="Close success message" class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1 rounded-full hover:bg-emerald-100 transition-colors">×</button>
         </div>
     </div>
 
@@ -112,12 +127,11 @@
         <div class="max-w-3xl">
             <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-white border border-slate-200 rounded-3xl text-sm font-medium mb-6">
                 <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span class="text-slate-600">v0.8</span>
+                <span class="text-slate-600">v0.9</span>
             </div>
             <h1 class="text-6xl md:text-7xl font-display font-semibold tracking-tighter leading-none mb-6">
                 Verify public<br>predictions against<br>real-world outcomes
             </h1>
-        
             <p class="max-w-lg text-xl text-slate-600 leading-relaxed mb-10">
                 Trackrecord.info has the ambition to systematically compare public predictions against actual outcomes and publish transparent accuracy metrics.
             </p>
@@ -131,92 +145,15 @@
                         <label for="email" class="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
                         <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-slate-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
-
                     <div class="honeypot">
                         <label for="website">Website</label>
                         <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
                     </div>
-
                     <button type="submit" id="hero-submit-btn" class="w-full px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-3xl transition-all text-lg active:scale-[0.985] flex items-center justify-center gap-x-2">
                         <span id="hero-btn-text">Signal my interest</span>
                     </button>
                     <p class="text-xs text-slate-500 text-center">We’ll only email you when we have meaningful updates.</p>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Current Status -->
-    <div class="bg-white border-y border-slate-200">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="md:col-span-1">
-                    <div class="text-sm font-medium text-slate-500 mb-3">Overall accuracy</div>
-                    <div class="flex items-baseline gap-x-3">
-                        <div class="text-7xl font-semibold tabular-nums">62.5</div>
-                        <div class="text-3xl text-emerald-600 font-medium">/ 100</div>
-                    </div>
-                    <div class="mt-3 flex items-center gap-x-2 text-sm">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">Current</span>
-                        <span class="text-slate-500">Based on 6 resolved predictions</span>
-                    </div>
-                </div>
-                <div class="md:col-span-2 grid grid-cols-3 gap-4">
-                    <div class="bg-slate-50 rounded-3xl p-6">
-                        <div class="text-4xl font-semibold tabular-nums">25</div>
-                        <div class="text-sm text-slate-500 mt-1">Predictions tracked</div>
-                    </div>
-                    <div class="bg-slate-50 rounded-3xl p-6">
-                        <div class="text-4xl font-semibold tabular-nums">6</div>
-                        <div class="text-sm text-slate-500 mt-1">Resolved with outcomes</div>
-                    </div>
-                    <div class="bg-slate-50 rounded-3xl p-6">
-                        <div class="text-4xl font-semibold tabular-nums">3</div>
-                        <div class="text-sm text-slate-500 mt-1">Forecasters monitored</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- What is Trackrecord.info -->
-    <div class="max-w-5xl mx-auto px-6 py-20">
-        <div class="max-w-2xl">
-            <div class="text-sm font-medium text-emerald-600 mb-4">Our mission</div>
-            <h2 class="text-4xl font-semibold tracking-tight">Most public predictions<br>disappear without accountability</h2>
-            <p class="mt-6 text-xl text-slate-600">Trackrecord.info aims to create a permanent, transparent record so we can all see who gets it right over time.</p>
-        </div>
-    </div>
-
-    <!-- Key Features -->
-    <div class="bg-white border-y border-slate-200 py-16">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <div class="text-sm font-medium text-emerald-600 mb-4">Features</div>
-                <h3 class="text-3xl font-semibold mt-2">Everything you need to evaluate forecasters</h3>
-            </div>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-slate-50 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-chart-line text-2xl text-emerald-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-xl mb-3">0–100 Accuracy Score</h4>
-                    <p class="text-slate-600">An intuitive metric that makes it easy to understand prediction quality at a glance.</p>
-                </div>
-                <div class="bg-slate-50 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-tags text-2xl text-emerald-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-xl mb-3">Topic Tagging</h4>
-                    <p class="text-slate-600">Every prediction is tagged by topic for easy filtering and comparison.</p>
-                </div>
-                <div class="bg-slate-50 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-sync text-2xl text-emerald-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-xl mb-3">Daily Automated Updates</h4>
-                    <p class="text-slate-600">The system runs automatically every day and updates all reports.</p>
-                </div>
             </div>
         </div>
     </div>
@@ -227,107 +164,194 @@
             <div class="text-sm font-medium text-emerald-600 mb-4">Current forecasters</div>
             <h3 class="text-4xl font-semibold tracking-tight">Who we're tracking</h3>
         </div>
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="hidden md:flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 mt-2 mb-4">
-            View all forecasters <i class="ml-2 fa-solid fa-arrow-right"></i>
-        </a>
-        
+
+        <!-- Temporary Banner -->
+        <div id="temporary-banner" class="bg-amber-100 border border-amber-300 rounded-3xl p-5 mb-8">
+            <div class="flex items-start justify-between">
+                <div class="flex items-start gap-x-3 text-amber-800 text-sm">
+                    <i class="fa-solid fa-info-circle text-amber-500 mt-0.5 flex-shrink-0"></i>
+                    <div>
+                        Temporary focus on prominent Dutch voices and experts for transparent tracking of Oranje predictions during FIFA World Cup 2026. 
+                        Full methodology and reversion plan documented in 
+                        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-amber-900 font-medium">METHODOLOGY.md</a>. 
+                        Re-evaluation: 2026-08-01.
+                    </div>
+                </div>
+                <button onclick="dismissTemporaryBanner()" aria-label="Close banner" class="text-amber-600 hover:text-amber-800 text-2xl leading-none px-2 -mr-2 flex-shrink-0">×</button>
+            </div>
+        </div>
+
         <div class="table-container bg-white border border-slate-200 rounded-3xl overflow-x-auto">
-            <table class="w-full min-w-[600px]">
+            <table class="w-full min-w-[700px]">
                 <thead>
                     <tr class="border-b border-slate-100">
                         <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Forecaster</th>
                         <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
                         <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Resolved</th>
-                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Notes</th>
+                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Topics</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="w-11 h-11 bg-slate-100 rounded-2xl overflow-hidden flex-shrink-0">
-                                    <img src="https://pbs.twimg.com/profile_images/751475466645565440/KEnhZagn.jpg" class="w-full h-full object-cover" loading="lazy">
-                                </div>
+                                <div class="avatar bg-orange-500">WS</div>
                                 <div>
-                                    <div class="font-semibold">Sam Vecenie</div>
-                                    <div class="text-xs text-slate-500">@Sam_Vecenie</div>
+                                    <div class="font-semibold">Wesley Sneijder</div>
+                                    <div class="text-xs text-slate-500">Dutch football legend</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
                             <div class="inline-flex items-center gap-x-1.5">
-                                <span class="text-3xl font-semibold tabular-nums">100.0</span>
+                                <span class="text-3xl font-semibold tabular-nums">0.0</span>
                                 <span class="text-xs text-emerald-600 font-medium">/100</span>
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/6</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/0</span>
                         </td>
-                        <td class="px-8 py-6 text-sm text-slate-600">Perfect record on resolved</td>
+                        <td class="px-8 py-6">
+                            <span class="topic-pill">FIFA World Cup 2026</span> 
+                            <span class="topic-pill ml-1">Oranje</span>
+                        </td>
                     </tr>
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="w-11 h-11 bg-slate-100 rounded-2xl overflow-hidden flex-shrink-0">
-                                    <img src="https://pbs.twimg.com/profile_images/923308837876011009/nAnSeGx2.jpg" class="w-full h-full object-cover" loading="lazy">
-                                </div>
+                                <div class="avatar bg-blue-600">SO</div>
                                 <div>
-                                    <div class="font-semibold">Ken Pomeroy</div>
-                                    <div class="text-xs text-slate-500">@kenpomeroy</div>
+                                    <div class="font-semibold">Süleyman Öztürk</div>
+                                    <div class="text-xs text-slate-500">Voetbal International</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
                             <div class="inline-flex items-center gap-x-1.5">
-                                <span class="text-3xl font-semibold tabular-nums">87.5</span>
+                                <span class="text-3xl font-semibold tabular-nums">0.0</span>
                                 <span class="text-xs text-emerald-600 font-medium">/100</span>
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/6</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/0</span>
                         </td>
-                        <td class="px-8 py-6 text-sm text-slate-600">Updated sample</td>
+                        <td class="px-8 py-6">
+                            <span class="topic-pill">FIFA World Cup 2026</span> 
+                            <span class="topic-pill ml-1">Oranje</span>
+                        </td>
                     </tr>
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="w-11 h-11 bg-slate-100 rounded-2xl overflow-hidden flex-shrink-0">
-                                    <img src="https://pbs.twimg.com/profile_images/1771254203358355456/BZFn0E-J.jpg" class="w-full h-full object-cover" loading="lazy">
-                                </div>
+                                <div class="avatar bg-indigo-600">BH</div>
                                 <div>
-                                    <div class="font-semibold">Nate Silver</div>
-                                    <div class="text-xs text-slate-500">@NateSilver538</div>
+                                    <div class="font-semibold">Bas van den Hoven</div>
+                                    <div class="text-xs text-slate-500">Voetbal International</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
                             <div class="inline-flex items-center gap-x-1.5">
-                                <span class="text-3xl font-semibold tabular-nums">50.0</span>
+                                <span class="text-3xl font-semibold tabular-nums">0.0</span>
                                 <span class="text-xs text-emerald-600 font-medium">/100</span>
                             </div>
                         </td>
                         <td class="px-6 py-6 text-center">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">2/7</span>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/0</span>
                         </td>
-                        <td class="px-8 py-6 text-sm text-slate-600">Updated sample</td>
+                        <td class="px-8 py-6">
+                            <span class="topic-pill">FIFA World Cup 2026</span> 
+                            <span class="topic-pill ml-1">Oranje</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-8 py-6">
+                            <div class="flex items-center gap-x-4">
+                                <div class="avatar bg-emerald-600">JK</div>
+                                <div>
+                                    <div class="font-semibold">Joachim Klement</div>
+                                    <div class="text-xs text-slate-500">Economist &amp; Modeler</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6 text-center">
+                            <div class="inline-flex items-center gap-x-1.5">
+                                <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                <span class="text-xs text-emerald-600 font-medium">/100</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6 text-center">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/0</span>
+                        </td>
+                        <td class="px-8 py-6">
+                            <span class="topic-pill">FIFA World Cup 2026</span> 
+                            <span class="topic-pill ml-1">Oranje</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-8 py-6">
+                            <div class="flex items-center gap-x-4">
+                                <div class="avatar bg-rose-500">FC</div>
+                                <div>
+                                    <div class="font-semibold">Finley Crebolder</div>
+                                    <div class="text-xs text-slate-500">Clockwork Oranje</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6 text-center">
+                            <div class="inline-flex items-center gap-x-1.5">
+                                <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                <span class="text-xs text-emerald-600 font-medium">/100</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6 text-center">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/0</span>
+                        </td>
+                        <td class="px-8 py-6">
+                            <span class="topic-pill">FIFA World Cup 2026</span> 
+                            <span class="topic-pill ml-1">Oranje</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-8 py-6">
+                            <div class="flex items-center gap-x-4">
+                                <div class="avatar bg-sky-600">MS</div>
+                                <div>
+                                    <div class="font-semibold">Michael Statham</div>
+                                    <div class="text-xs text-slate-500">@EredivisieMike</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6 text-center">
+                            <div class="inline-flex items-center gap-x-1.5">
+                                <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                <span class="text-xs text-emerald-600 font-medium">/100</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-6 text-center">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/0</span>
+                        </td>
+                        <td class="px-8 py-6">
+                            <span class="topic-pill">FIFA World Cup 2026</span> 
+                            <span class="topic-pill ml-1">Oranje</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    
+   
         <div class="text-center mt-6 text-sm text-slate-500">
-            Accuracy based on resolved predictions only
+            Accuracy based on resolved predictions only • Temporary FIFA World Cup 2026 sprint
         </div>
     </div>
 
-    <!-- Stay Updated -->
+    <!-- Stay Updated Section (unchanged from your original) -->
     <div class="bg-slate-900 text-white">
         <div class="max-w-5xl mx-auto px-6 py-16">
             <div class="max-w-2xl mb-8">
                 <h3 class="text-3xl font-semibold mb-4">Stay updated</h3>
                 <p class="text-slate-400 text-lg max-w-xl">We’re building this in public. Follow along for updates and new forecasters.</p>
             </div>
-        
             <div class="max-w-md">
                 <form id="stay-updated-form" class="space-y-4">
                     <div>
@@ -338,12 +362,10 @@
                         <label for="stay-email" class="block text-sm font-medium text-white mb-1.5">Email address</label>
                         <input type="email" id="stay-email" name="email" required class="w-full px-4 py-3 border border-white/30 bg-white/10 text-white placeholder-white/60 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white focus:bg-white/20 transition-colors">
                     </div>
-
                     <div class="honeypot">
                         <label for="website2">Website</label>
                         <input type="text" id="website2" name="website" tabindex="-1" autocomplete="off">
                     </div>
-
                     <button type="submit" id="stay-submit-btn" class="w-full px-8 py-4 bg-white hover:bg-slate-100 text-slate-900 font-semibold rounded-3xl transition-all text-lg active:scale-[0.985] flex items-center justify-center gap-x-2">
                         <span id="stay-btn-text">Signal my interest</span>
                     </button>
@@ -366,13 +388,18 @@
                     <a href="https://x.com/titta_girolamo" class="hover:text-slate-900">X</a>
                 </div>
                 <div class="text-xs text-slate-400">
-                    Early Public Preview • Data as of 2026-06-02
+                    Early Public Preview • Data as of 2026-06-04
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
+        function dismissTemporaryBanner() {
+            const banner = document.getElementById('temporary-banner');
+            if (banner) banner.style.display = 'none';
+        }
+
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#0F172A');
         }

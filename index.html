@@ -63,23 +63,14 @@
             border-radius: 9999px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        .avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: white;
-            flex-shrink: 0;
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
-
     <!-- Success Banner -->
-    <div id="success-banner" role="status" aria-live="polite" class="hidden fixed top-0 left-0 right-0 z-[9999] bg-emerald-50 border-b border-emerald-200 shadow-md">
+    <div id="success-banner"
+         role="status"
+         aria-live="polite"
+         class="hidden fixed top-0 left-0 right-0 z-[9999] bg-emerald-50 border-b border-emerald-200 shadow-md">
         <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-x-3">
                 <div class="text-emerald-600 text-2xl">✓</div>
@@ -88,7 +79,9 @@
                     <span class="text-emerald-700"> You're now on the list. We'll keep you updated.</span>
                 </div>
             </div>
-            <button onclick="hideSuccessBanner()" aria-label="Close success message" class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1 rounded-full hover:bg-emerald-100 transition-colors">×</button>
+            <button onclick="hideSuccessBanner()"
+                    aria-label="Close success message"
+                    class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1 rounded-full hover:bg-emerald-100 transition-colors">×</button>
         </div>
     </div>
 
@@ -158,6 +151,81 @@
         </div>
     </div>
 
+    <!-- Current Status -->
+    <div class="bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="md:col-span-1">
+                    <div class="text-sm font-medium text-slate-500 mb-3">Overall accuracy</div>
+                    <div class="flex items-baseline gap-x-3">
+                        <div class="text-7xl font-semibold tabular-nums">62.5</div>
+                        <div class="text-3xl text-emerald-600 font-medium">/ 100</div>
+                    </div>
+                    <div class="mt-3 flex items-center gap-x-2 text-sm">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">Current</span>
+                        <span class="text-slate-500">Based on 6 resolved predictions</span>
+                    </div>
+                </div>
+                <div class="md:col-span-2 grid grid-cols-3 gap-4">
+                    <div class="bg-slate-50 rounded-3xl p-6">
+                        <div class="text-4xl font-semibold tabular-nums">25</div>
+                        <div class="text-sm text-slate-500 mt-1">Predictions tracked</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-3xl p-6">
+                        <div class="text-4xl font-semibold tabular-nums">6</div>
+                        <div class="text-sm text-slate-500 mt-1">Resolved with outcomes</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-3xl p-6">
+                        <div class="text-4xl font-semibold tabular-nums">6</div>
+                        <div class="text-sm text-slate-500 mt-1">Forecasters monitored</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- What is Trackrecord.info -->
+    <div class="max-w-5xl mx-auto px-6 py-20">
+        <div class="max-w-2xl">
+            <div class="text-sm font-medium text-emerald-600 mb-4">Our mission</div>
+            <h2 class="text-4xl font-semibold tracking-tight">Most public predictions<br>disappear without accountability</h2>
+            <p class="mt-6 text-xl text-slate-600">Trackrecord.info aims to create a permanent, transparent record so we can all see who gets it right over time.</p>
+        </div>
+    </div>
+
+    <!-- Key Features -->
+    <div class="bg-white border-y border-slate-200 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <div class="text-sm font-medium text-emerald-600 mb-4">Features</div>
+                <h3 class="text-3xl font-semibold mt-2">Everything you need to evaluate forecasters</h3>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-slate-50 rounded-3xl p-8">
+                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-chart-line text-2xl text-emerald-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-xl mb-3">0–100 Accuracy Score</h4>
+                    <p class="text-slate-600">An intuitive metric that makes it easy to understand prediction quality at a glance.</p>
+                </div>
+                <div class="bg-slate-50 rounded-3xl p-8">
+                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-tags text-2xl text-emerald-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-xl mb-3">Topic Tagging</h4>
+                    <p class="text-slate-600">Every prediction is tagged by topic for easy filtering and comparison.</p>
+                </div>
+                <div class="bg-slate-50 rounded-3xl p-8">
+                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-sync text-2xl text-emerald-600"></i>
+                    </div>
+                    <h4 class="font-semibold text-xl mb-3">Daily Automated Updates</h4>
+                    <p class="text-slate-600">The system runs automatically every day and updates all reports.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Current Forecasters -->
     <div id="current-forecasters" class="max-w-5xl mx-auto px-6 py-20">
         <div class="text-center mb-4">
@@ -165,7 +233,7 @@
             <h3 class="text-4xl font-semibold tracking-tight">Who we're tracking</h3>
         </div>
 
-        <!-- Temporary Banner -->
+        <!-- Temporary Focus Banner -->
         <div id="temporary-banner" class="bg-amber-100 border border-amber-300 rounded-3xl p-5 mb-8">
             <div class="flex items-start justify-between">
                 <div class="flex items-start gap-x-3 text-amber-800 text-sm">
@@ -181,6 +249,10 @@
             </div>
         </div>
 
+        <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="hidden md:flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 mt-2 mb-4">
+            View all forecasters <i class="ml-2 fa-solid fa-arrow-right"></i>
+        </a>
+
         <div class="table-container bg-white border border-slate-200 rounded-3xl overflow-x-auto">
             <table class="w-full min-w-[700px]">
                 <thead>
@@ -192,10 +264,11 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
+                    <!-- Wesley Sneijder -->
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="avatar bg-orange-500">WS</div>
+                                <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">WS</div>
                                 <div>
                                     <div class="font-semibold">Wesley Sneijder</div>
                                     <div class="text-xs text-slate-500">Dutch football legend</div>
@@ -216,10 +289,11 @@
                             <span class="topic-pill ml-1">Oranje</span>
                         </td>
                     </tr>
+                    <!-- Süleyman Öztürk -->
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="avatar bg-blue-600">SO</div>
+                                <div class="w-11 h-11 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SÖ</div>
                                 <div>
                                     <div class="font-semibold">Süleyman Öztürk</div>
                                     <div class="text-xs text-slate-500">Voetbal International</div>
@@ -240,10 +314,11 @@
                             <span class="topic-pill ml-1">Oranje</span>
                         </td>
                     </tr>
+                    <!-- Bas van den Hoven -->
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="avatar bg-indigo-600">BH</div>
+                                <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">BH</div>
                                 <div>
                                     <div class="font-semibold">Bas van den Hoven</div>
                                     <div class="text-xs text-slate-500">Voetbal International</div>
@@ -264,10 +339,11 @@
                             <span class="topic-pill ml-1">Oranje</span>
                         </td>
                     </tr>
+                    <!-- Joachim Klement -->
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="avatar bg-emerald-600">JK</div>
+                                <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">JK</div>
                                 <div>
                                     <div class="font-semibold">Joachim Klement</div>
                                     <div class="text-xs text-slate-500">Economist &amp; Modeler</div>
@@ -288,10 +364,11 @@
                             <span class="topic-pill ml-1">Oranje</span>
                         </td>
                     </tr>
+                    <!-- Finley Crebolder -->
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="avatar bg-rose-500">FC</div>
+                                <div class="w-11 h-11 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">FC</div>
                                 <div>
                                     <div class="font-semibold">Finley Crebolder</div>
                                     <div class="text-xs text-slate-500">Clockwork Oranje</div>
@@ -312,10 +389,11 @@
                             <span class="topic-pill ml-1">Oranje</span>
                         </td>
                     </tr>
+                    <!-- Michael Statham -->
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="avatar bg-sky-600">MS</div>
+                                <div class="w-11 h-11 bg-sky-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">MS</div>
                                 <div>
                                     <div class="font-semibold">Michael Statham</div>
                                     <div class="text-xs text-slate-500">@EredivisieMike</div>
@@ -345,7 +423,7 @@
         </div>
     </div>
 
-    <!-- Stay Updated Section (unchanged from your original) -->
+    <!-- Stay Updated -->
     <div class="bg-slate-900 text-white">
         <div class="max-w-5xl mx-auto px-6 py-16">
             <div class="max-w-2xl mb-8">
@@ -395,17 +473,10 @@
     </footer>
 
     <script>
-        function dismissTemporaryBanner() {
-            const banner = document.getElementById('temporary-banner');
-            if (banner) banner.style.display = 'none';
-        }
-
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#0F172A');
         }
-
         let isSubmitting = false;
-
         function showSuccessBanner() {
             const banner = document.getElementById('success-banner');
             if (banner) {
@@ -416,7 +487,6 @@
                 setTimeout(hideSuccessBanner, 8000);
             }
         }
-
         function hideSuccessBanner() {
             const banner = document.getElementById('success-banner');
             if (banner) {
@@ -425,32 +495,26 @@
                 document.body.style.paddingTop = '0';
             }
         }
-
         async function handleFormSubmit(form, submitBtn, btnTextElement) {
             if (isSubmitting) return;
             isSubmitting = true;
-
             const honeypot = form.querySelector('input[name="website"]');
             if (honeypot && honeypot.value.trim() !== '') {
                 form.reset();
                 isSubmitting = false;
                 return;
             }
-
             const originalText = btnTextElement.textContent;
             submitBtn.disabled = true;
             form.classList.add('form-submitting');
             btnTextElement.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending...`;
-
             const formData = new FormData(form);
-
             try {
                 const response = await fetch('https://formspree.io/f/xjgznjrr', {
                     method: 'POST',
                     body: formData,
                     headers: { 'Accept': 'application/json' }
                 });
-
                 if (response.ok) {
                     showSuccessBanner();
                     form.reset();
@@ -466,10 +530,12 @@
                 isSubmitting = false;
             }
         }
-
+        function dismissTemporaryBanner() {
+            const banner = document.getElementById('temporary-banner');
+            if (banner) banner.style.display = 'none';
+        }
         window.onload = function() {
             initializeTailwind();
-
             const heroForm = document.getElementById('interest-form');
             const heroBtn = document.getElementById('hero-submit-btn');
             const heroBtnText = document.getElementById('hero-btn-text');
@@ -479,7 +545,6 @@
                     handleFormSubmit(heroForm, heroBtn, heroBtnText);
                 });
             }
-
             const stayForm = document.getElementById('stay-updated-form');
             const stayBtn = document.getElementById('stay-submit-btn');
             const stayBtnText = document.getElementById('stay-btn-text');
@@ -489,7 +554,6 @@
                     handleFormSubmit(stayForm, stayBtn, stayBtnText);
                 });
             }
-
             const tableContainer = document.querySelector('.table-container');
             if (tableContainer) {
                 tableContainer.addEventListener('scroll', () => {

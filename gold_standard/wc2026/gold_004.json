@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"Spain is our top-rated team — though only barely over Argentina — with roster adjustments that move them slightly back toward the rest of the pack [in the PELE model for the 2026 FIFA World Cup]. England and France are essentially tied for the #3 position.\"",
+  "author": {
+    "lastname": "Silver",
+    "firstname": "Nate"
+  },
+  "statement_id": "gold_004",
+  "statement_topic": "FIFA World Cup 2026 - Pre-tournament team ratings",
+  "statement_publication_date": "2026-06-03",
+  "statement_original_url": "https://www.natesilver.net/p/world-cup-2026-odds-predictions",
+  "statement_probability": 0.68,
+  "statement_context": "Excerpt from comprehensive 100,000-simulation tournament forecast published by Silver Bulletin on 2026-06-03. Co-authored by Nate Silver and Joseph George using the PELE model.",
+  "resolution_date": "2026-06-11",
+  "resolution_criteria": "Spain has the highest pre-tournament PELE rating among all teams in Nate Silver's Silver Bulletin analysis published on or around 2026-06-03, with Argentina rated second and England/France tied for third.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "Spain is our top-rated team — though only barely over Argentina — with roster adjustments that move them slightly back toward the rest of the pack. England and France, meanwhile, are essentially tied for the #3 position."
+}

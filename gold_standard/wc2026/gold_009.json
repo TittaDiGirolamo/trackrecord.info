@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"Argentina [defending champions] follow close behind [Spain] ... winning the World Cup in more than 10% of the simulations [specifically 10.4% according to the Opta supercomputer for the 2026 FIFA World Cup].\"",
+  "author": {
+    "lastname": "Edwards",
+    "firstname": "Dan"
+  },
+  "statement_id": "gold_009",
+  "statement_topic": "FIFA World Cup 2026 - Tournament winner",
+  "statement_publication_date": "2026-06-01",
+  "statement_original_url": "https://theanalyst.com/articles/who-will-win-2026-fifa-world-cup-predictions-opta-supercomputer",
+  "statement_probability": 0.12,
+  "statement_context": "Excerpt from Opta supercomputer tournament simulation analysis published by The Analyst on 2026-06-01. Author Dan Edwards using 10,000 simulations.",
+  "resolution_date": "2026-07-19",
+  "resolution_criteria": "Argentina wins the 2026 FIFA World Cup, as determined by lifting the official trophy in the final match on or before 2026-07-19 according to FIFA.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "France, England and Argentina follow close behind, all winning the World Cup in more than 10% of the simulations. ... Argentina (10.4%)"
+}

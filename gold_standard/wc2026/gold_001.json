@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"Switzerland are favourites to progress from Group B [Canada, Bosnia-Herzegovina, Qatar, Switzerland] at the 2026 FIFA World Cup, with an 85.4% chance of advancing to the knockout stage according to the Opta supercomputer [as of 3 June 2026].\"",
+  "author": {
+    "lastname": "Edwards",
+    "firstname": "Dan"
+  },
+  "statement_id": "gold_001",
+  "statement_topic": "FIFA World Cup 2026 - Group stage qualification",
+  "statement_publication_date": "2026-06-03",
+  "statement_original_url": "https://theanalyst.com/articles/world-cup-2026-group-b-predictions-preview",
+  "statement_probability": 0.82,
+  "statement_context": "Excerpt from data-driven group stage preview published by The Analyst on 2026-06-03. Author is Dan Edwards using Opta supercomputer methodology.",
+  "resolution_date": "2026-06-26",
+  "resolution_criteria": "Switzerland qualifies for the knockout stage from Group B in the 2026 FIFA World Cup, as determined by finishing in the top two or as one of the best third-placed teams according to the official FIFA group stage standings published after all group matches conclude on or before 2026-06-26.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "Switzerland are favourites to progress, with an 85.4% chance, topping the group in 42.1% of simulations. ... Switzerland have a strong chance of topping their group at the World Cup for only the second time... They have a 42.1% chance of winning the group and an 85.4% likelihood of reaching the knockouts via any route."
+}

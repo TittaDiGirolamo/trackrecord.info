@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"France and Spain are essentially co-favorites at around 17 percent [to win the 2026 FIFA World Cup according to prediction markets referenced in the PELE analysis].\"",
+  "author": {
+    "lastname": "Silver",
+    "firstname": "Nate"
+  },
+  "statement_id": "gold_008",
+  "statement_topic": "FIFA World Cup 2026 - Tournament winner",
+  "statement_publication_date": "2026-06-03",
+  "statement_original_url": "https://www.natesilver.net/p/world-cup-2026-odds-predictions",
+  "statement_probability": 0.50,
+  "statement_context": "Excerpt from comprehensive 100,000-simulation tournament forecast published by Silver Bulletin on 2026-06-03. Co-authored by Nate Silver and Joseph George using the PELE model.",
+  "resolution_date": "2026-06-10",
+  "resolution_criteria": "On or around 2026-06-03, prediction markets implied approximately 17% probability for France to win the 2026 FIFA World Cup, making them co-favorites with Spain, as referenced in Nate Silver's Silver Bulletin analysis.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "In prediction markets, France and Spain are essentially co-favorites at around 17 percent, leaving plenty of win probability to divide among defending champion Argentina, England, Brazil, Portugal and others."
+}

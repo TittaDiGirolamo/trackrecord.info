@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"32 teams out of 48 advancing makes for a forgiving format [in the 2026 FIFA World Cup]. (The eight highest-ranked of the 12 3rd-place finishers will go to the knockout stage along with the winner and runner-up from each group.)\"",
+  "author": {
+    "lastname": "Silver",
+    "firstname": "Nate"
+  },
+  "statement_id": "gold_006",
+  "statement_topic": "FIFA World Cup 2026 - Tournament format",
+  "statement_publication_date": "2026-06-03",
+  "statement_original_url": "https://www.natesilver.net/p/world-cup-2026-odds-predictions",
+  "statement_probability": 1.00,
+  "statement_context": "Excerpt from comprehensive 100,000-simulation tournament forecast published by Silver Bulletin on 2026-06-03. Co-authored by Nate Silver and Joseph George using the PELE model.",
+  "resolution_date": "2026-06-26",
+  "resolution_criteria": "Exactly 32 teams advance from the group stage to the knockout stage of the 2026 FIFA World Cup, consisting of the top two teams from each of the 12 groups plus the eight best third-placed teams, as confirmed by official FIFA standings and advancement rules after group play ends on or before 2026-06-26.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "But let’s be honest: 32 teams out of 48 advancing makes for a forgiving format. (The eight highest-ranked of the 12 3rd-place finishers will go to the knockout stage along with the winner and runner-up from each group.)"
+}

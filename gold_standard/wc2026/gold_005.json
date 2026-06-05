@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"Mexico (with its huge home-field advantage) [is a] clear favorite in Group A [at the 2026 FIFA World Cup] according to 100,000 PELE simulations.\"",
+  "author": {
+    "lastname": "Silver",
+    "firstname": "Nate"
+  },
+  "statement_id": "gold_005",
+  "statement_topic": "FIFA World Cup 2026 - Group stage qualification",
+  "statement_publication_date": "2026-06-03",
+  "statement_original_url": "https://www.natesilver.net/p/world-cup-2026-odds-predictions",
+  "statement_probability": 0.79,
+  "statement_context": "Excerpt from comprehensive 100,000-simulation tournament forecast published by Silver Bulletin on 2026-06-03. Co-authored by Nate Silver and Joseph George using the PELE model.",
+  "resolution_date": "2026-06-26",
+  "resolution_criteria": "Mexico finishes first in Group A in the 2026 FIFA World Cup, as determined by the official FIFA group stage standings after all group matches conclude on or before 2026-06-26.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "Mexico (with its huge home-field advantage) and Brazil are clear favorites in Groups A and C, respectively. ... Canada’s Group B is quite weak."
+}

@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"The KNVB has made reaching the semi-finals a minimum target; [Netherlands national team coach Ronald] Koeman wants to go even further and win the [2026 FIFA World Cup] tournament.\"",
+  "author": {
+    "lastname": "van der Kraan",
+    "firstname": "Marcel"
+  },
+  "statement_id": "gold_003",
+  "statement_topic": "FIFA World Cup 2026 - Tournament winner",
+  "statement_publication_date": "2026-06-03",
+  "statement_original_url": "https://www.theguardian.com/football/2026/jun/03/netherlands-world-cup-2026-team-guide",
+  "statement_probability": 0.15,
+  "statement_context": "Excerpt from team guide/preview published by The Guardian on or around 2026-06-03. Author Marcel van der Kraan.",
+  "resolution_date": "2026-07-19",
+  "resolution_criteria": "Cannot formulate sufficient resolution_criteria: missing [Specific and Unambiguous (Falsifiable), Time-Bound, Probabilistic where appropriate, Specifies the exact observable data source or outcome]",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "The KNVB has made reaching the semi-finals a minimum target; Koeman wants to go even further and win the tournament. But that will require a lot of hard work."
+}

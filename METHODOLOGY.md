@@ -106,8 +106,77 @@ All predictions are stored in `predictions.jsonl` (newline-delimited JSON). Each
   "status": "logged | resolved | unresolved"
 }
 ```
+## 6. Gold Standard Reference Dataset
 
-## 6. Audit and Reproducibility
+To support the development of automated prediction extraction and to ensure methodological consistency, Trackrecord.info maintains a high-fidelity **gold standard dataset**.
+
+### 6.1 Purpose
+
+The gold standard serves three primary functions:
+- Provide a verified reference set for developing and testing automated extraction pipelines.
+- Enable objective evaluation of LLM prompts and extraction quality.
+- Establish a transparent, auditable foundation for future calibration and machine learning work.
+
+### 6.2 Location and Structure
+
+The current gold standard dataset is located in:
+gold_standard/wc2026/
+textIt contains:
+- Individual JSON records (`gold_001.json` to `gold_013.json`) following the canonical `PredictionRecord` schema defined in `schema/prediction_schema.py`.
+- A `README.md` documenting the dataset composition, sources, and usage.
+- The `Gold_Record_Creation_Checklist.md` used during manual creation.
+
+### 6.3 Creation Process
+
+All records in the gold standard are created manually following strict rules:
+- Verbatim extraction from approved high-signal sources.
+- Explicit handling of pronouns, names, and temporal references using `[clarifications]`.
+- Single falsifiable `resolution_criteria` (or the exact failure phrase when criteria cannot be formulated without distortion).
+- Independent probability calibration based only on the source text and general knowledge at the time of extraction.
+- Strict separation between content and `statement_context` (situational attributes only).
+
+All records are validated against the Pydantic schema before inclusion.
+
+### 6.4 Validation
+
+A validation script is provided at:
+scripts/validate_gold_records.py
+textThis script can be run locally with:
+
+```bash
+python3 scripts/validate_gold_records.py
+It enforces all schema rules, including the requirement that statement_probability must be 0.00 when resolution_criteria uses the failure phrase.
+6.5 Future Use
+This gold standard will be used to:
+
+Iteratively improve automated extraction prompts.
+Measure precision and recall of future automated systems.
+Create training and evaluation splits if supervised fine-tuning is pursued.
+
+The dataset is version-controlled and any changes must pass validation before being merged.
+text---
+
+### How to Update the File Correctly
+
+1. Open `METHODOLOGY.md` in your repository.
+2. **Delete** the messy "Gold Standard Reference Dataset" section you currently have (from `## Gold Standard Reference Dataset` until before `## 6. Audit and Reproducibility`).
+3. **Paste** the clean version above in its place.
+4. Make sure the section numbers flow correctly:
+   - Section 5 = Data Storage Format
+   - **Section 6 = Gold Standard Reference Dataset** (new)
+   - Section 7 = Audit and Reproducibility (old section 6)
+   - Section 8 = Limitations (old section 7)
+   - Section 9 = Temporary Scope (old section 8)
+5. Update the version at the top from **v0.7** to **v0.8**.
+6. Update the Effective Date to today’s date (`2026-06-05`).
+7. Commit with:
+
+```bash
+git add METHODOLOGY.md
+git commit -m "docs: add clean Gold Standard Reference Dataset section (v0.8)"
+git push origin main
+
+## 7. Audit and Reproducibility
 Any third party can reproduce all scores by:
 
 1. Cloning the repository
@@ -116,14 +185,14 @@ Any third party can reproduce all scores by:
 
 Discrepancies are logged as GitHub issues and resolved according to the correction protocol above.
 
-## 7. Limitations (Explicitly Acknowledged)
+## 8. Limitations (Explicitly Acknowledged)
 - Current sample size is small. Scores are therefore sensitive to individual outcomes.
 - Topic coverage is currently focused on football (primarily Dutch national team and Eredivisie-related predictions during the temporary sprint).
 - No inter-rater reliability study has yet been performed on resolution decisions.
 
 These limitations are disclosed in every public report.
 
-## 8. Temporary Scope – FIFA World Cup 2026 Oranje Focus (v0.9 Sprint)
+## 9. Temporary Scope – FIFA World Cup 2026 Oranje Focus (v0.9 Sprint)
 **Effective**: 2026-06-04 until re-evaluation on **2026-08-01**
 
 For the duration of this sprint, Trackrecord.info is temporarily narrowing its active tracking to prominent **Dutch voices and experts** making public predictions about:

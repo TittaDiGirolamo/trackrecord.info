@@ -1,0 +1,45 @@
+name: Validate Gold Standard Records
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'gold_standard/**'
+      - 'schema/**'
+      - 'scripts/**'
+  pull_request:
+    paths:
+      - 'gold_standard/**'
+      - 'schema/**'
+      - 'scripts/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pydantic
+
+      - name: Run Gold Record Validation
+        run: |
+          python scripts/validate_gold_records.py
+
+      - name: Upload Validation Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gold-validation-report
+          path: |
+            *.txt
+            gold_standard/wc2026/*.json
+          retention-days: 30

@@ -15,18 +15,6 @@ Trackrecord.info systematically compares public predictions from experts and for
 
 ---
 
-## What We Do
-
-Most public predictions disappear without accountability. Trackrecord.info creates a permanent, transparent record so we can all see who gets it right over time.
-
-We focus on:
-- **Verifiable** predictions with clear resolution criteria
-- **Independent** scoring (no bias toward reputation)
-- **Granular** evaluation at the finest level of specificity
-- **Auditable** methodology and data
-
----
-
 ## Gold Standard Dataset
 
 We maintain a high-fidelity gold standard dataset to support the development of automated prediction extraction systems.
@@ -49,17 +37,12 @@ The gold standard is used to:
 ## Repository Structure
 
 trackrecord.info/
-├── gold_standard/
-│   └── wc2026/                 # High-fidelity gold standard records
-├── schema/
-│   └── prediction_schema.py    # Canonical Pydantic data model
-├── scripts/
-│   └── validate_gold_records.py
-├── predictions.jsonl           # Main public prediction database
-├── METHODOLOGY.md              # Full scoring and resolution rules
-├── index.html                  # Public website (GitHub Pages)
-└── README.md
-text---
+├── gold_standard/wc2026/     # High-fidelity gold standard records
+├── schema/                   # Canonical Pydantic data model
+├── scripts/                  # Validation and utility scripts
+├── predictions.jsonl         # Main public prediction database
+├── METHODOLOGY.md            # Full scoring and resolution rules
+└── index.html                # Public website (GitHub Pages)
 
 ## How It Works
 
@@ -114,5 +97,8 @@ This project is currently unlicensed. Licensing terms will be defined in a futur
 - **Issues**: [GitHub Issues](https://github.com/TittaDiGirolamo/trackrecord.info/issues)
 
 ---
+
+**Want to explore or contribute?**  
+Check out the [Gold Standard Dataset](./gold_standard/wc2026/) or read the full [Methodology](./METHODOLOGY.md).
 
 *Building transparent accountability for public predictions.*

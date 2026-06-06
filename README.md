@@ -1,55 +1,118 @@
-### 1. README.md
-Markdown# Trackrecord.info
-**Verify public predictions against real-world outcomes.**
-**Current Version**: v0.6
-**Status (2026-06-01)**: 3 forecasters tracked • 13 predictions logged • 3 resolved • Overall accuracy **93.8 / 100**
-Trackrecord.info systematically compares public predictions from experts and forecasters against actual outcomes and publishes transparent, auditable accuracy metrics.
-## Mission
-Most public predictions disappear without accountability. Trackrecord.info creates a permanent, transparent record so that anyone can evaluate who gets it right over time.
-## Current Forecasters
-| Forecaster | Handle | Accuracy Score | Resolved | Notes |
-|-------------------------|-------------------|----------------|----------|------------------------|
-| Nate Silver | @NateSilver538 | 93.8 / 100 | 1 / 1 | Leads on current sample|
-| Ken Pomeroy | @kenpomeroy | 6.2 / 100 | 0 / 1 | Small sample size |
-| Sam Vecenie | @Sam_Vecenie | 6.2 / 100 | 0 / 1 | Small sample size |
-*Scores calculated exclusively from resolved predictions. More data will be added as resolutions occur.*
-## v0.6 Features
-- **0–100 Accuracy Score**: An intuitive, normalized metric that enables direct comparison across forecasters and topics.
-- **Topic Tagging**: Every prediction is categorized (e.g., NBA Draft, College Basketball, Elections) for filtering and cross-forecaster analysis.
-- **Cross-Target Comparison**: Direct side-by-side evaluation of multiple forecasters on identical or related predictions.
-- **Resolution Engine v0.6**: Systematic, rule-based determination of prediction outcomes with full audit trail.
-- **Daily Automated Updates**: The system processes new resolutions and recalculates metrics on a recurring schedule.
-## Repository Structure
-trackrecord.info/
-├── index.html # Live public interface (GitHub Pages)
-├── CNAME # Custom domain configuration
-├── README.md # This file
-├── METHODOLOGY.md # Scoring rules and resolution process
-├── CHANGELOG.md # Version history
-├── predictions.jsonl # Primary data store (to be added)
-├── resolution_report_v0.6.md # Latest accuracy report (to be added)
-└── docs/
-    └── data-schema.md # Technical specification (planned)
-text## Access
-- **Live Site** (GitHub Pages): https://TittaDiGirolamo.github.io/trackrecord.info
-- **Custom Domain** (pending verification): https://trackrecord.info
-- **Source Repository**: https://github.com/TittaDiGirolamo/trackrecord.info
-## Roadmap (High-Level)
-**Sprint 1 (Immediate)**
-- Complete public documentation (this release)
-- Add 1–2 additional high-signal forecasters
-- Release resolution engine v0.7 (basic automation)
-**Sprint 2 (2–4 weeks)**
-- Circle of Competence tracking per forecaster
-- Historical trend graphs
-- Public read-only API
-**Sprint 3 (1–2 months)**
-- Optional user accounts and personal dashboards
-- Leaderboards
-- Mobile-responsive refinements
-## Contributing & Transparency
-All data, scoring logic, and resolutions are designed to be fully auditable. Suggestions, corrections, and additional forecaster proposals are welcome via GitHub issues or direct contact.
-**License**: To be defined in v0.7 (currently all rights reserved by the project maintainer).
+# Trackrecord.info
+
+**Track public predictions. Measure accuracy. Build accountability.**
+
+Trackrecord.info systematically compares public predictions from experts and forecasters against real-world outcomes and publishes transparent, auditable accuracy metrics.
+
 ---
-*Last updated: 2026-06-01*
-*Trackrecord.info — Building verifiable forecasting accountability.*
+
+## Current Status (June 2026)
+
+- **13 high-quality gold standard records** created for FIFA World Cup 2026
+- Structured `PredictionRecord` schema with strict validation
+- Automated validation pipeline in place
+- Focus: Transparent forecasting accountability
+
+---
+
+## What We Do
+
+Most public predictions disappear without accountability. Trackrecord.info creates a permanent, transparent record so we can all see who gets it right over time.
+
+We focus on:
+- **Verifiable** predictions with clear resolution criteria
+- **Independent** scoring (no bias toward reputation)
+- **Granular** evaluation at the finest level of specificity
+- **Auditable** methodology and data
+
+---
+
+## Gold Standard Dataset
+
+We maintain a high-fidelity gold standard dataset to support the development of automated prediction extraction systems.
+
+**Location**: [`gold_standard/wc2026/`](./gold_standard/wc2026/)
+
+This dataset includes:
+- 13 manually validated prediction records
+- Clear `resolution_criteria` for every claim
+- Independent probability calibration
+- Full audit trail and documentation
+
+The gold standard is used to:
+- Develop and test automated extraction pipelines
+- Evaluate LLM prompt quality
+- Establish baselines for future automation
+
+---
+
+## Repository Structure
+
+trackrecord.info/
+├── gold_standard/
+│   └── wc2026/                 # High-fidelity gold standard records
+├── schema/
+│   └── prediction_schema.py    # Canonical Pydantic data model
+├── scripts/
+│   └── validate_gold_records.py
+├── predictions.jsonl           # Main public prediction database
+├── METHODOLOGY.md              # Full scoring and resolution rules
+├── index.html                  # Public website (GitHub Pages)
+└── README.md
+text---
+
+## How It Works
+
+1. **Prediction Logging** — Public predictions are logged with source and timestamp
+2. **Resolution** — Outcomes are determined using official sources
+3. **Scoring** — Predictions are scored on a 0–100 scale using transparent rules
+4. **Publication** — Scores and rationale are published publicly
+
+Full methodology: [METHODOLOGY.md](./METHODOLOGY.md)
+
+---
+
+## Why This Matters
+
+- Creates **accountability** for public forecasters
+- Enables **objective comparison** across different experts
+- Builds **infrastructure** for automated prediction tracking
+- Contributes to better **forecasting practices** over time
+
+---
+
+## Current Focus
+
+During the 2026 FIFA World Cup period, we are temporarily focusing on high-visibility Dutch forecasters and experts making predictions about the Netherlands national team (Oranje).
+
+This focused sprint allows us to test our systems with high-interest content while maintaining full methodological rigor.
+
+---
+
+## Contributing
+
+We welcome contributions in several forms:
+
+- **Gold Standard Records** — Help expand the validated reference dataset (see [Gold_Record_Creation_Checklist.md](./gold_standard/wc2026/Gold_Record_Creation_Checklist.md))
+- **Bug Reports** — Report issues with scoring, data, or methodology
+- **Methodology Improvements** — Suggest refinements to scoring rules
+
+Please open an issue or pull request to discuss contributions.
+
+---
+
+## License
+
+This project is currently unlicensed. Licensing terms will be defined in a future release.
+
+---
+
+## Contact & Links
+
+- **Website**: [trackrecord.info](https://trackrecord.info)
+- **Repository**: [github.com/TittaDiGirolamo/trackrecord.info](https://github.com/TittaDiGirolamo/trackrecord.info)
+- **Issues**: [GitHub Issues](https://github.com/TittaDiGirolamo/trackrecord.info/issues)
+
+---
+
+*Building transparent accountability for public predictions.*

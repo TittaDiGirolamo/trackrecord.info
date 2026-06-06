@@ -111,4 +111,4 @@ This project is currently unlicensed. Licensing terms will be defined in a futur
 
 ---
 
-*Building transparent accountability for public predictions.*
+*Building transparent accountability for public predictions.* 

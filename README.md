@@ -8,41 +8,56 @@ Trackrecord.info systematically compares public predictions from experts and for
 
 ## Current Status (June 2026)
 
-- **13 high-quality gold standard records** created for FIFA World Cup 2026
-- Structured `PredictionRecord` schema with strict validation
-- Automated validation pipeline in place
+- **13 validated gold standard records** for FIFA World Cup 2026
+- Structured `PredictionRecord` schema with automated validation
+- Clean repository structure with schema and tooling in place
 - Focus: Transparent forecasting accountability
+
+---
+
+## What We Do
+
+Most public predictions disappear without accountability. Trackrecord.info creates a permanent, transparent record so we can all see who gets it right over time.
+
+**Core Principles:**
+- Verifiability
+- Independence
+- Granularity
+- Transparency
+- No retroactive adjustment
 
 ---
 
 ## Gold Standard Dataset
 
-We maintain a high-fidelity gold standard dataset to support the development of automated prediction extraction systems.
+We maintain a high-fidelity **gold standard dataset** to support the development of automated prediction extraction.
 
-**Location**: [`gold_standard/wc2026/`](./gold_standard/wc2026/)
+**Location:** [`gold_standard/wc2026/`](./gold_standard/wc2026/)
 
 This dataset includes:
-- 13 manually validated prediction records
-- Clear `resolution_criteria` for every claim
+- 13 manually created and validated prediction records
+- Clear, falsifiable `resolution_criteria` for every claim
 - Independent probability calibration
-- Full audit trail and documentation
+- Full documentation and validation tooling
 
-The gold standard is used to:
-- Develop and test automated extraction pipelines
-- Evaluate LLM prompt quality
-- Establish baselines for future automation
+The gold standard is used to develop and test automated extraction systems.
 
 ---
 
 ## Repository Structure
 
 trackrecord.info/
-├── gold_standard/wc2026/     # High-fidelity gold standard records
-├── schema/                   # Canonical Pydantic data model
-├── scripts/                  # Validation and utility scripts
-├── predictions.jsonl         # Main public prediction database
-├── METHODOLOGY.md            # Full scoring and resolution rules
-└── index.html                # Public website (GitHub Pages)
+├── gold_standard/
+│   └── wc2026/                    # High-fidelity gold standard records
+├── schema/
+│   └── prediction_schema.py       # Canonical Pydantic data model
+├── scripts/
+│   └── validate_gold_records.py   # Validation script
+├── predictions.jsonl              # Main public prediction database
+├── METHODOLOGY.md                 # Full scoring and resolution rules
+├── index.html                     # Public website (GitHub Pages)
+└── README.md
+text---
 
 ## How It Works
 
@@ -68,19 +83,17 @@ Full methodology: [METHODOLOGY.md](./METHODOLOGY.md)
 
 During the 2026 FIFA World Cup period, we are temporarily focusing on high-visibility Dutch forecasters and experts making predictions about the Netherlands national team (Oranje).
 
-This focused sprint allows us to test our systems with high-interest content while maintaining full methodological rigor.
-
 ---
 
 ## Contributing
 
-We welcome contributions in several forms:
+We welcome contributions, especially:
 
-- **Gold Standard Records** — Help expand the validated reference dataset (see [Gold_Record_Creation_Checklist.md](./gold_standard/wc2026/Gold_Record_Creation_Checklist.md))
-- **Bug Reports** — Report issues with scoring, data, or methodology
-- **Methodology Improvements** — Suggest refinements to scoring rules
+- Expanding the Gold Standard dataset
+- Improving documentation and methodology
+- Reporting bugs or suggesting improvements
 
-Please open an issue or pull request to discuss contributions.
+Please open an issue or pull request to discuss.
 
 ---
 
@@ -90,15 +103,12 @@ This project is currently unlicensed. Licensing terms will be defined in a futur
 
 ---
 
-## Contact & Links
+## Links
 
 - **Website**: [trackrecord.info](https://trackrecord.info)
 - **Repository**: [github.com/TittaDiGirolamo/trackrecord.info](https://github.com/TittaDiGirolamo/trackrecord.info)
 - **Issues**: [GitHub Issues](https://github.com/TittaDiGirolamo/trackrecord.info/issues)
 
 ---
-
-**Want to explore or contribute?**  
-Check out the [Gold Standard Dataset](./gold_standard/wc2026/) or read the full [Methodology](./METHODOLOGY.md).
 
 *Building transparent accountability for public predictions.*

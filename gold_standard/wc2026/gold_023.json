@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"Thomas Tuchel's side reached the final in nearly a fifth of the Opta supercomputer's pre-tournament simulations (19.0%), going on to win it 11.2% of the time.\"",
+  "author": {
+    "lastname": "Beasley",
+    "firstname": "Andrew"
+  },
+  "statement_id": "gold_023",
+  "statement_topic": "FIFA World Cup 2026 - England reach final probability",
+  "statement_publication_date": "2026-06-04",
+  "statement_original_url": "https://theanalyst.com/articles/england-route-to-world-cup-final-2026",
+  "statement_probability": 0.19,
+  "statement_context": "Excerpt from Opta England route analysis published by The Analyst on 2026-06-04. Uses 25,000 simulations.",
+  "resolution_date": "2026-07-19",
+  "resolution_criteria": "England appears in the official FIFA World Cup Final on 2026-07-19.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-09",
+  "source_text_snippet": "Thomas Tuchel's side reached the final in nearly a fifth of the Opta supercomputer's pre-tournament simulations (19.0%), going on to win it 11.2% of the time."
+}

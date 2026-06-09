@@ -1,5 +1,24 @@
 # WC2026 Gold Standard Dataset
+## Delta – Batch 2 (2026-06-09)
 
+**Added Records:** `gold_021` to `gold_025` (5 new records)
+
+**Sources:**
+- The Analyst / Opta
+- RotoWire
+- DTAI Analytics Lab (via ESPN)
+
+**New Records:**
+
+| ID        | Focus                                           | Source     | Key Value |
+|-----------|--------------------------------------------------|------------|-----------|
+| gold_021  | England to finish top of Group L                 | Opta       | 67.5%     |
+| gold_022  | Croatia to finish first in Group L               | RotoWire   | ~55%      |
+| gold_023  | England to reach the Final                       | Opta       | 19.0%     |
+| gold_024  | South Africa fails to qualify from Group A       | DTAI       | 35%       |
+| gold_025  | England to reach the Semifinal                   | Opta       | 30.4%     |
+
+**Total Gold Standard Records:** 24
 **Project**: Trackrecord.info  
 **Topic**: FIFA World Cup 2026  
 **Version**: 1.0  

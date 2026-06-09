@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"I'm backing Croatia to finish first based on their recent World Cup success under Luka Modric.\"",
+  "author": {
+    "lastname": "Zdroik",
+    "firstname": "Adam"
+  },
+  "statement_id": "gold_022",
+  "statement_topic": "FIFA World Cup 2026 - Group L group winner",
+  "statement_publication_date": "2026-06-02",
+  "statement_original_url": "https://www.rotowire.com/soccer/article/2026-world-cup-bracket-breakdown-predicting-every-round-from-group-stage-to-final-112883",
+  "statement_probability": 0.55,
+  "statement_context": "Excerpt from RotoWire bracket breakdown article published on 2026-06-02. Author Adam Zdroik making explicit group-winner prediction.",
+  "resolution_date": "2026-06-27",
+  "resolution_criteria": "Croatia finishes first in Group L in the 2026 FIFA World Cup, as determined by the official FIFA group stage standings published after all group matches conclude on or before 2026-06-27.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-09",
+  "source_text_snippet": "I'm backing Croatia to finish first based on their recent World Cup success under Luka Modric."
+}

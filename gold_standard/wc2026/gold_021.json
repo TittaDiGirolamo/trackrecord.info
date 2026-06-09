@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"England are the third likeliest of any team to top their group at this World Cup. They finished top of Group L in 67.5% of the 25,000 Opta supercomputer projections. Croatia (76.9%) also have a strong chance of reaching the knockout phase from this group.\"",
+  "author": {
+    "lastname": "Beasley",
+    "firstname": "Andrew"
+  },
+  "statement_id": "gold_021",
+  "statement_topic": "FIFA World Cup 2026 - Group L group winner and qualification",
+  "statement_publication_date": "2026-06-04",
+  "statement_original_url": "https://theanalyst.com/articles/world-cup-2026-group-l-predictions-preview",
+  "statement_probability": 0.675,
+  "statement_context": "Excerpt from Opta supercomputer Group L preview published by The Analyst on 2026-06-04. Author Andrew Beasley using 25,000 simulations.",
+  "resolution_date": "2026-06-27",
+  "resolution_criteria": "England finishes first in Group L in the 2026 FIFA World Cup, as determined by the official FIFA group stage standings published after all group matches conclude on or before 2026-06-27.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-09",
+  "source_text_snippet": "England are the third likeliest of any team to top their group at this World Cup. They finished top of Group L in 67.5% of the 25,000 Opta supercomputer projections."
+}

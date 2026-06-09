@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"South Korea: 1754 rating (20th), 77% chance of advancing Czechia: 1691 rating (31st), 60% chance of advancing South Africa: 1526 rating (45th), 35% chance of advancing\"",
+  "author": {
+    "lastname": "Palmer",
+    "firstname": "Nate"
+  },
+  "statement_id": "gold_024",
+  "statement_topic": "FIFA World Cup 2026 - Group A qualification probability",
+  "statement_publication_date": "2026-06-05",
+  "statement_original_url": "https://www.espn.com/soccer/story/_/id/48962628/world-cup-predictions-picking-winner-every-game-entire-tournament",
+  "statement_probability": 0.35,
+  "statement_context": "Excerpt from DTAI Analytics Lab model via ESPN published on 2026-06-05. Uses 20,000 simulations.",
+  "resolution_date": "2026-06-24",
+  "resolution_criteria": "South Africa fails to qualify for the knockout stage from Group A in the 2026 FIFA World Cup, as determined by the official FIFA group stage standings published after all group matches conclude on or before 2026-06-24.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-09",
+  "source_text_snippet": "South Africa: 1526 rating (45th), 35% chance of advancing"
+}

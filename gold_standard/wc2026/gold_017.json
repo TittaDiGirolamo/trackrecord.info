@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"France are still the favourites to top Group I, and given a 60.2% chance of doing so by the Opta supercomputer [as of 8 June 2026]. If they do as the supercomputer expects, they will face one of the best third-placed teams in the round of 32.\"",
+  "author": {
+    "lastname": "Edwards",
+    "firstname": "Dan"
+  },
+  "statement_id": "gold_017",
+  "statement_topic": "FIFA World Cup 2026 - Group I group winner probability",
+  "statement_publication_date": "2026-06-08",
+  "statement_original_url": "https://theanalyst.com/articles/france-route-world-cup-2026-glory",
+  "statement_probability": 0.60,
+  "statement_context": "Excerpt from Opta supercomputer Group I and route preview published by The Analyst on 2026-06-08. Author Dan Edwards using 25,000 simulations methodology.",
+  "resolution_date": "2026-06-27",
+  "resolution_criteria": "France finishes first in Group I in the 2026 FIFA World Cup, as determined by the official FIFA group stage standings published after all group matches conclude on or before 2026-06-27.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-09",
+  "source_text_snippet": "France are still the favourites to top Group I, and given a 60.2% chance of doing so by the Opta supercomputer. If they do as the supercomputer expects, they will face one of the best third-placed teams in the round of 32."
+}

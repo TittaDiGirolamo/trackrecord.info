@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"In prediction markets, France and Spain are essentially co-favorites at around 16 percent, leaving plenty of win probability to divide among defending champion Argentina, England, Brazil, Portugal and others… each time we run the model, we play out 100,000 simulated World Cups [PELE model as of 8 June 2026].\"",
+  "author": {
+    "lastname": "Silver",
+    "firstname": "Nate"
+  },
+  "statement_id": "gold_016",
+  "statement_topic": "FIFA World Cup 2026 - Tournament winner probability",
+  "statement_publication_date": "2026-06-08",
+  "statement_original_url": "https://www.natesilver.net/p/world-cup-2026-odds-predictions",
+  "statement_probability": 0.32,
+  "statement_context": "Excerpt from PELE model tournament preview published by Nate Silver’s Silver Bulletin on 2026-06-08. Model runs 100,000 simulations with explicit methodology and home-field adjustments.",
+  "resolution_date": "2026-07-19",
+  "resolution_criteria": "Either Spain or France is declared the winner of the 2026 FIFA World Cup by the official FIFA final match result on or before 2026-07-19.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-09",
+  "source_text_snippet": "In prediction markets, France and Spain are essentially co-favorites at around 16 percent, leaving plenty of win probability to divide among defending champion Argentina, England, Brazil, Portugal and others… each time we run the model, we play out 100,000 simulated World Cups."
+}

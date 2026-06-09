@@ -1,0 +1,20 @@
+{
+  "original_statement": "\"Germany project more than eight group stage goals, one of the highest in the tournament, with a 97% qualification rate. The second spot is competitive: Ivory Coast project slightly more goals than Ecuador (3.5 vs 3.3) despite a lower qualify probability (57.9% vs 72.9%), reflecting a better attacking projection that doesn't fully overcome the points gap [RotoWire model, 26 May 2026].\"",
+  "author": {
+    "lastname": "Zdroik",
+    "firstname": "Adam"
+  },
+  "statement_id": "gold_020",
+  "statement_topic": "FIFA World Cup 2026 - Group E second-place ordering",
+  "statement_publication_date": "2026-05-26",
+  "statement_original_url": "https://www.rotowire.com/soccer/article/2026-world-cup-team-projections-goals-points-odds-for-all-48-teams-114402",
+  "statement_probability": 0.73,
+  "statement_context": "Excerpt from RotoWire model projections for all 48 teams published on 2026-05-26. Author Adam Zdroik with stated model basis for goals, points and qualification odds.",
+  "resolution_date": "2026-06-25",
+  "resolution_criteria": "Ecuador finishes ahead of Ivory Coast in the official FIFA Group E standings per the official FIFA group stage standings published after all group matches conclude on or before 2026-06-25.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-09",
+  "source_text_snippet": "The second spot is competitive: Ivory Coast project slightly more goals than Ecuador (3.5 vs 3.3) despite a lower qualify probability (57.9% vs 72.9%), reflecting a better attacking projection that doesn't fully overcome the points gap."
+}

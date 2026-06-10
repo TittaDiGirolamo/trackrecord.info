@@ -112,3 +112,7 @@ This project is currently unlicensed. Licensing terms will be defined in a futur
 ---
 
 *Building transparent accountability for public predictions.* 
+
+25 gold standard records (gold_001–gold_025.json).
+
+As of 2026-06-10, the 10 WC2026 predictions in predictions.jsonl are in pending resolution-ready preparation state per Sprint Resolution Requirements Specification TRACK-SPRINT-REQ-2026-06-P1W1-001 (all expected_resolution_dates future; no outcomes assigned).

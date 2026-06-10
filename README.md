@@ -8,7 +8,8 @@ Trackrecord.info systematically compares public predictions from experts and for
 
 ## Current Status (June 2026)
 
-- **13 validated gold standard records** for FIFA World Cup 2026
+- **25 validated gold standard records** (gold_001–gold_025.json) for FIFA World Cup 2026
+- 10 WC2026 predictions tracked in `predictions.jsonl` (all in pending resolution-ready preparation state as of 2026-06-10 per Sprint Resolution Requirements Specification TRACK-SPRINT-REQ-2026-06-P1W1-001; all expected_resolution_dates future, earliest 2026-06-27; no outcomes assigned yet. Preparatory human review and schema validation in progress.)
 - Structured `PredictionRecord` schema with automated validation
 - Clean repository structure with schema and tooling in place
 - Focus: Transparent forecasting accountability
@@ -112,7 +113,3 @@ This project is currently unlicensed. Licensing terms will be defined in a futur
 ---
 
 *Building transparent accountability for public predictions.* 
-
-25 gold standard records (gold_001–gold_025.json).
-
-As of 2026-06-10, the 10 WC2026 predictions in predictions.jsonl are in pending resolution-ready preparation state per Sprint Resolution Requirements Specification TRACK-SPRINT-REQ-2026-06-P1W1-001 (all expected_resolution_dates future; no outcomes assigned).

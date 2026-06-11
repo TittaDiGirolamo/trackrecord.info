@@ -1,3 +1,7 @@
+## [2026-06-11] — Action 2 Follow-up
+### Changed
+- Also applied consistent topic labeling (`Winner` + `Netherlands Performance (5 stages)`) to the Current Predictions Tracked table for visual coherence (outside original Action 2 scope).
+
 # Trackrecord.info — Changelog
 All notable changes to Trackrecord.info are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and adheres to [Semantic Versioning](https://semver.org/).

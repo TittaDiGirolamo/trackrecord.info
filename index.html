@@ -172,38 +172,38 @@
         </div>
     </div>
 
-    <!-- Current Status (Updated 2026-06-10) -->
-    <div class="bg-white border-y border-slate-200">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="md:col-span-1">
-                    <div class="text-sm font-medium text-slate-500 mb-3">Overall accuracy</div>
-                    <div class="flex items-baseline gap-x-3">
-                        <div class="text-7xl font-semibold tabular-nums">62.5</div>
-                        <div class="text-3xl text-emerald-600 font-medium">/ 100</div>
-                    </div>
-                    <div class="mt-3 flex items-center gap-x-2 text-sm">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">Current</span>
-                        <span class="text-slate-500">Based on 6 resolved predictions (non-WC2026 historical records only)</span>
-                    </div>
-                </div>
-                <div class="md:col-span-2 grid grid-cols-3 gap-4">
-                    <div class="bg-slate-50 rounded-3xl p-6">
-                        <div class="text-4xl font-semibold tabular-nums">25</div>
-                        <div class="text-sm text-slate-500 mt-1">Gold standard records</div>
-                    </div>
-                    <div class="bg-slate-50 rounded-3xl p-6">
-                        <div class="text-4xl font-semibold tabular-nums">10</div>
-                        <div class="text-sm text-slate-500 mt-1">Predictions tracked (all pending)</div>
-                    </div>
-                    <div class="bg-slate-50 rounded-3xl p-6">
-                        <div class="text-4xl font-semibold tabular-nums">6</div>
-                        <div class="text-sm text-slate-500 mt-1">Forecasters monitored</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Metrics Row / Stat Cards / Overall Accuracy Area (Action 2 – WC2026 clarification) -->
+	<div class="bg-white border-y border-slate-200">
+	    <div class="max-w-7xl mx-auto px-6 py-12">
+	        <div class="grid md:grid-cols-3 gap-8">
+	            <div class="md:col-span-1">
+	                <div class="text-sm font-medium text-slate-500 mb-3">Overall accuracy (baseline)</div>
+	                <div class="flex items-baseline gap-x-3">
+	                    <div class="text-7xl font-semibold tabular-nums">62.5</div>
+	                    <div class="text-3xl text-emerald-600 font-medium">/ 100</div>
+	                </div>
+	                <div class="mt-3 flex items-center gap-x-2 text-sm">
+	                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">Current</span>
+	                    <span class="text-slate-500">Based on 6 resolved predictions (non-WC2026 historical baseline only). WC2026 predictions tracked separately below using the 5 refined topics once resolved.</span>
+	                </div>
+	            </div>
+	            <div class="md:col-span-2 grid grid-cols-3 gap-4">
+	                <div class="bg-slate-50 rounded-3xl p-6">
+	                    <div class="text-4xl font-semibold tabular-nums">25</div>
+	                    <div class="text-sm text-slate-500 mt-1">Gold standard records</div>
+	                </div>
+	                <div class="bg-slate-50 rounded-3xl p-6">
+	                    <div class="text-4xl font-semibold tabular-nums">10</div>
+	                    <div class="text-sm text-slate-500 mt-1">WC2026 predictions tracked (all pending)</div>
+	                </div>
+	                <div class="bg-slate-50 rounded-3xl p-6">
+	                    <div class="text-4xl font-semibold tabular-nums">6</div>
+	                    <div class="text-sm text-slate-500 mt-1">Forecasters monitored</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
     <!-- What is Trackrecord.info -->
     <div class="max-w-5xl mx-auto px-6 py-20">
@@ -510,8 +510,8 @@
     <!-- Current Forecasters -->
     <div id="current-forecasters" class="max-w-5xl mx-auto px-6 py-20">
         <div class="text-center mb-4">
-            <div class="text-sm font-medium text-emerald-600 mb-4">Current forecasters</div>
-            <h3 class="text-4xl font-semibold tracking-tight">Who we're tracking</h3>
+	        <div class="text-sm font-medium text-emerald-600 mb-4">Current forecasters • WC2026</div>
+	        <h3 class="text-4xl font-semibold tracking-tight">Who we're tracking for WC2026 accuracy</h3>
         </div>
 
         <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="hidden md:flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 mt-2 mb-4">
@@ -525,7 +525,7 @@
                         <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Forecaster</th>
                         <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
                         <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Resolved</th>
-                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Topics</th>
+                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">WC2026 Topics</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -533,7 +533,7 @@
                     <tr>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
-                                <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">WS</div>
+                              <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">WS</div>
                                 <div>
                                     <div class="font-semibold">Wesley Sneijder</div>
                                     <div class="text-xs text-slate-500">Dutch football legend</div>
@@ -550,13 +550,12 @@
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
                         </td>
                         <td class="px-8 py-6">
-                            <span class="topic-pill">FIFA World Cup 2026</span> 
-                            <span class="topic-pill ml-1">Oranje</span>
+                            <span class="topic-pill">Winner</span> 
+                            <span class="topic-pill ml-1">Netherlands Performance (5 stages)</span>
                         </td>
                     </tr>
                     <!-- Süleyman Öztürk: 2 predictions -->
-                    <tr>
-                        <td class="px-8 py-6">
+                    <tr>                        <td class="px-8 py-6">
                             <div class="flex items-center gap-x-4">
                                 <div class="w-11 h-11 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SÖ</div>
                                 <div>
@@ -684,7 +683,7 @@
         </div>
    
         <div class="text-center mt-6 text-sm text-slate-500">
-            Accuracy based on resolved predictions only (non-WC2026) • Predictions: 10 tracked, all pending resolution-ready preparation • Temporary FIFA World Cup 2026 sprint • Preparatory review per Sprint Resolution Requirements Specification TRACK-SPRINT-REQ-2026-06-P1W1-001
+            WC2026 accuracy uses the 5 refined topics: FIFA World Cup 2026 - Winner; FIFA World Cup 2026 - Netherlands Performance - Group Stage / Quarterfinals / Semifinals / Final. This distinguishes outright Winner predictions from stage-specific Netherlands Performance predictions. Current scores are placeholders (0.0/100) pending resolutions. Historical baseline shown in metrics row above.
         </div>
     </div>
 

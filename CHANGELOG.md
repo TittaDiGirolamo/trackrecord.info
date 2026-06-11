@@ -61,3 +61,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 `[MAJOR.MINOR.PATCH]` — Semantic versioning applied from v0.6 onward.
 Prior versions used internal milestone numbering.
 *This changelog is the authoritative record of all public changes.*
+
+## [2026-06-11] — Action 1 Polish
+### Changed
+- Refined `statement_topic` field in all 10 `predictions.jsonl` records to distinguish Winner predictions from Netherlands Performance stages using consistent hierarchical vocabulary. Full mapping, rationale, and updated JSONL lines documented in Action 1 revised deliverable. Improves long-term auditability and forecaster scoring granularity within WC2026 English focus only.

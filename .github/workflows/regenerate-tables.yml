@@ -1,0 +1,36 @@
+name: Auto Regenerate Tables
+
+on:
+  push:
+    paths:
+      - 'predictions.jsonl'
+  workflow_dispatch:
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pydantic
+
+      - name: Run table generator
+        run: python scripts/generate_prediction_tables.py --build-date $(date +%Y-%m-%d)
+
+      - name: Commit and push updated index.html
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "chore: auto-regenerate tables from predictions.jsonl" || exit 0
+          git push

@@ -9,9 +9,9 @@ Trackrecord.info systematically compares public predictions from experts and for
 ## Current Status (June 2026)
 
 - **25 validated gold standard records** (gold_001–gold_025.json) for FIFA World Cup 2026
-- 10 WC2026 predictions tracked in `predictions.jsonl` (all in pending resolution-ready preparation state as of 2026-06-10 per Sprint Resolution Requirements Specification TRACK-SPRINT-REQ-2026-06-P1W1-001; all expected_resolution_dates future, earliest 2026-06-27; no outcomes assigned yet. Preparatory human review and schema validation in progress.)
 - Structured `PredictionRecord` schema with automated validation
 - Clean repository structure with schema and tooling in place
+- Automated table generation from `predictions.jsonl`
 - Focus: Transparent forecasting accountability
 
 ---
@@ -21,6 +21,7 @@ Trackrecord.info systematically compares public predictions from experts and for
 Most public predictions disappear without accountability. Trackrecord.info creates a permanent, transparent record so we can all see who gets it right over time.
 
 **Core Principles:**
+
 - Verifiability
 - Independence
 - Granularity
@@ -36,29 +37,30 @@ We maintain a high-fidelity **gold standard dataset** to support the development
 **Location:** [`gold_standard/wc2026/`](./gold_standard/wc2026/)
 
 This dataset includes:
-- 13 manually created and validated prediction records
+- Manually created and validated prediction records
 - Clear, falsifiable `resolution_criteria` for every claim
 - Independent probability calibration
 - Full documentation and validation tooling
-
 The gold standard is used to develop and test automated extraction systems.
 
 ---
 
 ## Repository Structure
 
-trackrecord.info/
-├── gold_standard/
-│   └── wc2026/                    # High-fidelity gold standard records
-├── schema/
-│   └── prediction_schema.py       # Canonical Pydantic data model
-├── scripts/
-│   └── validate_gold_records.py   # Validation script
-├── predictions.jsonl              # Main public prediction database
-├── METHODOLOGY.md                 # Full scoring and resolution rules
-├── index.html                     # Public website (GitHub Pages)
-└── README.md
-text---
+- trackrecord.info/
+- ├── gold_standard/
+- │   └── wc2026/                  # High-fidelity gold standard records
+- ├── schema/
+- │   └── prediction_schema.py     # Canonical Pydantic data model
+- ├── scripts/
+- │   ├── validate_gold_records.py
+- │   └── generate_prediction_tables.py
+- ├── predictions.jsonl            # Main public prediction database
+- ├── METHODOLOGY.md               # Full scoring and resolution rules
+- ├── index.html                   # Public website (GitHub Pages)
+- └── README.md
+
+---
 
 ## How It Works
 
@@ -82,34 +84,44 @@ Full methodology: [METHODOLOGY.md](./METHODOLOGY.md)
 
 ## Current Focus
 
-During the 2026 FIFA World Cup period, we are temporarily focusing on high-visibility Dutch forecasters and experts making predictions about the Netherlands national team (Oranje).
+During the 2026 FIFA World Cup period, we are temporarily focusing on high-visibility forecasters and experts making predictions about the 2026 FIFA World Cup.
+
+---
+
+## Automated Table Regeneration
+
+The prediction and forecaster tables on the website are **automatically generated** from `predictions.jsonl`.
+
+### Manual Regeneration
+
+```bash
+
+# Preview what would change (safe)
+python3 scripts/generate_prediction_tables.py --dry-run --verbose
+
+# Update index.html
+python3 scripts/generate_prediction_tables.py
+
+```
+
+### Automatic Updates via GitHub Actions
+A GitHub Action automatically regenerates the tables whenever `predictions.jsonl` is updated and pushed to `main`.
 
 ---
 
 ## Contributing
-
 We welcome contributions, especially:
-
 - Expanding the Gold Standard dataset
 - Improving documentation and methodology
 - Reporting bugs or suggesting improvements
-
-Please open an issue or pull request to discuss.
-
----
+- Please open an issue or pull request to discuss.
 
 ## License
-
 This project is currently unlicensed. Licensing terms will be defined in a future release.
 
----
-
 ## Links
+Website: trackrecord.info
+Repository: github.com/TittaDiGirolamo/trackrecord.info
+Issues: GitHub Issues
 
-- **Website**: [trackrecord.info](https://trackrecord.info)
-- **Repository**: [github.com/TittaDiGirolamo/trackrecord.info](https://github.com/TittaDiGirolamo/trackrecord.info)
-- **Issues**: [GitHub Issues](https://github.com/TittaDiGirolamo/trackrecord.info/issues)
-
----
-
-*Building transparent accountability for public predictions.* 
+Building transparent accountability for public predictions.

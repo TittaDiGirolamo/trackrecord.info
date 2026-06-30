@@ -69,3 +69,10 @@ Prior versions used internal milestone numbering.
 ## [2026-06-11] — Action 1 Polish
 ### Changed
 - Refined `statement_topic` field in all 10 `predictions.jsonl` records to distinguish Winner predictions from Netherlands Performance stages using consistent hierarchical vocabulary. Full mapping, rationale, and updated JSONL lines documented in Action 1 revised deliverable. Improves long-term auditability and forecaster scoring granularity within WC2026 English focus only.
+
+## 2026-06-30 - Added 15 resolved WC2026 match predictions (Chris Sutton - BBC)
+
+- Added and resolved 15 specific match score predictions from Chris Sutton (BBC Sport, published 10 June 2026).
+- All records now include resolution_date, outcome, and derived accuracy.
+- Source: TRACK-SPRINT-REQ-2026-06-P1W3-001
+

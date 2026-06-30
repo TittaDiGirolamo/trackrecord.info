@@ -156,7 +156,7 @@ def render_predictions_table(records: List[PredictionRecord], build_date: date) 
 
         if getattr(r, 'outcome', None) is not None:
             score = int(r.outcome * 100)
-            status_html = f'<span class="status-pill resolved">Resolved ({score})</span>'
+            status_html = '<span class="status-pill resolved">Resolved (' + str(score) + ')</span>'
         else:
             status_html = '<span class="status-pill">Pending – Resolution-ready</span>'
 

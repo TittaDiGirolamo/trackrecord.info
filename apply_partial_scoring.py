@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+<<<<<<< HEAD
 """
 Trackrecord Scoring Application Script v2.0
 Applies the tiered partial_accuracy scoring to resolved match predictions.
@@ -9,13 +10,18 @@ Usage:
 Requirements: Python 3.6+
 """
 
+=======
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)
 import json
 import sys
 import re
 from typing import Dict, Any, Tuple
 
 def parse_score(score_str: str) -> Tuple[int, int]:
+<<<<<<< HEAD
     """Parse a score string like '2-1' or '1-1' into (home, away) tuple."""
+=======
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)
     if not score_str:
         return (None, None)
     match = re.match(r'(\d+)-(\d+)', score_str.strip())
@@ -24,11 +30,14 @@ def parse_score(score_str: str) -> Tuple[int, int]:
     return (None, None)
 
 def calculate_partial_accuracy(predicted_score: str, actual_score: str) -> Dict[str, Any]:
+<<<<<<< HEAD
     """
     Calculate partial_accuracy dict based on tiered rules (v2.0).
     Returns dict with winner_correct, goal_difference_correct, exact_score_correct,
     weighted_score, tier, notes.
     """
+=======
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)
     pred_home, pred_away = parse_score(predicted_score)
     act_home, act_away = parse_score(actual_score)
 
@@ -45,7 +54,10 @@ def calculate_partial_accuracy(predicted_score: str, actual_score: str) -> Dict[
     pred_gd = pred_home - pred_away
     act_gd = act_home - act_away
 
+<<<<<<< HEAD
     # Determine winner (or draw)
+=======
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)
     if pred_home > pred_away:
         pred_winner = "home"
     elif pred_home < pred_away:
@@ -64,7 +76,10 @@ def calculate_partial_accuracy(predicted_score: str, actual_score: str) -> Dict[
     gd_correct = (pred_gd == act_gd)
     exact_correct = (pred_home == act_home and pred_away == act_away)
 
+<<<<<<< HEAD
     # Apply tiered scoring
+=======
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)
     if exact_correct:
         weighted = 1.0
         tier = "exact"
@@ -96,7 +111,10 @@ def calculate_partial_accuracy(predicted_score: str, actual_score: str) -> Dict[
     }
 
 def process_predictions(input_path: str, output_path: str):
+<<<<<<< HEAD
     """Process the JSONL file and add partial_accuracy where applicable."""
+=======
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)
     updated_lines = []
     count = 0
     match_count = 0
@@ -109,6 +127,7 @@ def process_predictions(input_path: str, output_path: str):
             try:
                 data = json.loads(line)
             except json.JSONDecodeError:
+<<<<<<< HEAD
                 print(f"Warning: Skipping invalid JSON line")
                 updated_lines.append(line)
                 continue
@@ -128,12 +147,28 @@ def process_predictions(input_path: str, output_path: str):
                     # In real use, user should provide predicted_score explicitly or parse from context
                     predicted_score = None
                     # Heuristic: look for score in original_statement
+=======
+                updated_lines.append(line)
+                continue
+
+            if (data.get("outcome") is not None and 
+                "Match Result" in data.get("statement_topic", "") and
+                "outcome_proof" in data):
+
+                proof = data["outcome_proof"]
+                actual_match = re.search(r'Actual:.*?(\d+-\d+)', proof)
+                if actual_match:
+                    actual_score = actual_match.group(1)
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)
                     stmt = data.get("original_statement", "")
                     pred_match = re.search(r'(\d+-\d+)', stmt)
                     if pred_match:
                         predicted_score = pred_match.group(1)
+<<<<<<< HEAD
 
                     if predicted_score and actual_score:
+=======
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)
                         partial = calculate_partial_accuracy(predicted_score, actual_score)
                         data["partial_accuracy"] = partial
                         data["scoring_version"] = "2.0"
@@ -153,6 +188,12 @@ def process_predictions(input_path: str, output_path: str):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
+<<<<<<< HEAD
         print("Usage: python apply_partial_scoring.py <input.jsonl> <output.jsonl>")
         sys.exit(1)
     process_predictions(sys.argv[1], sys.argv[2])
+=======
+        print("Usage: python3 apply_partial_scoring.py <input.jsonl> <output.jsonl>")
+        sys.exit(1)
+    process_predictions(sys.argv[1], sys.argv[2])
+>>>>>>> 3819b78 (Add apply_partial_scoring.py v2.0 script)

@@ -30,6 +30,14 @@ Most public predictions disappear without accountability. Trackrecord.info creat
 
 ---
 
+## Design Principles
+
+The design of Trackrecord.info follows a clear set of principles focused on clarity, transparency, and respect for the user.
+
+- [Design Principles](./trackrecord-design-principles/README.md) — Official design principles (v1.1), including typography decisions and contribution process.
+
+---
+
 ## Gold Standard Dataset
 
 We maintain a high-fidelity **gold standard dataset** to support the development of automated prediction extraction.

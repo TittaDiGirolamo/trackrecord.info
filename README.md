@@ -6,10 +6,11 @@ Trackrecord.info systematically compares public predictions from experts and for
 
 ---
 
-## Current Status (June 2026)
+## Current Status (July 2026)
 
 - **25 validated gold standard records** (gold_001–gold_025.json) for FIFA World Cup 2026
 - Structured `PredictionRecord` schema with automated validation
+- **Topic-specific accuracy scoring** (circle of competence) for granular insights by subject
 - Clean repository structure with schema and tooling in place
 - Automated table generation from `predictions.jsonl`
 - Focus: Transparent forecasting accountability
@@ -74,7 +75,7 @@ The gold standard is used to develop and test automated extraction systems.
 
 1. **Prediction Logging** — Public predictions are logged with source and timestamp
 2. **Resolution** — Outcomes are determined using official sources
-3. **Scoring** — Predictions are scored on a 0–100 scale using transparent rules
+3. **Scoring** — Predictions are scored on a 0–100 scale (**overall + by topic** where data allows) using transparent rules
 4. **Publication** — Scores and rationale are published publicly
 
 Full methodology: [METHODOLOGY.md](./METHODOLOGY.md)

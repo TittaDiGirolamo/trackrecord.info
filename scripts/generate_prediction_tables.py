@@ -74,7 +74,7 @@ def render_predictions_table(records, build_date):
 
 
 def write_predictions_html(path: Path, rows: str, build_date: date):
-    html = f"""<!DOCTYPE html>
+    html = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -82,15 +82,15 @@ def write_predictions_html(path: Path, rows: str, build_date: date):
     <title>Predictions • Trackrecord.info</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {{ font-family: 'Inter', system-ui, sans-serif; }}
-        .prediction-text {{ font-size: 1.02rem; line-height: 1.4; }}
-        .status-pill {{ display: inline-flex; align-items: center; padding: 2px 10px; background-color: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }}
-        .status-pill.resolved {{ background-color: #d1fae5; color: #065f46; }}
-        .topic-pill {{ display: inline-flex; align-items: center; padding: 2px 10px; background-color: #10b981; color: white; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }}
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .prediction-text { font-size: 1.02rem; line-height: 1.4; }
+        .status-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }
+        .status-pill.resolved { background-color: #d1fae5; color: #065f46; }
+        .topic-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #10b981; color: white; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }
         
         @media (max-width: 1023px) {
-            .mobile-table-row {{ display: flex; flex-direction: column; }}
-            .mobile-table-row td {{ display: block; padding-top: 0.5rem; padding-bottom: 0.5rem; }}
+            .mobile-table-row { display: flex; flex-direction: column; }
+            .mobile-table-row td { display: block; padding-top: 0.5rem; padding-bottom: 0.5rem; }
         }
     </style>
 </head>
@@ -98,11 +98,9 @@ def write_predictions_html(path: Path, rows: str, build_date: date):
     <nav class="border-b border-slate-200 bg-white">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-x-2.5">
-                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center">
-                        <span class="text-white text-xl font-bold tracking-tighter">T</span>
-                    </div>
-                    <a href="index.html" class="font-semibold tracking-tight">Trackrecord.info</a>
+                <div class="flex items-center gap-x-2">
+                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center"><span class="text-white font-bold">T</span></div>
+                    <a href="index.html" class="font-semibold">Trackrecord.info</a>
                 </div>
                 <div class="flex items-center gap-x-6 text-sm">
                     <a href="index.html" class="text-slate-600 hover:text-slate-900">Home</a>
@@ -123,7 +121,7 @@ def write_predictions_html(path: Path, rows: str, build_date: date):
                     <tr class="border-b border-slate-100 bg-slate-50/50">
                         <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Forecaster</th>
                         <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Prediction</th>
-                        <th class="text-center py-4 px-6 text-sm font-semibold text-slate-600">Days to Resolution</th>
+                        <th class="text-center py-4 px-6 text-sm font-semibold text-slate-600">Days</th>
                         <th class="text-center py-4 px-6 text-sm font-semibold text-slate-600">Status</th>
                         <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Topic</th>
                     </tr>
@@ -136,6 +134,11 @@ def write_predictions_html(path: Path, rows: str, build_date: date):
     </main>
 </body>
 </html>"""
+
+    # Replace placeholders manually (avoid f-string issues)
+    html = html.replace("{build_date}", str(build_date))
+    html = html.replace("{rows}", rows)
+
     path.write_text(html, encoding="utf-8")
     print(f"Action: updated {path}")
 

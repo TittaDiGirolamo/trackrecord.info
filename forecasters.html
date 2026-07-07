@@ -3,13 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Trackrecord.info • Unfiltered forecaster accuracy tracking for WC2026. All forecasters and current resolution status.">
     <title>Forecasters • Trackrecord.info</title>
+
+    <!-- Google Fonts for Inter + Space Grotesk (improvement: actual web fonts instead of unloaded declarations) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@600&amp;display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        body { font-family: 'Inter', system_ui, sans-serif; }
-        .font-display { font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif; font-weight: 600; }
-        .topic-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #10b981; color: white; font-size: 0.75rem; font-weight: 500; border-radius: 9999px; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-weight: 600;
+        }
+        .topic-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            background-color: #10b981;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            white-space: nowrap;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        /* Subtle improvement: better focus styles for search */
+        #forecaster-search:focus {
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -17,402 +47,781 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-between h-20">
                 <div class="flex items-center gap-x-2.5">
-                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center"><span class="text-white text-xl font-bold tracking-tighter">T</span></div>
+                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center">
+                        <span class="text-white text-xl font-bold tracking-tighter">T</span>
+                    </div>
                     <a href="index.html" class="font-display text-lg font-semibold tracking-tight">Trackrecord.info</a>
                 </div>
                 <div class="hidden md:flex items-center gap-x-8 text-sm">
                     <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900">Home</a>
                     <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900">Predictions</a>
                     <a href="forecasters.html" class="font-medium text-emerald-600">Forecasters</a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-medium text-slate-600 hover:text-slate-900">Methodology</a>
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" 
+                       class="font-medium text-slate-600 hover:text-slate-900">Methodology</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-5xl mx-auto px-6 py-12">
+    <main class="max-w-7xl mx-auto px-6 py-12">
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-semibold tracking-tight">Who we're tracking for WC2026 accuracy</h1>
-            <p class="text-slate-600 mt-2">Unfiltered • All forecasters and their current accuracy scores (0.0/100 pending resolutions). Same graphical style.</p>
+            <h1 class="text-4xl font-semibold tracking-tight">Who we're tracking</h1>
+            <p class="text-slate-600 mt-2 max-w-2xl mx-auto">
+                Unfiltered • All forecasters and their current accuracy scores (0.0/100 pending resolutions). 
+                Data is updated as matches resolve.
+            </p>
         </div>
 
-        <!-- Forecasters table stub -->
-        <div class="bg-white border border-slate-200 rounded-3xl overflow-x-auto">
-            <table class="w-full min-w-[700px]">
-                <thead>
-                    <!-- Current Forecasters -->
-                    <div id="current-forecasters" class="max-w-5xl mx-auto px-6 py-20">
-                        <div class="text-center mb-4">
-                            <div class="text-sm font-medium text-emerald-600 mb-4">Current forecasters • WC2026</div>
-                            <h3 class="text-4xl font-semibold tracking-tight">Who we're tracking for WC2026 accuracy</h3>
-                        </div>
-
-                        <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="hidden md:flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 mt-2 mb-4">
-                            View all forecasters <i class="ml-2 fa-solid fa-arrow-right"></i>
-                        </a>
-
-                        <div class="table-container bg-white border border-slate-200 rounded-3xl overflow-x-auto">
-                            <table class="w-full min-w-[700px]">
-                                <thead>
-                                    <tr class="border-b border-slate-100">
-                                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Forecaster</th>
-                                        <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
-                                        <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Resolved</th>
-                                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">WC2026 Topics</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-100">
-                            <!-- BEGIN-FORECASTERS-TBODY -->
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">BL</div>
-                            <div>
-                                <div class="font-semibold">Lizzy Becherano</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">CB</div>
-                            <div>
-                                <div class="font-semibold">Bill Connelly</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span> <span class="topic-pill ml-1">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">DR</div>
-                            <div>
-                                <div class="font-semibold">Rob Dawson</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">DD</div>
-                            <div>
-                                <div class="font-semibold">Damian Didonato</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">FT</div>
-                            <div>
-                                <div class="font-semibold">Thomas Frank</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">HT</div>
-                            <div>
-                                <div class="font-semibold">Tom Hamilton</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">HC</div>
-                            <div>
-                                <div class="font-semibold">Cesar Hernandez</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span> <span class="topic-pill ml-1">Round Of 16</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">KA</div>
-                            <div>
-                                <div class="font-semibold">Alex Kirkland</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Last 16</span> <span class="topic-pill ml-1">Quarterfinals</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">KJ</div>
-                            <div>
-                                <div class="font-semibold">Joachim Klement</div>
-                                <div class="text-xs text-slate-500">Economist & Modeler</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/7</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span> <span class="topic-pill ml-1">Semifinals</span> <span class="topic-pill ml-1">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">LJ</div>
-                            <div>
-                                <div class="font-semibold">Julien Laurens</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">LB</div>
-                            <div>
-                                <div class="font-semibold">Beth Lindop</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">MG</div>
-                            <div>
-                                <div class="font-semibold">Gab Marcotti</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/3</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span> <span class="topic-pill ml-1">Last 16</span> <span class="topic-pill ml-1">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">MJ</div>
-                            <div>
-                                <div class="font-semibold">Joe Mewis</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/4</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Knockout Stages</span> <span class="topic-pill ml-1">Last 16</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">OC</div>
-                            <div>
-                                <div class="font-semibold">Connor O'Halloran</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Knockout Stages</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">OM</div>
-                            <div>
-                                <div class="font-semibold">Mark Ogden</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span> <span class="topic-pill ml-1">Quarterfinals</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">OJ</div>
-                            <div>
-                                <div class="font-semibold">James Olley</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span> <span class="topic-pill ml-1">Quarterfinals</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">RM</div>
-                            <div>
-                                <div class="font-semibold">Micah Richards</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">RW</div>
-                            <div>
-                                <div class="font-semibold">Wayne Rooney</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SA</div>
-                            <div>
-                                <div class="font-semibold">Alan Shearer</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Semifinals</span> <span class="topic-pill ml-1">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SW</div>
-                            <div>
-                                <div class="font-semibold">Wesley Sneijder</div>
-                                <div class="text-xs text-slate-500">Dutch football legend</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span> <span class="topic-pill ml-1">Winner</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SM</div>
-                            <div>
-                                <div class="font-semibold">Michael Statham</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SC</div>
-                            <div>
-                                <div class="font-semibold">Chris Sutton</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">15/29</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span> <span class="topic-pill ml-1">Match Result [Australia Vs Turkey]</span> <span class="topic-pill ml-1">Match Result [Brazil Vs Morocco]</span> <span class="topic-pill ml-1">Match Result [Canada Vs Bosnia And Herze</span> <span class="topic-pill ml-1">Match Result [England Vs Croatia]</span> <span class="topic-pill ml-1">Match Result [Germany Vs Curacao]</span> <span class="topic-pill ml-1">Match Result [Ghana Vs Panama]</span> <span class="topic-pill ml-1">Match Result [Haiti Vs Scotland]</span> <span class="topic-pill ml-1">Match Result [Ivory Coast Vs Ecuador]</span> <span class="topic-pill ml-1">Match Result [Mexico Vs South Africa]</span> <span class="topic-pill ml-1">Match Result [Netherlands Vs Japan]</span> <span class="topic-pill ml-1">Match Result [Portugal Vs Dr Congo]</span> <span class="topic-pill ml-1">Match Result [Qatar Vs Switzerland]</span> <span class="topic-pill ml-1">Match Result [South Korea Vs Czechia]</span> <span class="topic-pill ml-1">Match Result [Sweden Vs Tunisia]</span> <span class="topic-pill ml-1">Match Result [Usa Vs Paraguay]</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">VB</div>
-                            <div>
-                                <div class="font-semibold">Bas van den Hoven</div>
-                                <div class="text-xs text-slate-500">Voetbal International</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-                </tr>
-                <tr>
-                    <td class="px-8 py-6">
-                        <div class="flex items-center gap-x-4">
-                            <div class="w-11 h-11 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">ÖS</div>
-                            <div>
-                                <div class="font-semibold">Süleyman Öztürk</div>
-                                <div class="text-xs text-slate-500"></div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-                    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-                    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span> <span class="topic-pill ml-1">Winner</span></td>
-                </tr>
-                <!-- END-FORECASTERS-TBODY -->
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    <!-- Full rows would be copied here from original forecasters tbody -->
-                    <tr><td colspan="4" class="px-8 py-8 text-center text-slate-500">Full unfiltered forecasters table (Chris Sutton 15/29, all others 0/x) would render here in production. Arriving with ?search= filters it client-side.</td></tr>
-                </tbody>
-            </table>
+        <!-- Search / Filter (improvement: implements the client-side filtering that was only commented in the original) -->
+        <div class="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="text-sm text-slate-500">
+                <span id="visible-count">20</span> forecasters shown
+            </div>
+            <div class="relative w-full sm:w-80">
+                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input 
+                    id="forecaster-search" 
+                    type="search" 
+                    placeholder="Search by name or topic..." 
+                    class="w-full pl-11 pr-4 py-2.5 border border-slate-200 rounded-2xl text-sm bg-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    aria-label="Search forecasters by name or topic">
+            </div>
         </div>
-    </div>
+
+        <!-- Clean, valid single table structure -->
+        <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+            <div class="table-container">
+                <table id="forecasters-table" class="w-full min-w-[720px]">
+                    <thead>
+                        <tr class="border-b border-slate-100 bg-slate-50">
+                            <th scope="col" class="text-left py-4 px-8 text-sm font-medium text-slate-500">Forecaster</th>
+                            <th scope="col" class="text-center py-4 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
+                            <th scope="col" class="text-center py-4 px-6 text-sm font-medium text-slate-500">Resolved</th>
+                            <th scope="col" class="text-left py-4 px-8 text-sm font-medium text-slate-500">WC2026 Topics</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-sm">
+                        <!-- BEGIN-FORECASTERS-TBODY (now properly structured) -->
+
+                        <!-- Lizzy Becherano -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">BL</div>
+                                    <div>
+                                        <div class="font-semibold">Lizzy Becherano</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Quarterfinals</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Bill Connelly -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">CB</div>
+                                    <div>
+                                        <div class="font-semibold">Bill Connelly</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Quarterfinals</span>
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Rob Dawson -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">DR</div>
+                                    <div>
+                                        <div class="font-semibold">Rob Dawson</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Damian Didonato -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">DD</div>
+                                    <div>
+                                        <div class="font-semibold">Damian Didonato</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Thomas Frank -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">FT</div>
+                                    <div>
+                                        <div class="font-semibold">Thomas Frank</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Tom Hamilton -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">HT</div>
+                                    <div>
+                                        <div class="font-semibold">Tom Hamilton</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Group Stage</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Cesar Hernandez -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">HC</div>
+                                    <div>
+                                        <div class="font-semibold">Cesar Hernandez</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Quarterfinals</span>
+                                    <span class="topic-pill">Round Of 16</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Alex Kirkland -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KA</div>
+                                    <div>
+                                        <div class="font-semibold">Alex Kirkland</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Last 16</span>
+                                    <span class="topic-pill">Quarterfinals</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Joachim Klement -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
+                                    <div>
+                                        <div class="font-semibold">Joachim Klement</div>
+                                        <div class="text-xs text-slate-500">Economist &amp; Modeler</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/7</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
+                                    <span class="topic-pill">Semifinals</span>
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Julien Laurens -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">LJ</div>
+                                    <div>
+                                        <div class="font-semibold">Julien Laurens</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Quarterfinals</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Beth Lindop -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">LB</div>
+                                    <div>
+                                        <div class="font-semibold">Beth Lindop</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Quarterfinals</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Gab Marcotti -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MG</div>
+                                    <div>
+                                        <div class="font-semibold">Gab Marcotti</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/3</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Group Stage</span>
+                                    <span class="topic-pill">Last 16</span>
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Joe Mewis -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MJ</div>
+                                    <div>
+                                        <div class="font-semibold">Joe Mewis</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/4</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Knockout Stages</span>
+                                    <span class="topic-pill">Last 16</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Connor O'Halloran -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OC</div>
+                                    <div>
+                                        <div class="font-semibold">Connor O'Halloran</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Knockout Stages</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Mark Ogden -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OM</div>
+                                    <div>
+                                        <div class="font-semibold">Mark Ogden</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Group Stage</span>
+                                    <span class="topic-pill">Quarterfinals</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- James Olley -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OJ</div>
+                                    <div>
+                                        <div class="font-semibold">James Olley</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Group Stage</span>
+                                    <span class="topic-pill">Quarterfinals</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Micah Richards -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">RM</div>
+                                    <div>
+                                        <div class="font-semibold">Micah Richards</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Wayne Rooney -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">RW</div>
+                                    <div>
+                                        <div class="font-semibold">Wayne Rooney</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Alan Shearer -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SA</div>
+                                    <div>
+                                        <div class="font-semibold">Alan Shearer</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Semifinals</span>
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Wesley Sneijder -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SW</div>
+                                    <div>
+                                        <div class="font-semibold">Wesley Sneijder</div>
+                                        <div class="text-xs text-slate-500">Dutch football legend</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Michael Statham -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SM</div>
+                                    <div>
+                                        <div class="font-semibold">Michael Statham</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Chris Sutton (the only forecaster with real resolved data in this snapshot) -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
+                                    <div>
+                                        <div class="font-semibold">Chris Sutton</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">15/29</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1 max-w-[620px]">
+                                    <span class="topic-pill">Group Stage</span>
+                                    <span class="topic-pill">Match Result [Australia Vs Turkey]</span>
+                                    <span class="topic-pill">Match Result [Brazil Vs Morocco]</span>
+                                    <span class="topic-pill">Match Result [Canada Vs Bosnia And Herzegovina]</span>
+                                    <span class="topic-pill">Match Result [England Vs Croatia]</span>
+                                    <span class="topic-pill">Match Result [Germany Vs Curacao]</span>
+                                    <span class="topic-pill">Match Result [Ghana Vs Panama]</span>
+                                    <span class="topic-pill">Match Result [Haiti Vs Scotland]</span>
+                                    <span class="topic-pill">Match Result [Ivory Coast Vs Ecuador]</span>
+                                    <span class="topic-pill">Match Result [Mexico Vs South Africa]</span>
+                                    <span class="topic-pill">Match Result [Netherlands Vs Japan]</span>
+                                    <span class="topic-pill">Match Result [Portugal Vs Dr Congo]</span>
+                                    <span class="topic-pill">Match Result [Qatar Vs Switzerland]</span>
+                                    <span class="topic-pill">Match Result [South Korea Vs Czechia]</span>
+                                    <span class="topic-pill">Match Result [Sweden Vs Tunisia]</span>
+                                    <span class="topic-pill">Match Result [Usa Vs Paraguay]</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Bas van den Hoven -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">VB</div>
+                                    <div>
+                                        <div class="font-semibold">Bas van den Hoven</div>
+                                        <div class="text-xs text-slate-500">Voetbal International</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Süleyman Öztürk -->
+                        <tr>
+                            <td class="px-8 py-5">
+                                <div class="flex items-center gap-x-4">
+                                    <div class="w-10 h-10 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">ÖS</div>
+                                    <div>
+                                        <div class="font-semibold">Süleyman Öztürk</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <div class="inline-flex items-center gap-x-1.5">
+                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
+                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
+                                    <span class="topic-pill">Winner</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- END-FORECASTERS-TBODY -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center text-xs text-slate-400">
+            All accuracy scores are pending final resolutions. Data reflects the latest available match outcomes.
+        </div>
+    </main>
 
     <footer class="bg-white border-t border-slate-100 mt-12">
-        <div class="max-w-5xl mx-auto px-6 py-8 text-sm text-slate-500 text-center">
-            © 2026 Trackrecord.info • <a href="index.html" class="underline">Back to homepage</a>
+        <div class="max-w-7xl mx-auto px-6 py-8 text-sm text-slate-500 text-center">
+            © 2026 Trackrecord.info • <a href="index.html" class="underline hover:text-slate-700">Back to homepage</a>
         </div>
     </footer>
+
+    <!-- Minimal vanilla JS for client-side filtering (fulfills the original "client-side" intent) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('forecaster-search');
+            const tbody = document.querySelector('#forecasters-table tbody');
+            const visibleCount = document.getElementById('visible-count');
+
+            if (!searchInput || !tbody || !visibleCount) return;
+
+            function updateVisibleCount() {
+                const visibleRows = tbody.querySelectorAll('tr:not([style*="display: none"])').length;
+                visibleCount.textContent = visibleRows;
+            }
+
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                
+                tbody.querySelectorAll('tr').forEach(function(row) {
+                    const nameCell = row.querySelector('td:first-child');
+                    if (!nameCell) return;
+
+                    const name = nameCell.textContent.toLowerCase();
+                    const topicsCell = row.querySelector('td:last-child');
+                    const topics = topicsCell ? topicsCell.textContent.toLowerCase() : '';
+
+                    if (name.includes(query) || topics.includes(query)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                updateVisibleCount();
+            });
+
+            // Initial count
+            updateVisibleCount();
+
+            // Bonus: support ?search= query param on load (progressive enhancement)
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialSearch = urlParams.get('search');
+            if (initialSearch) {
+                searchInput.value = initialSearch;
+                // Trigger the filter
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        });
+    </script>
 </body>
 </html>

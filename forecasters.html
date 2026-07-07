@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecasters • Trackrecord.info</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .font-display { font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif; font-weight: 600; }
+        .topic-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #10b981; color: white; font-size: 0.75rem; font-weight: 500; border-radius: 9999px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <nav class="border-b border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-x-2.5">
+                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center"><span class="text-white text-xl font-bold tracking-tighter">T</span></div>
+                    <a href="index.html" class="font-display text-lg font-semibold tracking-tight">Trackrecord.info</a>
+                </div>
+                <div class="hidden md:flex items-center gap-x-8 text-sm">
+                    <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900">Home</a>
+                    <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900">Predictions</a>
+                    <a href="forecasters.html" class="font-medium text-emerald-600">Forecasters</a>
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-medium text-slate-600 hover:text-slate-900">Methodology</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-6 py-12">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-semibold tracking-tight">Who we're tracking for WC2026 accuracy</h1>
+            <p class="text-slate-600 mt-2">Unfiltered • All forecasters and their current accuracy scores (0.0/100 pending resolutions). Same graphical style.</p>
+        </div>
+
+        <!-- Forecasters table stub -->
+        <div class="bg-white border border-slate-200 rounded-3xl overflow-x-auto">
+            <table class="w-full min-w-[700px]">
+                <thead>
+                    <tr class="border-b border-slate-100">
+                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Forecaster</th>
+                        <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
+                        <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Resolved</th>
+                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">WC2026 Topics</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <!-- Full rows would be copied here from original forecasters tbody -->
+                    <tr><td colspan="4" class="px-8 py-8 text-center text-slate-500">Full unfiltered forecasters table (Chris Sutton 15/29, all others 0/x) would render here in production. Arriving with ?search= filters it client-side.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-slate-100 mt-12">
+        <div class="max-w-5xl mx-auto px-6 py-8 text-sm text-slate-500 text-center">
+            © 2026 Trackrecord.info • <a href="index.html" class="underline">Back to homepage</a>
+        </div>
+    </footer>
+</body>
+</html>

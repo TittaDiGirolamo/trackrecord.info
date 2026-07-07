@@ -32,61 +32,30 @@
             opacity: 0.8;
             cursor: not-allowed;
         }
-        .table-container {
-            position: relative;
-        }
-       
-        .table-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 20px;
-            height: 100%;
-            background: linear-gradient(to right, transparent, #f8fafc);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-       
-        .table-container.scrolling::after {
-            opacity: 1;
-        }
-        .topic-pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 10px;
-            background-color: #10b981;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border-radius: 9999px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 10px;
-            background-color: #fef3c7;
-            color: #92400e;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border-radius: 9999px;
-        }
-        .prediction-text {
-            font-size: 1.05rem;
-            line-height: 1.4;
-            color: #0f172a;
-            font-weight: 500;
-        }
-        .days-text {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #0f172a;
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
+    <!-- Temporary Focus Banner (top of page, above nav) -->
+    <div id="temporary-banner"
+         role="status"
+         aria-live="polite"
+         class="bg-amber-100 border-b border-amber-300 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between text-sm">
+            <div class="flex items-center gap-x-3 text-amber-800">
+                <i class="fa-solid fa-info-circle text-amber-500"></i>
+                <div>
+                    Temporary focus on prominent voices making FIFA World Cup 2026 predictions. 
+                    Full methodology and reversion plan documented in 
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-amber-900 font-medium">METHODOLOGY.md</a>. 
+                    Re-evaluation: 2026-08-01.
+                </div>
+            </div>
+            <button onclick="dismissTemporaryBanner()"
+                    aria-label="Close banner"
+                    class="text-amber-600 hover:text-amber-800 text-2xl leading-none px-2 flex-shrink-0">×</button>
+        </div>
+    </div>
+
     <!-- Success Banner -->
     <div id="success-banner"
          role="status"
@@ -120,7 +89,8 @@
                 </div>
                 <div class="hidden md:flex items-center gap-x-8 text-sm">
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">How it works</a>
-                    <a href="#current-forecasters" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
+                    <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
+                    <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
                 </div>
                 <div class="flex items-center gap-x-4">
@@ -141,13 +111,13 @@
         <div class="max-w-3xl">
             <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-white border border-slate-200 rounded-3xl text-sm font-medium mb-6">
                 <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span class="text-slate-600">v0.9 • Sprint June 2026</span>
+                <span class="text-slate-600">v0.9 • Updated 2026-07-07</span>
             </div>
             <h1 class="text-6xl md:text-7xl font-display font-semibold tracking-tighter leading-none mb-6">
                 Verify public<br>predictions against<br>real-world outcomes
             </h1>
             <p class="max-w-lg text-xl text-slate-600 leading-relaxed mb-10">
-                Trackrecord.info has the ambition to systematically compare public predictions against actual outcomes and publish transparent accuracy metrics.
+                Trackrecord.info systematically compares public predictions against actual outcomes and publishes transparent accuracy metrics.
             </p>
             <div class="max-w-md">
                 <form id="interest-form" class="space-y-4">
@@ -172,1957 +142,262 @@
         </div>
     </div>
 
-	<!-- Metrics Row / Stat Cards / Overall Accuracy Area (Action 2 – WC2026 clarification) -->
-	<div class="bg-white border-y border-slate-200">
-	    <div class="max-w-7xl mx-auto px-6 py-12">
-	        <div class="grid md:grid-cols-3 gap-8">
-	            <div class="md:col-span-1">
-	                <div class="text-sm font-medium text-slate-500 mb-3">Overall accuracy (baseline)</div>
-	                <div class="flex items-baseline gap-x-3">
-	                    <div class="text-7xl font-semibold tabular-nums">62.5</div>
-	                    <div class="text-3xl text-emerald-600 font-medium">/ 100</div>
-	                </div>
-	                <div class="mt-3 flex items-center gap-x-2 text-sm">
-	                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">Current</span>
-	                    <span class="text-slate-500">Based on 6 resolved predictions (non-WC2026 historical baseline only). WC2026 predictions tracked separately below using the 5 refined topics once resolved.</span>
-	                </div>
-	            </div>
-	            <div class="md:col-span-2 grid grid-cols-3 gap-4">
-	                <div class="bg-slate-50 rounded-3xl p-6">
-	                    <div class="text-4xl font-semibold tabular-nums">25</div>
-	                    <div class="text-sm text-slate-500 mt-1">Gold standard records</div>
-	                </div>
-	                <div class="bg-slate-50 rounded-3xl p-6">
-	                    <div class="text-4xl font-semibold tabular-nums">10</div>
-	                    <div class="text-sm text-slate-500 mt-1">WC2026 predictions tracked (all pending)</div>
-	                </div>
-	                <div class="bg-slate-50 rounded-3xl p-6">
-	                    <div class="text-4xl font-semibold tabular-nums">6</div>
-	                    <div class="text-sm text-slate-500 mt-1">Forecasters monitored</div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+    <!-- Metrics Row -->
+    <div hidden class="bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="md:col-span-1">
+                    <div class="text-sm font-medium text-slate-500 mb-3">Overall accuracy (historical baseline)</div>
+                    <div class="flex items-baseline gap-x-3">
+                        <div class="text-7xl font-semibold tabular-nums">62.5</div>
+                        <div class="text-3xl text-emerald-600 font-medium">/ 100</div>
+                    </div>
+                    <div class="mt-3 text-sm text-slate-600">
+                        Based on resolved historical (non-WC2026) predictions used for baseline calculation. 
+                        WC2026 predictions (10 total across forecasters) are tracked separately using the 5 refined topics; scoring activates after resolutions begin 2026-08-01.
+                    </div>
+                </div>
+                <div class="md:col-span-2 grid grid-cols-3 gap-4">
+                    <div class="bg-slate-50 rounded-3xl p-6">
+                        <div class="text-4xl font-semibold tabular-nums">25</div>
+                        <div class="text-sm text-slate-500 mt-1">Gold standard records</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-3xl p-6">
+                        <div class="text-4xl font-semibold tabular-nums">10</div>
+                        <div class="text-sm text-slate-500 mt-1">WC2026 predictions tracked (all pending)</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-3xl p-6">
+                        <div class="text-4xl font-semibold tabular-nums">6</div>
+                        <div class="text-sm text-slate-500 mt-1">Forecasters monitored</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- What is Trackrecord.info -->
     <div class="max-w-5xl mx-auto px-6 py-20">
         <div class="max-w-2xl">
             <div class="text-sm font-medium text-emerald-600 mb-4">Our mission</div>
             <h2 class="text-4xl font-semibold tracking-tight">Most public predictions<br>disappear without accountability</h2>
-            <p class="mt-6 text-xl text-slate-600">Trackrecord.info aims to create a permanent, transparent record so we can all see who gets it right over time.</p>
+            <p class="mt-6 text-xl text-slate-600">Trackrecord.info creates a permanent, transparent record so we can all see who gets it right over time.</p>
         </div>
     </div>
 
-    <!-- Key Features -->
-    <div class="bg-white border-y border-slate-200 py-16">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <div class="text-sm font-medium text-emerald-600 mb-4">Features</div>
-                <h3 class="text-3xl font-semibold mt-2">Everything you need to evaluate forecasters</h3>
-            </div>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-slate-50 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-chart-line text-2xl text-emerald-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-xl mb-3">0–100 Accuracy Score</h4>
-                    <p class="text-slate-600">An intuitive metric that makes it easy to understand prediction quality at a glance.</p>
-                </div>
-                <div class="bg-slate-50 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-tags text-2xl text-emerald-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-xl mb-3">Topic Tagging</h4>
-                    <p class="text-slate-600">Every prediction is tagged by topic for easy filtering and comparison.</p>
-                </div>
-                <div class="bg-slate-50 rounded-3xl p-8">
-                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6">
-                        <i class="fa-solid fa-sync text-2xl text-emerald-600"></i>
-                    </div>
-                    <h4 class="font-semibold text-xl mb-3">Daily Automated Updates</h4>
-                    <p class="text-slate-600">The system runs automatically every day and updates all reports.</p>
-                </div>
-            </div>
+    <!-- Example Track Records Section -->
+    <div class="max-w-7xl mx-auto px-6 py-16">
+        <div class="text-center mb-10">
+            <div class="text-sm font-medium text-emerald-600 mb-2">Transparency in action</div>
+            <h3 class="text-3xl font-semibold tracking-tight">Track Records</h3>
+            <p class="mt-3 text-slate-600 max-w-2xl mx-auto">Real forecaster performance from the current dataset. WC2026 predictions remain pending resolution. Historical topic scores shown only when sufficient resolved predictions exist per METHODOLOGY v0.9.</p>
         </div>
-    </div>
-
-    <!-- Current Predictions Tracked (with unfold + all refinements) -->
-    <div class="max-w-7xl mx-auto px-6 py-12">
-        
-        <!-- Updated Temporary Focus Banner -->
-        <div id="temporary-banner" class="bg-amber-100 border border-amber-300 rounded-3xl p-5 mb-8">
-            <div class="flex items-start justify-between">
-                <div class="flex items-start gap-x-3 text-amber-800 text-sm">
-                    <i class="fa-solid fa-info-circle text-amber-500 mt-0.5 flex-shrink-0"></i>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card 1: Chris Sutton -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col">
+                <div class="flex items-center gap-x-4 mb-6">
+                    <div class="w-12 h-12 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">CS</div>
                     <div>
-                        Temporary focus on prominent voices making FIFA World Cup 2026 predictions. 
-                        Full methodology and reversion plan documented in 
-                        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-amber-900 font-medium">METHODOLOGY.md</a>. 
-                        Re-evaluation: 2026-08-01.
+                        <div class="font-semibold text-xl">Chris Sutton</div>
+                        <div class="text-sm text-slate-500">BBC Sport • Pundit</div>
                     </div>
                 </div>
-                <button onclick="dismissTemporaryBanner()" aria-label="Close banner" class="text-amber-600 hover:text-amber-800 text-2xl leading-none px-2 -mr-2 flex-shrink-0">×</button>
+                <div class="mb-5">
+                    <div class="text-sm font-medium text-slate-500 mb-1">Overall Accuracy (historical baseline)</div>
+                    <div class="flex items-baseline gap-x-2">
+                        <span class="text-6xl font-semibold tabular-nums tracking-tighter">62.5</span>
+                        <span class="text-3xl text-emerald-600 font-medium">/100</span>
+                    </div>
+                    <div class="text-sm text-slate-500 mt-1">Based on resolved historical predictions (WC2026 predictions pending)</div>
+                </div>
+                <div class="mb-6 flex-1">
+                    <div class="text-sm font-medium text-slate-500 mb-2">Topic Performance (historical sample)</div>
+                    <div class="bg-slate-50 rounded-2xl p-4 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm">Historical international &amp; league outcomes (sample)</span>
+                            <span class="font-semibold text-sm">62.5/100 <span class="font-normal text-slate-500">(baseline aligned)</span></span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-2">WC2026 predictions tracked separately and pending resolution (post 2026-08-01).</p>
+                </div>
+                <a href="forecasters.html" 
+                   class="mt-auto w-full px-5 py-3 text-sm font-medium text-emerald-700 hover:text-emerald-800 border border-emerald-200 hover:border-emerald-300 rounded-2xl transition-all active:scale-[0.985] flex items-center justify-center gap-x-2 text-center">
+                    View full track record <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
             </div>
-        </div>
 
-        <div class="text-center mb-8">
-            <div class="text-sm font-medium text-emerald-600 mb-2">Sprint Focus • June 2026</div>
-            <h3 class="text-3xl font-semibold tracking-tight">Current Predictions Tracked</h3>
-            <p class="text-slate-600 mt-2 max-w-2xl mx-auto">All predictions are in pending resolution-ready preparation state as of 2026-06-10. No outcomes assigned yet.</p>
-        </div>
+            <!-- Card 2: Joachim Klement -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col">
+                <div class="flex items-center gap-x-4 mb-6">
+                    <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">JK</div>
+                    <div>
+                        <div class="font-semibold text-xl">Joachim Klement</div>
+                        <div class="text-sm text-slate-500">Economist &amp; Modeler</div>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <div class="text-sm font-medium text-slate-500 mb-1">Overall Accuracy</div>
+                    <div class="flex items-baseline gap-x-2">
+                        <span class="text-6xl font-semibold tabular-nums tracking-tighter">—</span>
+                        <span class="text-3xl text-emerald-600 font-medium">/100</span>
+                    </div>
+                    <div class="text-sm text-slate-500 mt-1">0 resolved (7 WC2026 predictions pending)</div>
+                </div>
+                <div class="mb-6 flex-1">
+                    <div class="text-sm font-medium text-slate-500 mb-2">Tracked Topics (WC2026)</div>
+                    <div class="bg-slate-50 rounded-2xl p-4 space-y-2 text-sm">
+                        <div class="flex justify-between"><span>Winner</span> <span class="text-slate-400">Pending</span></div>
+                        <div class="flex justify-between"><span>Netherlands Performance (5 stages)</span> <span class="text-slate-400">Pending</span></div>
+                        <div class="flex justify-between"><span>Semifinals</span> <span class="text-slate-400">Pending</span></div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-2">Metrics activate after resolutions (post Aug 2026) per METHODOLOGY v0.9.</p>
+                </div>
+                <a href="forecasters.html" 
+                   class="mt-auto w-full px-5 py-3 text-sm font-medium text-emerald-700 hover:text-emerald-800 border border-emerald-200 hover:border-emerald-300 rounded-2xl transition-all active:scale-[0.985] flex items-center justify-center gap-x-2 text-center">
+                    View full track record <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
 
-        <div class="table-container bg-white border border-slate-200 rounded-3xl overflow-x-auto">
-            <table class="w-full min-w-[1100px]">
-                <thead>
-                    <tr class="border-b border-slate-100">
-                        <th class="text-left py-4 px-6 text-sm font-medium text-slate-500 w-56">Forecaster</th>
-                        <th class="text-left py-4 px-6 text-sm font-medium text-slate-500">Prediction</th>
-                        <th class="text-center py-4 px-6 text-sm font-medium text-slate-500">Days to Resolution</th>
-                        <th class="text-center py-4 px-6 text-sm font-medium text-slate-500">Status</th>
-                        <th class="text-left py-4 px-6 text-sm font-medium text-slate-500">Topic</th>
-                    </tr>
-                </thead>
-                <tbody id="predictions-tbody" class="divide-y divide-slate-100 text-sm">
-		    <!-- BEGIN-PREDICTIONS-TBODY -->
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Mexico will beat South Africa 1-0 in their opening World Cup 2026 Group A m...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Mexico Vs South Africa]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“South Korea will draw with Czechia 1-1 in their World Cup 2026 Group A match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [South Korea Vs Czechia]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Canada will draw with Bosnia and Herzegovina 1-1 in their World Cup 2026 Gr...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Canada Vs Bosnia And Herze</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“USA will draw with Paraguay 1-1 in their World Cup 2026 Group D match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Usa Vs Paraguay]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Qatar will lose to Switzerland 0-2 in their World Cup 2026 Group B match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Qatar Vs Switzerland]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Brazil will beat Morocco 2-1 in their World Cup 2026 Group C match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Brazil Vs Morocco]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Haiti will lose to Scotland 1-2 in their World Cup 2026 Group C match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Haiti Vs Scotland]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Australia will draw with Turkey 2-2 in their World Cup 2026 Group D match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Australia Vs Turkey]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Germany will beat Curacao 3-0 in their World Cup 2026 Group E match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Germany Vs Curacao]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Ivory Coast will draw with Ecuador 0-0 in their World Cup 2026 Group E match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Ivory Coast Vs Ecuador]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands will lose to Japan 1-2 in their World Cup 2026 Group F match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Netherlands Vs Japan]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Sweden will draw with Tunisia 1-1 in their World Cup 2026 Group F match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Sweden Vs Tunisia]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“England will beat Croatia 2-0 in their World Cup 2026 Group L match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [England Vs Croatia]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Ghana will beat Panama 2-1 in their World Cup 2026 Group L match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Ghana Vs Panama]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Portugal will beat DR Congo 2-1 in their World Cup 2026 Group K match”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Match Result [Portugal Vs Dr Congo]</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
-            <div>
-                <div class="font-semibold">Joachim Klement</div>
-                <div class="text-xs text-slate-500">Economist & Modeler</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands tops Group F and reaches at least quarter-finals”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">VB</div>
-            <div>
-                <div class="font-semibold">Bas van den Hoven</div>
-                <div class="text-xs text-slate-500">Voetbal International</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands reaches quarter-finals or better”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MJ</div>
-            <div>
-                <div class="font-semibold">Joe Mewis</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Norway reaches the knockout stages of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Knockout Stages</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MJ</div>
-            <div>
-                <div class="font-semibold">Joe Mewis</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Sweden has the chance to surge into the final stages of the 2026 FIFA World...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Knockout Stages</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MJ</div>
-            <div>
-                <div class="font-semibold">Joe Mewis</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Ecuador is more than capable of getting out of its group and matching its 2...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Last 16</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MJ</div>
-            <div>
-                <div class="font-semibold">Joe Mewis</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Mexico will trouble teams in the second half of the 2026 FIFA World Cup tou...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Knockout Stages</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">HC</div>
-            <div>
-                <div class="font-semibold">Cesar Hernandez</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Japan reaches at least the quarterfinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KA</div>
-            <div>
-                <div class="font-semibold">Alex Kirkland</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Ecuador reaches the quarterfinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OC</div>
-            <div>
-                <div class="font-semibold">Connor O'Halloran</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Senegal makes a deep run at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Knockout Stages</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">DR</div>
-            <div>
-                <div class="font-semibold">Rob Dawson</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands does not advance from the group stage at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Japan finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Brazil finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">HC</div>
-            <div>
-                <div class="font-semibold">Cesar Hernandez</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“United States reaches the round of 16 at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Round Of 16</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">BL</div>
-            <div>
-                <div class="font-semibold">Lizzy Becherano</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Mexico reaches the quarterfinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KA</div>
-            <div>
-                <div class="font-semibold">Alex Kirkland</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Canada reaches the last 16 of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Last 16</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OM</div>
-            <div>
-                <div class="font-semibold">Mark Ogden</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“United States exits in the group stage at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Germany finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Senegal finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">CB</div>
-            <div>
-                <div class="font-semibold">Bill Connelly</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Colombia reaches the quarterfinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OM</div>
-            <div>
-                <div class="font-semibold">Mark Ogden</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Portugal reaches at least the quarterfinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OJ</div>
-            <div>
-                <div class="font-semibold">James Olley</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Mexico benefits from altitude as host nation and reaches the quarterfinals...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">HT</div>
-            <div>
-                <div class="font-semibold">Tom Hamilton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Paraguay does not advance from the group stage at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MG</div>
-            <div>
-                <div class="font-semibold">Gab Marcotti</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Uruguay does not advance from the group stage at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">LB</div>
-            <div>
-                <div class="font-semibold">Beth Lindop</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“United States potentially reaches the quarterfinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Argentina finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“England finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Spain finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Colombia finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">LJ</div>
-            <div>
-                <div class="font-semibold">Julien Laurens</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Japan makes a deep run at the 2026 FIFA World Cup, stronger than its perfor...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OJ</div>
-            <div>
-                <div class="font-semibold">James Olley</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Australia is the most surprising team not to advance from the group stage a...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Turkey finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“South Korea finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Switzerland finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Belgium finishes first in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MG</div>
-            <div>
-                <div class="font-semibold">Gab Marcotti</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Ecuador will grind its way into the knockout phase of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Last 16</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Paraguay finishes second in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Canada finishes second in its group at the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">0 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SW</div>
-            <div>
-                <div class="font-semibold">Wesley Sneijder</div>
-                <div class="text-xs text-slate-500">Dutch football legend</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands does not reach semi-finals (semifinalists: Portugal, Spain, Fra...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">3 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
-            <div>
-                <div class="font-semibold">Joachim Klement</div>
-                <div class="text-xs text-slate-500">Economist & Modeler</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Portugal defeats England in the semifinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">4 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Semifinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
-            <div>
-                <div class="font-semibold">Joachim Klement</div>
-                <div class="text-xs text-slate-500">Economist & Modeler</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands defeats Spain in the semifinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">4 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Semifinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
-            <div>
-                <div class="font-semibold">Joachim Klement</div>
-                <div class="text-xs text-slate-500">Economist & Modeler</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“The semifinalists at the 2026 FIFA World Cup are Netherlands, Spain, Portug...”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">4 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SA</div>
-            <div>
-                <div class="font-semibold">Alan Shearer</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“England can make the semifinals of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">4 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Semifinals</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SW</div>
-            <div>
-                <div class="font-semibold">Wesley Sneijder</div>
-                <div class="text-xs text-slate-500">Dutch football legend</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“World Cup 2026 winner is one of: Portugal, Spain, France, Brazil”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
-            <div>
-                <div class="font-semibold">Joachim Klement</div>
-                <div class="text-xs text-slate-500">Economist & Modeler</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands wins 2026 World Cup, defeats Portugal in final”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SM</div>
-            <div>
-                <div class="font-semibold">Michael Statham</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands performs well in Group F but not expected to win tournament”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">ÖS</div>
-            <div>
-                <div class="font-semibold">Süleyman Öztürk</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands reaches final / strong Oranje performance in Group F and beyond”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">ÖS</div>
-            <div>
-                <div class="font-semibold">Süleyman Öztürk</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Portugal wins World Cup 2026 (Netherlands in final)”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
-            <div>
-                <div class="font-semibold">Joachim Klement</div>
-                <div class="text-xs text-slate-500">Economist & Modeler</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands reaches the final of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
-            <div>
-                <div class="font-semibold">Joachim Klement</div>
-                <div class="text-xs text-slate-500">Economist & Modeler</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Netherlands will win the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SA</div>
-            <div>
-                <div class="font-semibold">Alan Shearer</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“France will win the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">RW</div>
-            <div>
-                <div class="font-semibold">Wayne Rooney</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“England and Spain will make the final of the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">RM</div>
-            <div>
-                <div class="font-semibold">Micah Richards</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Spain will win the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">FT</div>
-            <div>
-                <div class="font-semibold">Thomas Frank</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“England will win the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">DD</div>
-            <div>
-                <div class="font-semibold">Damian Didonato</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Germany will win the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MG</div>
-            <div>
-                <div class="font-semibold">Gab Marcotti</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“Brazil will win the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-6 py-4">
-        <div class="flex items-center gap-x-4">
-            <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">CB</div>
-            <div>
-                <div class="font-semibold">Bill Connelly</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-4">
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-            <span class="prediction-text">“England will win the 2026 FIFA World Cup”</span>
-        </a>
-    </td>
-    <td class="px-6 py-4 text-center"><span class="days-text">12 days</span></td>
-    <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-    <td class="px-6 py-4"><span class="topic-pill">Winner</span></td>
-</tr>
-<!-- END-PREDICTIONS-TBODY -->
-                </tbody>
+            <!-- Card 3: Gab Marcotti (fixed responsive + completed structure) -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-8 flex flex-col">
+                <div class="flex items-center gap-x-4 mb-6">
+                    <div class="w-12 h-12 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">GM</div>
+                    <div>
+                        <div class="font-semibold text-xl">Gab Marcotti</div>
+                        <div class="text-sm text-slate-500">ESPN • Football writer</div>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <div class="text-sm font-medium text-slate-500 mb-1">Overall Accuracy</div>
+                    <div class="flex items-baseline gap-x-2">
+                        <span class="text-6xl font-semibold tabular-nums tracking-tighter">—</span>
+                        <span class="text-3xl text-emerald-600 font-medium">/100</span>
+                    </div>
+                    <div class="text-sm text-slate-500 mt-1">0 resolved (3 WC2026 predictions tracked)</div>
+                </div>
+                <div class="mb-6 flex-1">
+                    <div class="text-sm font-medium text-slate-500 mb-2">Tracked Topics (WC2026)</div>
+                    <div class="bg-slate-50 rounded-2xl p-4 space-y-2 text-sm">
+                        <div class="flex justify-between"><span>Group Stage</span> <span class="text-slate-400">Pending</span></div>
+                        <div class="flex justify-between"><span>Last 16</span> <span class="text-slate-400">Pending</span></div>
+                        <div class="flex justify-between"><span>Winner</span> <span class="text-slate-400">Pending</span></div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-2">Metrics activate after resolutions (post Aug 2026).</p>
+                </div>
+                <a href="forecasters.html" 
+                   class="mt-auto w-full px-5 py-3 text-sm font-medium text-emerald-700 hover:text-emerald-800 border border-emerald-200 hover:border-emerald-300 rounded-2xl transition-all active:scale-[0.985] flex items-center justify-center gap-x-2 text-center">
+                    View full track record <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-xs text-slate-500">Cards reflect live data from predictions.jsonl. Topic scores shown only when ≥5 resolved predictions exist per METHODOLOGY v0.9. All WC2026 predictions remain pending.</div>
+    </div>
 
-                <!-- Hidden rows (6-10) - shown when button is clicked -->
-                <tbody id="hidden-predictions" class="divide-y divide-slate-100 text-sm hidden">
-                    <!-- Row 6 -->
-                    <tr>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-x-4">
-                                <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">JK</div>
-                                <div>
-                                    <div class="font-semibold">Joachim Klement</div>
-                                    <div class="text-xs text-slate-500">Economist &amp; Modeler</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-                                <span class="prediction-text">“Netherlands wins 2026 World Cup, defeats Portugal in final”</span>
-                            </a>
-                        </td>
-                        <td class="px-6 py-4 text-center"><span class="days-text">39 days</span></td>
-                        <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-                        <td class="px-6 py-4"><span class="topic-pill">Winner</span> <span class="topic-pill ml-1">Netherlands Performance (5 stages)</span></td>
-                    </tr>
-                    <!-- Row 7 -->
-                    <tr>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-x-4">
-                                <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">JK</div>
-                                <div>
-                                    <div class="font-semibold">Joachim Klement</div>
-                                    <div class="text-xs text-slate-500">Economist &amp; Modeler</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-                                <span class="prediction-text">“Netherlands tops Group F and reaches at least quarter-finals”</span>
-                            </a>
-                        </td>
-                        <td class="px-6 py-4 text-center"><span class="days-text">25 days</span></td>
-                        <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-                        <td class="px-6 py-4"><span class="topic-pill">Winner</span> <span class="topic-pill ml-1">Netherlands Performance (5 stages)</span></td>
-                    </tr>
-                    <!-- Row 8 -->
-                    <tr>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-x-4">
-                                <div class="w-10 h-10 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">FC</div>
-                                <div>
-                                    <div class="font-semibold">Finley Crebolder</div>
-                                    <div class="text-xs text-slate-500">Clockwork Oranje</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-                                <span class="prediction-text">“Netherlands has strong chances in Group F but faces tough knockout path”</span>
-                            </a>
-                        </td>
-                        <td class="px-6 py-4 text-center"><span class="days-text">17 days</span></td>
-                        <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-                        <td class="px-6 py-4"><span class="topic-pill">Winner</span> <span class="topic-pill ml-1">Netherlands Performance (5 stages)</span></td>
-                    </tr>
-                    <!-- Row 9 -->
-                    <tr>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-x-4">
-                                <div class="w-10 h-10 bg-sky-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MS</div>
-                                <div>
-                                    <div class="font-semibold">Michael Statham</div>
-                                    <div class="text-xs text-slate-500">@EredivisieMike</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-                                <span class="prediction-text">“Netherlands aims for quarter-finals or better at 2026 World Cup”</span>
-                            </a>
-                        </td>
-                        <td class="px-6 py-4 text-center"><span class="days-text">25 days</span></td>
-                        <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-                        <td class="px-6 py-4"><span class="topic-pill">Winner</span> <span class="topic-pill ml-1">Netherlands Performance (5 stages)</span></td>
-                    </tr>
-                    <!-- Row 10 -->
-                    <tr>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-x-4">
-                                <div class="w-10 h-10 bg-sky-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MS</div>
-                                <div>
-                                    <div class="font-semibold">Michael Statham</div>
-                                    <div class="text-xs text-slate-500">@EredivisieMike</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/predictions.jsonl" target="_blank" rel="noopener noreferrer">
-                                <span class="prediction-text">“Netherlands performs well in Group F but not expected to win tournament”</span>
-                            </a>
-                        </td>
-                        <td class="px-6 py-4 text-center"><span class="days-text">39 days</span></td>
-                        <td class="px-6 py-4 text-center"><span class="status-pill">Pending – Resolution-ready</span></td>
-                        <td class="px-6 py-4"><span class="topic-pill">Winner</span> <span class="topic-pill ml-1">Netherlands Performance (5 stages)</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Show more button -->
-        <div class="flex justify-center mt-4">
-            <button onclick="togglePredictions()" id="toggle-btn"
-                    class="px-6 py-2.5 text-sm font-medium text-emerald-700 hover:text-emerald-800 border border-emerald-200 hover:border-emerald-300 rounded-2xl transition-colors flex items-center gap-x-2">
-                <span id="toggle-text">Show all 10 predictions</span>
-                <i class="fa-solid fa-chevron-down" id="toggle-icon"></i>
-            </button>
-        </div>
-
-        <div class="text-center mt-4 text-sm text-slate-500">
-            All expected resolution dates are future. Preparatory human review and schema validation in progress per Sprint Resolution Requirements Specification TRACK-SPRINT-REQ-2026-06-P1W1-001.
+    <!-- Search predictors Section -->
+    <div class="bg-slate-50 py-16">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-8">
+                <div class="text-sm font-medium text-emerald-600 mb-2">Explore the data</div>
+                <h3 class="text-3xl font-semibold tracking-tight">Search predictors</h3>
+                <p class="mt-2 text-slate-600 max-w-md mx-auto">Type to see matching forecasters. Click a suggestion to open the Predictions page filtered to your search.</p>
+            </div>
+            <div class="max-w-2xl mx-auto">
+                <div class="relative mb-2" id="search-wrapper">
+                    <i class="fa-solid fa-search absolute left-5 top-4 text-slate-400"></i>
+                    <input type="text" id="prediction-search" placeholder="Start typing e.g. Sutton" 
+                           class="w-full pl-12 pr-5 py-4 border border-slate-300 rounded-3xl text-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                           autocomplete="off"
+                           aria-label="Search forecasters">
+                    <!-- Suggestions dropdown -->
+                    <div id="search-suggestions" class="hidden absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-3xl shadow-lg max-h-72 overflow-auto text-sm">
+                        <!-- Populated dynamically by JS -->
+                    </div>
+                </div>
+                <p class="text-center text-xs text-slate-500">Suggestions appear as you type. Results open the dedicated Predictions page with your filter applied.</p>
+            </div>
         </div>
     </div>
 
-    <!-- Current Forecasters -->
-    <div id="current-forecasters" class="max-w-5xl mx-auto px-6 py-20">
-        <div class="text-center mb-4">
-	        <div class="text-sm font-medium text-emerald-600 mb-4">Current forecasters • WC2026</div>
-	        <h3 class="text-4xl font-semibold tracking-tight">Who we're tracking for WC2026 accuracy</h3>
+    <!-- Suggest a Prediction Section -->
+    <div class="max-w-5xl mx-auto px-6 py-16">
+        <div class="bg-white border border-slate-200 rounded-3xl p-10 md:p-12">
+            <div class="max-w-xl">
+                <div class="text-sm font-medium text-emerald-600 mb-2">Contribute to the record</div>
+                <h3 class="text-3xl font-semibold tracking-tight mb-3">Suggest a Prediction</h3>
+                <p class="text-slate-600 mb-6">Spotted a public prediction worth tracking? Submit it via GitHub issue for transparent human review before publication. English texts only in current phase.</p>
+                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/issues/new?labels=prediction-suggestion&amp;title=Suggest+a+public+prediction&amp;body=%2A%2APlease+fill+the+following%2A%2A%0A%0A**Forecaster%20name%20or%20handle%3A**%0A%0A**Exact%20prediction%20quote%3A**%0A%0A**Source%20(URL%2C%20X%20post%2C%20article%2C%20podcast%20timestamp)%3A**%0A%0A**Expected%20resolution%20date%20or%20event%3A**%0A%0A**Why%20this%20should%20be%20tracked%3A**%0A%0A**Any%20additional%20context%3A**%0A"
+                   target="_blank"
+                   class="inline-flex items-center px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-3xl transition-all text-sm gap-x-2 active:scale-[0.985]">
+                    <i class="fa-solid fa-plus mr-1"></i> <span>Open pre-filled GitHub issue</span>
+                </a>
+                <p class="mt-4 text-xs text-slate-500">No accounts required on this site • No data stored here • Reviewed before adding to predictions.jsonl</p>
+            </div>
         </div>
+    </div>
 
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info" class="hidden md:flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 mt-2 mb-4">
-            View all forecasters <i class="ml-2 fa-solid fa-arrow-right"></i>
-        </a>
+    <!-- Our process -->
+    <div class="max-w-5xl mx-auto px-6 py-16">
+        <div class="max-w-3xl">
+            <div class="text-sm font-medium text-emerald-600 mb-4">How it works</div>
+            <h2 class="text-3xl font-semibold tracking-tight mb-6">A transparent, human-reviewed process</h2>
+            
+            <div class="grid gap-4">
+                <!-- Step 1 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                    <div class="flex items-start gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-2xl tabular-nums">1</div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-xl text-slate-900">Public prediction is made</div>
+                            <div class="text-sm text-slate-600 mt-1">A forecaster shares a clear, falsifiable prediction publicly (on X, in media, podcasts, or official forecasts) with a verifiable source and time horizon.</div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="table-container bg-white border border-slate-200 rounded-3xl overflow-x-auto">
-            <table class="w-full min-w-[700px]">
-                <thead>
-                    <tr class="border-b border-slate-100">
-                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">Forecaster</th>
-                        <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
-                        <th class="text-center py-5 px-6 text-sm font-medium text-slate-500">Resolved</th>
-                        <th class="text-left py-5 px-8 text-sm font-medium text-slate-500">WC2026 Topics</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-		    <!-- BEGIN-FORECASTERS-TBODY -->
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">BL</div>
-            <div>
-                <div class="font-semibold">Lizzy Becherano</div>
-                <div class="text-xs text-slate-500"></div>
+                <!-- Step 2 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                    <div class="flex items-start gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-2xl tabular-nums">2</div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-xl text-slate-900">Logged &amp; prepared</div>
+                            <div class="text-sm text-slate-600 mt-1">Trackrecord.info records the prediction with source, timestamp, and resolution criteria. It is added to the public dataset as “Pending – Resolution-ready”.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                    <div class="flex items-start gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-2xl tabular-nums">3</div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-xl text-slate-900">Human review</div>
+                            <div class="text-sm text-slate-600 mt-1">Every submission and resolution is reviewed by humans for verifiability, independence, and adherence to the methodology before publication.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                    <div class="flex items-start gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-2xl tabular-nums">4</div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-xl text-slate-900">Outcome resolved</div>
+                            <div class="text-sm text-slate-600 mt-1">On or after the expected date, a human reviewer confirms the actual result from primary/official sources and records it with rationale.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                    <div class="flex items-start gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-2xl tabular-nums">5</div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-xl text-slate-900">Scored &amp; published</div>
+                            <div class="text-sm text-slate-600 mt-1">A transparent 0–100 accuracy score is calculated. Reports and forecaster metrics update automatically and remain permanently public.</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">CB</div>
-            <div>
-                <div class="font-semibold">Bill Connelly</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span> <span class="topic-pill ml-1">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">DR</div>
-            <div>
-                <div class="font-semibold">Rob Dawson</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">DD</div>
-            <div>
-                <div class="font-semibold">Damian Didonato</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">FT</div>
-            <div>
-                <div class="font-semibold">Thomas Frank</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">HT</div>
-            <div>
-                <div class="font-semibold">Tom Hamilton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">HC</div>
-            <div>
-                <div class="font-semibold">Cesar Hernandez</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span> <span class="topic-pill ml-1">Round Of 16</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">KA</div>
-            <div>
-                <div class="font-semibold">Alex Kirkland</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Last 16</span> <span class="topic-pill ml-1">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">KJ</div>
-            <div>
-                <div class="font-semibold">Joachim Klement</div>
-                <div class="text-xs text-slate-500">Economist & Modeler</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/7</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span> <span class="topic-pill ml-1">Semifinals</span> <span class="topic-pill ml-1">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">LJ</div>
-            <div>
-                <div class="font-semibold">Julien Laurens</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">LB</div>
-            <div>
-                <div class="font-semibold">Beth Lindop</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">MG</div>
-            <div>
-                <div class="font-semibold">Gab Marcotti</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/3</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span> <span class="topic-pill ml-1">Last 16</span> <span class="topic-pill ml-1">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">MJ</div>
-            <div>
-                <div class="font-semibold">Joe Mewis</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/4</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Knockout Stages</span> <span class="topic-pill ml-1">Last 16</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">OC</div>
-            <div>
-                <div class="font-semibold">Connor O'Halloran</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Knockout Stages</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">OM</div>
-            <div>
-                <div class="font-semibold">Mark Ogden</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span> <span class="topic-pill ml-1">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">OJ</div>
-            <div>
-                <div class="font-semibold">James Olley</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span> <span class="topic-pill ml-1">Quarterfinals</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">RM</div>
-            <div>
-                <div class="font-semibold">Micah Richards</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">RW</div>
-            <div>
-                <div class="font-semibold">Wayne Rooney</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SA</div>
-            <div>
-                <div class="font-semibold">Alan Shearer</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Semifinals</span> <span class="topic-pill ml-1">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SW</div>
-            <div>
-                <div class="font-semibold">Wesley Sneijder</div>
-                <div class="text-xs text-slate-500">Dutch football legend</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span> <span class="topic-pill ml-1">Winner</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SM</div>
-            <div>
-                <div class="font-semibold">Michael Statham</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">SC</div>
-            <div>
-                <div class="font-semibold">Chris Sutton</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">15/29</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Group Stage</span> <span class="topic-pill ml-1">Match Result [Australia Vs Turkey]</span> <span class="topic-pill ml-1">Match Result [Brazil Vs Morocco]</span> <span class="topic-pill ml-1">Match Result [Canada Vs Bosnia And Herze</span> <span class="topic-pill ml-1">Match Result [England Vs Croatia]</span> <span class="topic-pill ml-1">Match Result [Germany Vs Curacao]</span> <span class="topic-pill ml-1">Match Result [Ghana Vs Panama]</span> <span class="topic-pill ml-1">Match Result [Haiti Vs Scotland]</span> <span class="topic-pill ml-1">Match Result [Ivory Coast Vs Ecuador]</span> <span class="topic-pill ml-1">Match Result [Mexico Vs South Africa]</span> <span class="topic-pill ml-1">Match Result [Netherlands Vs Japan]</span> <span class="topic-pill ml-1">Match Result [Portugal Vs Dr Congo]</span> <span class="topic-pill ml-1">Match Result [Qatar Vs Switzerland]</span> <span class="topic-pill ml-1">Match Result [South Korea Vs Czechia]</span> <span class="topic-pill ml-1">Match Result [Sweden Vs Tunisia]</span> <span class="topic-pill ml-1">Match Result [Usa Vs Paraguay]</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">VB</div>
-            <div>
-                <div class="font-semibold">Bas van den Hoven</div>
-                <div class="text-xs text-slate-500">Voetbal International</div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span></td>
-</tr>
-<tr>
-    <td class="px-8 py-6">
-        <div class="flex items-center gap-x-4">
-            <div class="w-11 h-11 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl">ÖS</div>
-            <div>
-                <div class="font-semibold">Süleyman Öztürk</div>
-                <div class="text-xs text-slate-500"></div>
-            </div>
-        </div>
-    </td>
-    <td class="px-6 py-6 text-center"><div class="inline-flex items-center gap-x-1.5"><span class="text-3xl font-semibold tabular-nums">0.0</span><span class="text-xs text-emerald-600 font-medium">/100</span></div></td>
-    <td class="px-6 py-6 text-center"><span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span></td>
-    <td class="px-8 py-6"><span class="topic-pill">Netherlands Performance (5 stages)</span> <span class="topic-pill ml-1">Winner</span></td>
-</tr>
-<!-- END-FORECASTERS-TBODY -->
-                </tbody>
-            </table>
-        </div>
-   
-        <div class="text-center mt-6 text-sm text-slate-500">
-            WC2026 accuracy uses the 5 refined topics: FIFA World Cup 2026 - Winner; FIFA World Cup 2026 - Netherlands Performance - Group Stage / Quarterfinals / Semifinals / Final. This distinguishes outright Winner predictions from stage-specific Netherlands Performance predictions. Current scores are placeholders (0.0/100) pending resolutions. Historical baseline shown in metrics row above.
+
+            <p class="mt-6 text-sm text-slate-500">Full details in <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-emerald-600">METHODOLOGY.md</a>. Everything is designed for transparency and repeatability.</p>
         </div>
     </div>
 
@@ -2169,7 +444,7 @@
                     <a href="https://x.com/titta_girolamo" class="hover:text-slate-900">X</a>
                 </div>
                 <div class="text-xs text-slate-400">
-                    Early Public Preview • Data as of 2026-06-10
+                    Early Public Preview • Data as of 2026-07-07
                 </div>
             </div>
         </div>
@@ -2179,7 +454,9 @@
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#0F172A');
         }
+
         let isSubmitting = false;
+
         function showSuccessBanner() {
             const banner = document.getElementById('success-banner');
             if (banner) {
@@ -2190,6 +467,7 @@
                 setTimeout(hideSuccessBanner, 8000);
             }
         }
+
         function hideSuccessBanner() {
             const banner = document.getElementById('success-banner');
             if (banner) {
@@ -2198,20 +476,25 @@
                 document.body.style.paddingTop = '0';
             }
         }
+
         async function handleFormSubmit(form, submitBtn, btnTextElement) {
             if (isSubmitting) return;
             isSubmitting = true;
+
             const honeypot = form.querySelector('input[name="website"]');
             if (honeypot && honeypot.value.trim() !== '') {
                 form.reset();
                 isSubmitting = false;
                 return;
             }
+
             const originalText = btnTextElement.textContent;
             submitBtn.disabled = true;
             form.classList.add('form-submitting');
             btnTextElement.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending...`;
+
             const formData = new FormData(form);
+
             try {
                 const response = await fetch('https://formspree.io/f/xjgznjrr', {
                     method: 'POST',
@@ -2233,59 +516,119 @@
                 isSubmitting = false;
             }
         }
+
         function dismissTemporaryBanner() {
             const banner = document.getElementById('temporary-banner');
             if (banner) banner.style.display = 'none';
         }
 
-        // Toggle function for predictions table
-        let predictionsExpanded = false;
-        function togglePredictions() {
-            const hiddenRows = document.getElementById('hidden-predictions');
-            const btnText = document.getElementById('toggle-text');
-            const icon = document.getElementById('toggle-icon');
+        // Functional search suggestions (self-contained, no external data dependency)
+        function initializeSearch() {
+            const input = document.getElementById('prediction-search');
+            const suggestionsContainer = document.getElementById('search-suggestions');
+            const wrapper = document.getElementById('search-wrapper');
 
-            if (!predictionsExpanded) {
-                hiddenRows.classList.remove('hidden');
-                btnText.textContent = 'Show fewer predictions';
-                icon.classList.remove('fa-chevron-down');
-                icon.classList.add('fa-chevron-up');
-                predictionsExpanded = true;
-            } else {
-                hiddenRows.classList.add('hidden');
-                btnText.textContent = 'Show all 10 predictions';
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-chevron-down');
-                predictionsExpanded = false;
+            if (!input || !suggestionsContainer || !wrapper) return;
+
+            // Static list derived from current page content for demo functionality
+            const forecasters = [
+                "Chris Sutton",
+                "Joachim Klement",
+                "Gab Marcotti"
+            ];
+
+            function showSuggestions(filtered) {
+                suggestionsContainer.innerHTML = '';
+                if (filtered.length === 0) {
+                    const noResult = document.createElement('div');
+                    noResult.className = 'px-5 py-3 text-slate-500 text-sm';
+                    noResult.textContent = 'No direct matches. View all on Predictions page.';
+                    suggestionsContainer.appendChild(noResult);
+                } else {
+                    filtered.forEach(name => {
+                        const item = document.createElement('div');
+                        item.className = 'px-5 py-3 hover:bg-emerald-50 cursor-pointer text-sm flex items-center gap-x-2';
+                        item.innerHTML = `<i class="fa-solid fa-user text-emerald-600 w-4"></i> <span>${name}</span>`;
+                        item.onclick = () => {
+                            suggestionsContainer.classList.add('hidden');
+                            input.value = name;
+                            // Redirect to predictions page with search param for filtering (predictions.html expected to handle ?search=)
+                            window.location.href = `predictions.html?search=${encodeURIComponent(name)}`;
+                        };
+                        suggestionsContainer.appendChild(item);
+                    });
+                }
+                suggestionsContainer.classList.remove('hidden');
             }
+
+            function filterAndShow() {
+                const query = input.value.toLowerCase().trim();
+                if (query.length < 1) {
+                    suggestionsContainer.classList.add('hidden');
+                    return;
+                }
+                const filtered = forecasters.filter(f => f.toLowerCase().includes(query));
+                showSuggestions(filtered);
+            }
+
+            input.addEventListener('input', filterAndShow);
+
+            // Hide on outside click
+            document.addEventListener('click', (e) => {
+                if (!wrapper.contains(e.target)) {
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+
+            // Show all on focus if empty
+            input.addEventListener('focus', () => {
+                if (input.value.trim() === '') {
+                    showSuggestions(forecasters);
+                }
+            });
+
+            // Keyboard support: Enter redirects with current value
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    suggestionsContainer.classList.add('hidden');
+                    const val = input.value.trim();
+                    if (val) {
+                        window.location.href = `predictions.html?search=${encodeURIComponent(val)}`;
+                    } else {
+                        window.location.href = 'predictions.html';
+                    }
+                }
+            });
         }
 
         window.onload = function() {
             initializeTailwind();
+            
+            // Hero form
             const heroForm = document.getElementById('interest-form');
             const heroBtn = document.getElementById('hero-submit-btn');
             const heroBtnText = document.getElementById('hero-btn-text');
-            if (heroForm) {
+            if (heroForm && heroBtn && heroBtnText) {
                 heroForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     handleFormSubmit(heroForm, heroBtn, heroBtnText);
                 });
             }
+
+            // Stay updated form
             const stayForm = document.getElementById('stay-updated-form');
             const stayBtn = document.getElementById('stay-submit-btn');
             const stayBtnText = document.getElementById('stay-btn-text');
-            if (stayForm) {
+            if (stayForm && stayBtn && stayBtnText) {
                 stayForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     handleFormSubmit(stayForm, stayBtn, stayBtnText);
                 });
             }
-            const tableContainer = document.querySelector('.table-container');
-            if (tableContainer) {
-                tableContainer.addEventListener('scroll', () => {
-                    tableContainer.classList.toggle('scrolling', tableContainer.scrollLeft > 10);
-                });
-            }
+
+            // Initialize functional search
+            initializeSearch();
         };
     </script>
 </body>

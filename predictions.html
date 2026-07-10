@@ -5,8 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predictions • Trackrecord.info</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { font-family: 'Inter', system-ui, sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+ 
+        :root {
+            --primary: #0F172A;
+        }
+ 
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+ 
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+        }
         .prediction-text { font-size: 1.02rem; line-height: 1.4; }
         .status-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }
         .status-pill.resolved { background-color: #d1fae5; color: #065f46; }
@@ -18,38 +32,10 @@
         }
     </style>
 </head>
-    <script>
-    // Mobile menu toggle
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', () => {
-            const isHidden = mobileMenu.classList.contains('hidden');
-            mobileMenu.classList.toggle('hidden');
-            mobileBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-            
-            // Optional: icon swap (bars <-> x)
-            const icon = mobileBtn.querySelector('i');
-            if (icon) {
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-xmark');
-            }
-        });
-    }
-    
-        // Optional: Close on outside click or ESC (enhanced UX)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-                mobileBtn.setAttribute('aria-expanded', 'false');
-            }
-        });
-    </script>
 <body class="bg-slate-50 text-slate-900">
 
     <!-- Navigation - Consistent & Mobile-First -->
-    <nav id="main-nav" class="border-b border-slate-200 bg-white sticky top-0 z-50">
+    <nav id="main-nav" class="bg-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-between h-16 md:h-20">
                 
@@ -119,10 +105,10 @@
         <h1 class="text-3xl font-semibold tracking-tight mb-2">All Predictions Tracked</h1>
         <p class="text-slate-600 mb-6">Unfiltered view • Data from predictions.jsonl • Generated on 2026-07-07</p>
 
-        <div class="bg-white border border-slate-200 rounded-3xl overflow-x-auto shadow-sm">
-            <table class="w-full min-w-[1100px] lg:min-w-0">
+        <div class="bg-white rounded-3xl overflow-hidden shadow-sm">
+            <table class="w-full">
                 <thead class="hidden lg:table-header-group">
-                    <tr class="border-b border-slate-100 bg-slate-50/50">
+                    <tr class="bg-slate-50/50">
                         <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Forecaster</th>
                         <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Prediction</th>
                         <th class="text-center py-4 px-6 text-sm font-semibold text-slate-600">Days</th>
@@ -130,7 +116,7 @@
                         <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Topic</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 text-sm">
+                <tbody class="text-sm">
                     <tr class="prediction-row mobile-table-row">
     <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
     <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction">“Mexico will beat South Africa 1-0 in their opening World Cup 2026 Group A match”</td>
@@ -632,5 +618,43 @@
             </table>
         </div>
     </main>
+    <script>
+        function initializeMobileMenu() {
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+           
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    const isHidden = mobileMenu.classList.contains('hidden');
+                    mobileMenu.classList.toggle('hidden');
+                    mobileBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+                    
+                    const icon = mobileBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-xmark');
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                const currentMenu = document.getElementById('mobile-menu');
+                const currentBtn = document.getElementById('mobile-menu-btn');
+                if (e.key === 'Escape' && currentMenu && !currentMenu.classList.contains('hidden')) {
+                    currentMenu.classList.add('hidden');
+                    if (currentBtn) currentBtn.setAttribute('aria-expanded', 'false');
+                    const icon = currentBtn ? currentBtn.querySelector('i') : null;
+                    if (icon) {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+            });
+        }
+
+        window.onload = function() {
+            initializeMobileMenu();
+        };
+    </script>
 </body>
 </html>

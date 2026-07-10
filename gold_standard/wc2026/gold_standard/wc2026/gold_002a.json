@@ -1,0 +1,26 @@
+{
+  "original_statement": "\"Across its 10,000 tournament simulations, England made it through to the knockout stage 96.0% of the time [from Group L containing Croatia, Ghana and Panama in the 2026 FIFA World Cup].\"",
+  "predictor": {
+    "type": "model",
+    "name": "Opta supercomputer",
+    "lastname": null,
+    "firstname": null
+  },
+  "author": {
+    "lastname": "Beasley",
+    "firstname": "Andrew"
+  },
+  "statement_id": "gold_002a",
+  "statement_topic": "FIFA World Cup 2026 - Group stage qualification",
+  "statement_publication_date": "2026-06-01",
+  "statement_original_url": "https://theanalyst.com/articles/england-route-to-world-cup-final-2026",
+  "statement_probability": 0.96,
+  "statement_context": "Excerpt from a comprehensive tournament simulation analysis published by The Analyst. Journalist Andrew Beasley reports the output of the Opta supercomputer (10,000 simulations) published on 1 June 2026.",
+  "resolution_date": "2026-06-26",
+  "resolution_criteria": "England reaches the knockout stage from Group L in the 2026 FIFA World Cup, as determined by finishing in the top two according to the official FIFA group stage standings published after all group matches conclude on or before 2026-06-26.",
+  "outcome": true,
+  "outcome_proof": "The Opta supercomputer (predictor) gave England a 96.0% chance of reaching the knockout stage from Group L. Journalist Andrew Beasley (author) published this in The Analyst on 1 June 2026. England finished 1st in Group L with 7 points after the group stage ended on 27 June 2026 and therefore qualified according to the final official FIFA group stage standings.",
+  "outcome_verification_url": "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_L",
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "Across its 10,000 tournament simulations, England made it through to the knockout stage 96.0% of the time and won Group L in 67.9% of the sims."
+}

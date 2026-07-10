@@ -14,6 +14,25 @@ class Author(BaseModel):
     lastname: str = Field(..., description="Last name or '[anonymous]'")
     firstname: str = Field(..., description="First name or empty string if anonymous")
 
+class Predictor(BaseModel):
+    type: Literal["person", "model"] = Field(
+        ...,
+        description="Type of predictor: 'person' (individual) or 'model' (computer model/system)"
+    )
+    name: str = Field(
+        ...,
+        min_length=2,
+        description="Full name of the person or name of the model (e.g. 'Ronald Koeman' or 'Opta supercomputer')"
+    )
+    lastname: Optional[str] = Field(
+        None,
+        description="Last name (only used when type is 'person')"
+    )
+    firstname: Optional[str] = Field(
+        None,
+        description="First name (only used when type is 'person')"
+    )
+
 class PredictionRecord(BaseModel):
     # 1. Original statement with clarifications
     original_statement: str = Field(
@@ -22,8 +41,17 @@ class PredictionRecord(BaseModel):
         description="Verbatim quote or closest accurate paraphrase, self-contained, with [clarifications] appended for pronouns/names/temporals."
     )
 
-    # 2. Author identification
-    author: Author = Field(..., description="Author in required format")
+    # Primary attribution: who made the prediction
+    predictor: Predictor = Field(
+        ...,
+        description="The originator of the prediction (person or model)"
+    )
+
+    # Reporter / Publisher (optional)
+    author: Optional[Author] = Field(
+        None,
+        description="The person or outlet that reported/published the prediction (optional)"
+    )
 
     # 3. Unique statement_id (generated to be unique per execution even for identical content)
     statement_id: str = Field(
@@ -91,7 +119,7 @@ class PredictionRecord(BaseModel):
     )
     outcome_verification_url: Optional[str] = Field(
         None,
-        description="URL to independent source for fact-checking the outcome (always required when outcome is set)"
+        description="URL to independent source for fact-checking the outcome. Prefer primary or official sources as much as possible, especially when they are explicitly mentioned in the resolution_criteria field."
     )
 
     # Internal audit fields (recommended, not in original spec but necessary for rigor)
@@ -130,6 +158,7 @@ class PredictionRecord(BaseModel):
 def create_example_record() -> PredictionRecord:
     return PredictionRecord(
         original_statement='\"France will win the 2026 FIFA World Cup [the tournament hosted in USA/Canada/Mexico].\"',
+        predictor={"type": "person", "name": "John Smith", "lastname": "Smith", "firstname": "John"},
         author=Author(lastname="Smith", firstname="John"),
         statement_topic="FIFA World Cup 2026 - Winner",
         statement_publication_date="2025-03-15",

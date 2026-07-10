@@ -1,0 +1,26 @@
+{
+  "original_statement": "\"Spain is our top-rated team — though only barely over Argentina — with roster adjustments that move them slightly back toward the rest of the pack [in the PELE model for the 2026 FIFA World Cup].\"",
+  "predictor": {
+    "type": "model",
+    "name": "PELE model",
+    "lastname": null,
+    "firstname": null
+  },
+  "author": {
+    "lastname": "Silver",
+    "firstname": "Nate"
+  },
+  "statement_id": "gold_004b",
+  "statement_topic": "FIFA World Cup 2026 - Pre-tournament team ratings",
+  "statement_publication_date": "2026-06-03",
+  "statement_original_url": "https://www.natesilver.net/p/world-cup-2026-odds-predictions",
+  "statement_probability": 0.49,
+  "statement_context": "Excerpt from a comprehensive 100,000-simulation tournament forecast published by Silver Bulletin. Nate Silver reports the output of the PELE model (developed with Joseph George) published on or around 3 June 2026.",
+  "resolution_date": "2026-07-20",
+  "resolution_criteria": "Argentina wins the 2026 FIFA World Cup.",
+  "outcome": null,
+  "outcome_proof": null,
+  "outcome_verification_url": null,
+  "extraction_timestamp": "2026-06-04",
+  "source_text_snippet": "Spain is our top-rated team — though only barely over Argentina — with roster adjustments that move them slightly back toward the rest of the pack."
+}

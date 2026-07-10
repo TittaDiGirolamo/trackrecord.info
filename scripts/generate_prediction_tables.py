@@ -1,17 +1,54 @@
 #!/usr/bin/env python3
 """
 Trackrecord Table Generator
-Final clean version - Generates both index.html and predictions.html
+Final clean version - Generates predictions.html with forecaster scores
 """
 
+from collections import defaultdict
+import json
 import argparse
 from datetime import date
 from pathlib import Path
 import sys
-from collections import defaultdict
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "schema"))
 from prediction_schema import PredictionRecord
+
+
+def calculate_forecaster_scores(jsonl_path="predictions_v2.jsonl"):
+    """Calculate overall and topic scores from scored JSONL."""
+    forecasters = defaultdict(lambda: {"overall_scores": [], "topics": defaultdict(list)})
+    
+    with open(jsonl_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            if not line.strip(): continue
+            try:
+                data = json.loads(line)
+            except:
+                continue
+            
+            author = data.get("author", {})
+            name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip() or "Unknown"
+            topic = data.get("statement_topic", "General")
+            
+            if data.get("outcome") is not None:  # resolved
+                weighted = data.get("partial_accuracy", {}).get("weighted_score", 0) * 100
+                forecasters[name]["overall_scores"].append(weighted)
+                forecasters[name]["topics"][topic].append(weighted)
+    
+    # Compute averages
+    result = {}
+    for name, data in forecasters.items():
+        overall = sum(data["overall_scores"]) / len(data["overall_scores"]) if data["overall_scores"] else 0
+        result[name] = {
+            "overall": round(overall, 1),
+            "resolved_count": len(data["overall_scores"]),
+            "topics": {}
+        }
+        for t, scores in data["topics"].items():
+            if len(scores) >= 5:  # min threshold
+                result[name]["topics"][t] = round(sum(scores) / len(scores), 1)
+    return result
 
 
 def load_records(path: Path):
@@ -31,7 +68,6 @@ def render_predictions_table(records, build_date):
     if not records:
         return '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No predictions currently tracked.</td></tr>'
 
-    # Sort by resolution date
     sorted_records = sorted(records, key=lambda r: (r.resolution_date or "9999-99-99", r.statement_publication_date or "1900-01-01"))
     rows = []
 
@@ -41,7 +77,6 @@ def render_predictions_table(records, build_date):
         if len(quote) > 80:
             quote = quote[:80] + "..."
 
-        # Calculate days remaining
         days_text = "–"
         if r.resolution_date:
             try:
@@ -50,15 +85,13 @@ def render_predictions_table(records, build_date):
             except:
                 pass
 
-        # Status
         if getattr(r, 'outcome', None) is not None:
             score = int(r.outcome * 100)
             status = f'<span class="status-pill resolved">Resolved ({score})</span>'
         else:
             status = '<span class="status-pill">Pending – Resolution-ready</span>'
 
-        # Topic
-        topic = r.statement_topic[:35] if r.statement_topic else "General"
+        topic = (r.statement_topic or "General")[:35]
         topic_html = f'<span class="topic-pill">{topic}</span>'
 
         row = f'''<tr class="prediction-row mobile-table-row">
@@ -73,7 +106,7 @@ def render_predictions_table(records, build_date):
     return "\n".join(rows)
 
 
-def write_predictions_html(path: Path, rows: str, build_date: date):
+def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_scores):
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,6 +148,14 @@ def write_predictions_html(path: Path, rows: str, build_date: date):
         <h1 class="text-3xl font-semibold tracking-tight mb-2">All Predictions Tracked</h1>
         <p class="text-slate-600 mb-6">Unfiltered view • Data from predictions.jsonl • Generated on {build_date}</p>
 
+        <!-- NEW: Forecaster Summary -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Forecaster Accuracy Summary</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {forecaster_cards}
+            </div>
+        </div>
+
         <div class="bg-white border border-slate-200 rounded-3xl overflow-x-auto shadow-sm">
             <table class="w-full min-w-[1100px] lg:min-w-0">
                 <thead class="hidden lg:table-header-group">
@@ -135,9 +176,18 @@ def write_predictions_html(path: Path, rows: str, build_date: date):
 </body>
 </html>"""
 
-    # Replace placeholders manually (avoid f-string issues)
+    # Build forecaster cards
+    cards = ""
+    for name, data in forecaster_scores.items():
+        cards += f'''<div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <div class="font-semibold">{name}</div>
+            <div class="text-3xl font-bold text-emerald-600 mt-1">{data["overall"]}</div>
+            <div class="text-sm text-slate-500">Overall • {data["resolved_count"]} resolved</div>
+        </div>'''
+
     html = html.replace("{build_date}", str(build_date))
     html = html.replace("{rows}", rows)
+    html = html.replace("{forecaster_cards}", cards)
 
     path.write_text(html, encoding="utf-8")
     print(f"Action: updated {path}")
@@ -156,8 +206,12 @@ def main():
     records = load_records(args.predictions_jsonl)
     print(f"Predictions table: {len(records)} rows will be generated")
 
+    # Calculate scores
+    forecaster_scores = calculate_forecaster_scores("predictions_v2.jsonl")
+    print("Calculated forecaster scores:", {k: v["overall"] for k, v in forecaster_scores.items()})
+
     pred_rows = render_predictions_table(records, build_date)
-    write_predictions_html(args.predictions_html, pred_rows, build_date)
+    write_predictions_html(args.predictions_html, pred_rows, build_date, forecaster_scores)
 
     print("Done.")
 

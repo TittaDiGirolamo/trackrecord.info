@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-  
+ 
         :root {
             --primary: #0F172A;
         }
-  
+ 
         body {
             font-family: 'Inter', system_ui, sans-serif;
         }
-  
+ 
         .font-display {
             font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
             font-weight: 600;
@@ -34,34 +34,6 @@
         }
     </style>
 </head>
-<script>
-    // Mobile menu toggle
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', () => {
-            const isHidden = mobileMenu.classList.contains('hidden');
-            mobileMenu.classList.toggle('hidden');
-            mobileBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-            
-            // Optional: icon swap (bars <-> x)
-            const icon = mobileBtn.querySelector('i');
-            if (icon) {
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-xmark');
-            }
-        });
-    }
-
-    // Optional: Close on outside click or ESC (enhanced UX)
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
-            mobileMenu.classList.add('hidden');
-            mobileBtn.setAttribute('aria-expanded', 'false');
-        }
-    });
-</script>
 <body class="bg-slate-50 text-slate-900">
     <!-- Temporary Focus Banner (top of page, above nav) -->
     <div id="temporary-banner"
@@ -93,7 +65,7 @@
                 <div class="text-emerald-600 text-2xl">✓</div>
                 <div>
                     <span class="font-semibold text-emerald-800">Thank you!</span>
-                    <span class="text-emerald-700"> You're now on the list. We'll keep your updated.</span>
+                    <span class="text-emerald-700"> You're now on the list. We'll keep you updated.</span>
                 </div>
             </div>
             <button onclick="hideSuccessBanner()"
@@ -105,7 +77,7 @@
     <nav id="main-nav" class="border-b border-slate-200 bg-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-between h-16 md:h-20">
-                
+               
                 <!-- Logo -->
                 <div class="flex items-center gap-x-2.5">
                     <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -113,28 +85,28 @@
                     </div>
                     <a href="index.html" class="font-display text-lg font-semibold tracking-tight">Trackrecord.info</a>
                 </div>
-    
+   
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-x-8 text-sm">
                     <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Home</a>
                     <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
                     <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" 
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
                        class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
                 </div>
-    
+   
                 <!-- Right side actions -->
                 <div class="flex items-center gap-x-3">
-                    <a href="https://x.com/titta_girolamo" 
+                    <a href="https://x.com/titta_girolamo"
                        class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
                         <i class="fa-brands fa-x-twitter"></i>
                         <span>Follow</span>
                     </a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/resolution_report_v0.6.md" 
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/resolution_report_v0.6.md"
                        class="hidden md:block px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-2xl transition-all active:scale-[0.985]">
                         Latest Report
                     </a>
-    
+   
                     <!-- Mobile Hamburger -->
                     <button id="mobile-menu-btn"
                             class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none"
@@ -144,21 +116,21 @@
                     </button>
                 </div>
             </div>
-    
+   
             <!-- Mobile Menu (Collapsible) -->
             <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 py-4">
                 <div class="flex flex-col gap-y-4 text-sm">
                     <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Home</a>
                     <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
                     <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Forecasters</a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" 
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
                        class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
-                    
+                   
                     <div class="pt-4 border-t border-slate-100 flex flex-col gap-y-3">
                         <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
                             <i class="fa-brands fa-x-twitter"></i> Follow on X
                         </a>
-                        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/resolution_report_v0.6.md" 
+                        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/resolution_report_v0.6.md"
                            class="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-2xl text-center">
                             View Latest Report
                         </a>
@@ -180,17 +152,9 @@
             <p class="max-w-lg text-xl text-slate-600 leading-relaxed mb-4">
                 Trackrecord.info aims to systematically compare public predictions against actual outcomes and publish transparent accuracy metrics that reveal who truly gets it right over time.
             </p>
-            <div class="max-w-md">
-                <form id="interest-form" class="space-y-4">
-                    <div class="honeypot">
-                        <label for="website">Website</label>
-                        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
-    <!-- Metrics Row -->
+    <!-- Metrics Row (left hidden per original state - WIP placeholder) -->
     <div hidden class="bg-white border-y border-slate-200">
         <div class="max-w-7xl mx-auto px-6 py-12">
             <div class="grid md:grid-cols-3 gap-8">
@@ -222,7 +186,7 @@
             </div>
         </div>
     </div>
-    <!-- What is Trackrecord.info -->
+    <!-- What is Trackrecord.info (left hidden per original state) -->
     <div hidden class="max-w-5xl mx-auto px-6 py-20">
         <div class="max-w-2xl">
             <div class="text-sm font-medium text-emerald-600 mb-4">Our mission</div>
@@ -231,7 +195,8 @@
         </div>
     </div>
     <!-- Example Track Records Section -->
-    <div class="max-w-7xl mx-auto px-6 py-16">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        <!-- Header hidden per request -->
         <div class="text-center mb-10 hidden">
             <div class="text-sm font-medium text-emerald-600 mb-2">Transparency in action</div>
             <h3 class="text-3xl font-semibold tracking-tight">Track Records</h3>
@@ -380,7 +345,7 @@
         <div class="max-w-3xl">
             <div class="text-sm font-medium text-emerald-600 mb-4">How it works</div>
             <h2 class="text-3xl font-semibold tracking-tight mb-6">A transparent, human-reviewed process</h2>
-           
+          
             <div class="grid gap-4">
                 <!-- Step 1 -->
                 <div class="bg-white rounded-3xl p-6">
@@ -478,7 +443,7 @@
                     <a href="https://x.com/titta_girolamo" class="hover:text-slate-900">X</a>
                 </div>
                 <div class="text-xs text-slate-400">
-                    Early Public Preview • Data as of 2026-07-07
+                    Early Public Preview • Data as of 2026-07-10
                 </div>
             </div>
         </div>
@@ -487,6 +452,42 @@
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#0F172A');
         }
+
+        function initializeMobileMenu() {
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+           
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    const isHidden = mobileMenu.classList.contains('hidden');
+                    mobileMenu.classList.toggle('hidden');
+                    mobileBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+                   
+                    // Optional: icon swap (bars <-> x)
+                    const icon = mobileBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-xmark');
+                    }
+                });
+            }
+
+            // Safe ESC handler (re-queries elements to avoid null issues)
+            document.addEventListener('keydown', (e) => {
+                const currentMenu = document.getElementById('mobile-menu');
+                const currentBtn = document.getElementById('mobile-menu-btn');
+                if (e.key === 'Escape' && currentMenu && !currentMenu.classList.contains('hidden')) {
+                    currentMenu.classList.add('hidden');
+                    if (currentBtn) currentBtn.setAttribute('aria-expanded', 'false');
+                    const icon = currentBtn ? currentBtn.querySelector('i') : null;
+                    if (icon) {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+            });
+        }
+
         let isSubmitting = false;
         function showSuccessBanner() {
             const banner = document.getElementById('success-banner');
@@ -618,18 +619,9 @@
         }
         window.onload = function() {
             initializeTailwind();
-           
-            // Hero form
-            const heroForm = document.getElementById('interest-form');
-            const heroBtn = document.getElementById('hero-submit-btn');
-            const heroBtnText = document.getElementById('hero-btn-text');
-            if (heroForm && heroBtn && heroBtnText) {
-                heroForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    handleFormSubmit(heroForm, heroBtn, heroBtnText);
-                });
-            }
-            // Stay updated form
+            initializeMobileMenu();
+          
+            // Stay updated form (hero interest form removed as incomplete remnant)
             const stayForm = document.getElementById('stay-updated-form');
             const stayBtn = document.getElementById('stay-submit-btn');
             const stayBtnText = document.getElementById('stay-btn-text');

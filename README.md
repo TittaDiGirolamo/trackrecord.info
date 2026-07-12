@@ -29,6 +29,28 @@ Most public predictions disappear without accountability. Trackrecord.info creat
 - Transparency
 - No retroactive adjustment
 
+## Long-term Vision
+
+Trackrecord.info aims to develop rigorous, transparent, and reproducible methods for evaluating public predictions and statements. Over time, we intend to build the technical and methodological infrastructure that could serve as a reference standard for measuring forecasting accuracy and accountability.
+
+Our core technical commitments include:
+- Primary use of **proper scoring rules** (especially Brier Score) for probabilistic predictions
+- Clear, falsifiable resolution criteria for every claim
+- Topic-specific performance analysis while respecting statistical limitations
+- Full auditability and reproducibility of resolutions and scores
+- Explicit handling of different prediction types (binary, probabilistic, ranked, compound, etc.)
+- Statistical guardrails to prevent over-interpretation of limited data
+
+The evaluation methodology is versioned. Significant changes to scoring rules, prediction type handling, or statistical standards will be documented and versioned in `METHODOLOGY.md` to ensure reproducibility and transparency over time.
+
+We prioritize long-term credibility, methodological soundness, and usefulness to serious researchers and decision-makers over short-term metrics or volume of predictions.
+
+## Current Scope and Limitations
+
+The project is currently focused on high-visibility public predictions, with an initial emphasis on the 2026 FIFA World Cup. While we track both probabilistic and binary claims, many early records are binary or compound in nature.
+
+Aggregate scores should be interpreted cautiously, especially with small sample sizes. We are actively developing stronger statistical tooling and clearer evaluation standards. For the most accurate picture, users should review individual resolved predictions and their rationales rather than relying only on overall numbers.
+
 ---
 
 ## Design Principles

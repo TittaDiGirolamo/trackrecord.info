@@ -5,7 +5,13 @@
 # Trackrecord.info — Changelog
 All notable changes to Trackrecord.info are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and adheres to [Semantic Versioning](https://semver.org/).
-
+---
+## [Unreleased] — 2026-07-10
+### Changed
+- Refined hero section spacing (tighter margin after introductory paragraph) and removed specified gray borders/lines across pill, search bar, Suggest section, and How it works steps for cleaner, calmer UI.
+- Consistent visual treatment for form inputs in Stay Updated section.
+- Search icon vertically centered.
+- Follows trackrecord-design-principles (clarity, simplicity, mobile-first). No functional or content changes.
 ---
 ## [0.6.0] — 2026-06-01
 ### Added

@@ -3,7 +3,7 @@ name: Auto Regenerate Tables
 on:
   push:
     paths:
-      - 'predictions.jsonl'
+      - 'predictions_v2.jsonl'
   workflow_dispatch:
 
 jobs:
@@ -27,6 +27,9 @@ jobs:
       - name: Run table generator
         run: python scripts/generate_prediction_tables.py --build-date $(date +%Y-%m-%d)
 
+      - name: Generate homepage scorecards
+        run: python scripts/generate_homepage_scorecards.py --build-date $(date +%Y-%m-%d) --index-html index.html
+      
       - name: Commit and push updated index.html
         run: |
           git config user.name "github-actions[bot]"

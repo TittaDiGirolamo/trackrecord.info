@@ -6,10 +6,9 @@
     <meta name="description" content="Trackrecord.info • Unfiltered forecaster accuracy tracking for WC2026. All forecasters and current resolution status.">
     <title>Forecasters • Trackrecord.info</title>
 
-    <!-- Google Fonts for Inter + Space Grotesk (improvement: actual web fonts instead of unloaded declarations) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -36,32 +35,78 @@
         .table-container {
             overflow-x: auto;
         }
-        /* Subtle improvement: better focus styles for search */
         #forecaster-search:focus {
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
-    <nav class="border-b border-slate-200 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-20">
-                <div class="flex items-center gap-x-2.5">
-                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center">
-                        <span class="text-white text-xl font-bold tracking-tighter">T</span>
-                    </div>
-                    <a href="index.html" class="font-display text-lg font-semibold tracking-tight">Trackrecord.info</a>
+<!-- Navigation - Consistent & Mobile-First -->
+<nav id="main-nav" class="bg-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-between h-16 md:h-20">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-x-2.5">
+                <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-xl font-bold tracking-tighter">T</span>
                 </div>
-                <div class="hidden md:flex items-center gap-x-8 text-sm">
-                    <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900">Home</a>
-                    <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900">Predictions</a>
-                    <a href="forecasters.html" class="font-medium text-emerald-600">Forecasters</a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" 
-                       class="font-medium text-slate-600 hover:text-slate-900">Methodology</a>
+                <a href="index.html" class="font-display text-lg font-semibold tracking-tight">Trackrecord.info</a>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-x-8 text-sm">
+                <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Home</a>
+                <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
+                <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
+                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" 
+                   class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
+            </div>
+
+            <!-- Right side actions -->
+            <div class="flex items-center gap-x-3">
+                <a href="https://x.com/titta_girolamo" 
+                   class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
+                    <i class="fa-brands fa-x-twitter"></i>
+                    <span>Follow</span>
+                </a>
+                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/resolution_report_v0.6.md" 
+                   class="hidden md:block px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-2xl transition-all active:scale-[0.985]">
+                    Latest Report
+                </a>
+
+                <!-- Mobile Hamburger -->
+                <button id="mobile-menu-btn"
+                        class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none"
+                        aria-label="Toggle menu"
+                        aria-expanded="false">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Collapsible) -->
+        <div id="mobile-menu" class="hidden md:hidden py-4">
+            <div class="flex flex-col gap-y-4 text-sm">
+                <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Home</a>
+                <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
+                <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Forecasters</a>
+                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" 
+                   class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
+                
+                <div class="pt-4 flex flex-col gap-y-3">
+                    <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
+                        <i class="fa-brands fa-x-twitter"></i> Follow on X
+                    </a>
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/resolution_report_v0.6.md" 
+                       class="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-2xl text-center">
+                        View Latest Report
+                    </a>
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
         <div class="text-center mb-8">
@@ -72,7 +117,7 @@
             </p>
         </div>
 
-        <!-- Search / Filter (improvement: implements the client-side filtering that was only commented in the original) -->
+        <!-- Search / Filter -->
         <div class="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div class="text-sm text-slate-500">
                 <span id="visible-count">20</span> forecasters shown
@@ -89,18 +134,18 @@
         </div>
 
         <!-- Clean, valid single table structure -->
-        <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+        <div class="bg-white rounded-3xl overflow-hidden shadow-sm">
             <div class="table-container">
-                <table id="forecasters-table" class="w-full min-w-[720px]">
+                <table id="forecasters-table" class="w-full">
                     <thead>
-                        <tr class="border-b border-slate-100 bg-slate-50">
+                        <tr class="bg-slate-50">
                             <th scope="col" class="text-left py-4 px-8 text-sm font-medium text-slate-500">Forecaster</th>
                             <th scope="col" class="text-center py-4 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
                             <th scope="col" class="text-center py-4 px-6 text-sm font-medium text-slate-500">Resolved</th>
                             <th scope="col" class="text-left py-4 px-8 text-sm font-medium text-slate-500">WC2026 Topics</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 text-sm">
+                    <tbody class="text-sm">
                         <!-- BEGIN-FORECASTERS-TBODY (now properly structured) -->
 
                         <!-- Lizzy Becherano -->
@@ -775,7 +820,7 @@
         </div>
     </footer>
 
-    <!-- Minimal vanilla JS for client-side filtering (fulfills the original "client-side" intent) -->
+    <!-- Minimal vanilla JS for client-side filtering -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('forecaster-search');
@@ -810,18 +855,53 @@
                 updateVisibleCount();
             });
 
-            // Initial count
-            updateVisibleCount();
-
-            // Bonus: support ?search= query param on load (progressive enhancement)
             const urlParams = new URLSearchParams(window.location.search);
             const initialSearch = urlParams.get('search');
             if (initialSearch) {
                 searchInput.value = initialSearch;
-                // Trigger the filter
                 searchInput.dispatchEvent(new Event('input'));
             }
+
+            updateVisibleCount();
         });
+    </script>
+    <script>
+        function initializeMobileMenu() {
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+           
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    const isHidden = mobileMenu.classList.contains('hidden');
+                    mobileMenu.classList.toggle('hidden');
+                    mobileBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+                    
+                    const icon = mobileBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-xmark');
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                const currentMenu = document.getElementById('mobile-menu');
+                const currentBtn = document.getElementById('mobile-menu-btn');
+                if (e.key === 'Escape' && currentMenu && !currentMenu.classList.contains('hidden')) {
+                    currentMenu.classList.add('hidden');
+                    if (currentBtn) currentBtn.setAttribute('aria-expanded', 'false');
+                    const icon = currentBtn ? currentBtn.querySelector('i') : null;
+                    if (icon) {
+                        icon.classList.remove('fa-xmark');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+            });
+        }
+
+        window.onload = function() {
+            initializeMobileMenu();
+        };
     </script>
 </body>
 </html>

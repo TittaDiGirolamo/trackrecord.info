@@ -10,22 +10,38 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 import uuid
 from hashlib import sha256
 
+
 class Author(BaseModel):
+    """Structured author name (optional)."""
     lastname: str = Field(..., description="Last name or '[anonymous]'")
     firstname: str = Field(..., description="First name or empty string if anonymous")
 
+
 class PredictionRecord(BaseModel):
+    """Main model for a prediction record."""
+
     # 1. Original statement with clarifications
     original_statement: str = Field(
-        ..., 
+        ...,
         min_length=20,
         description="Verbatim quote or closest accurate paraphrase, self-contained, with [clarifications] appended for pronouns/names/temporals."
     )
 
-    # 2. Author identification
-    author: Author = Field(..., description="Author in required format")
+    # Preferred identifier (string)
+    # - For people: use "Lastname, Firstname" format
+    # - For models, organizations or anonymous: use a simple name
+    forecaster: Optional[str] = Field(
+        None,
+        description="Forecaster name. Use 'Lastname, Firstname' for people, or simple name otherwise."
+    )
 
-    # 3. Unique statement_id (generated to be unique per execution even for identical content)
+    # Structured author (kept optional for backward compatibility)
+    author: Optional[Author] = Field(
+        None,
+        description="Structured author object (optional if forecaster is used)"
+    )
+
+    # 3. Unique statement_id
     statement_id: str = Field(
         default_factory=lambda: str(uuid.uuid4()),
         description="UUID or composite unique ID including run context"
@@ -58,7 +74,7 @@ class PredictionRecord(BaseModel):
         description="Calibrated probability the statement resolves true, based on text + general knowledge only"
     )
 
-    # 9. statement_context (situational only, no content summary)
+    # 9. statement_context
     statement_context: str = Field(
         ...,
         min_length=10,
@@ -94,7 +110,7 @@ class PredictionRecord(BaseModel):
         description="URL to independent source for fact-checking the outcome (always required when outcome is set)"
     )
 
-    # Internal audit fields (recommended, not in original spec but necessary for rigor)
+    # Internal audit fields
     extraction_timestamp: str = Field(
         default_factory=lambda: date.today().isoformat(),
         description="When this record was created (YYYY-MM-DD)"
@@ -107,7 +123,6 @@ class PredictionRecord(BaseModel):
     @field_validator('original_statement')
     @classmethod
     def validate_clarifications(cls, v: str) -> str:
-        # Encourage but do not strictly enforce [ ] usage here; LLM prompt handles it
         if '[' in v and ']' not in v:
             raise ValueError("Clarification brackets appear unbalanced")
         return v
@@ -121,21 +136,29 @@ class PredictionRecord(BaseModel):
                 raise ValueError("statement_probability must be 0.00 when resolution_criteria cannot be formulated")
         return self
 
+    @model_validator(mode='after')
+    def validate_forecaster_or_author(self) -> 'PredictionRecord':
+        if not self.forecaster and not self.author:
+            raise ValueError("At least one of 'forecaster' or 'author' must be provided")
+        return self
+
     def generate_deterministic_id(self, run_id: str = "default") -> str:
-        """Generate a reproducible ID even for identical content (includes run context)."""
+        """Generate a reproducible ID even for identical content."""
         base = f"{self.original_statement[:100]}|{self.statement_original_url}|{run_id}"
         return sha256(base.encode()).hexdigest()[:16] + "-" + str(uuid.uuid4())[:8]
+
 
 # Example instantiation helper (for testing)
 def create_example_record() -> PredictionRecord:
     return PredictionRecord(
-        original_statement='\"France will win the 2026 FIFA World Cup [the tournament hosted in USA/Canada/Mexico].\"',
-        author=Author(lastname="Smith", firstname="John"),
+        original_statement='"France will win the 2026 FIFA World Cup [the tournament hosted in USA/Canada/Mexico]."',
+        forecaster="Smith, John",                    # Preferred field
+        # author=Author(lastname="Smith", firstname="John"),  # Optional
         statement_topic="FIFA World Cup 2026 - Winner",
         statement_publication_date="2025-03-15",
         statement_original_url="https://example.com/prediction-article",
         statement_probability=0.28,
-        statement_context="Excerpt from opinion column in major sports outlet. Author is established football journalist.",
+        statement_context="Excerpt from opinion column in major sports outlet.",
         resolution_date="2026-07-19",
         resolution_criteria="The France national team is declared the winner of the 2026 FIFA World Cup by the official FIFA final match result on or before 2026-07-19.",
         outcome=None,

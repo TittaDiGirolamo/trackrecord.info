@@ -3,7 +3,7 @@ name: Auto Regenerate Tables
 on:
   push:
     paths:
-      - 'predictions.jsonl'
+      - 'predictions_v2.jsonl'
   workflow_dispatch:
 
 jobs:

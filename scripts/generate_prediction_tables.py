@@ -15,31 +15,39 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "schema"))
 from prediction_schema import PredictionRecord
 
 
-def calculate_forecaster_scores(jsonl_path="predictions_v2.jsonl"):
+def calculate_forecaster_scores(jsonl_path: str = "predictions_v2.jsonl"):
     """Calculate overall and topic scores from scored JSONL."""
     forecasters = defaultdict(lambda: {"overall_scores": [], "topics": defaultdict(list)})
-    
+    processed = 0
+    skipped = 0
+
     with open(jsonl_path, 'r', encoding='utf-8') as f:
         for line in f:
-            if not line.strip(): continue
+            if not line.strip():
+                continue
             try:
                 data = json.loads(line)
-            except:
+                processed += 1
+            except Exception:
+                skipped += 1
                 continue
-            
+
             author = data.get("author", {})
             name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip() or "Unknown"
             topic = data.get("statement_topic", "General")
-            
+
             if data.get("outcome") is not None:  # resolved
                 weighted = data.get("partial_accuracy", {}).get("weighted_score", 0) * 100
                 forecasters[name]["overall_scores"].append(weighted)
                 forecasters[name]["topics"][topic].append(weighted)
-    
+
     # Compute averages
     result = {}
     for name, data in forecasters.items():
-        overall = sum(data["overall_scores"]) / len(data["overall_scores"]) if data["overall_scores"] else 0
+        overall = (
+            sum(data["overall_scores"]) / len(data["overall_scores"])
+            if data["overall_scores"] else 0
+        )
         result[name] = {
             "overall": round(overall, 1),
             "resolved_count": len(data["overall_scores"]),
@@ -48,19 +56,26 @@ def calculate_forecaster_scores(jsonl_path="predictions_v2.jsonl"):
         for t, scores in data["topics"].items():
             if len(scores) >= 5:  # min threshold
                 result[name]["topics"][t] = round(sum(scores) / len(scores), 1)
+
+    print(f"  Scoring: processed {processed} records, skipped {skipped} from {jsonl_path}")
     return result
 
 
 def load_records(path: Path):
     records = []
+    skipped = 0
     with open(path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if line:
-                try:
-                    records.append(PredictionRecord.model_validate_json(line))
-                except:
-                    pass
+            if not line:
+                continue
+            try:
+                records.append(PredictionRecord.model_validate_json(line))
+            except Exception as e:
+                skipped += 1
+                if skipped <= 5:  # Only show first 5 errors to avoid spam
+                    print(f"[WARNING] Skipped invalid record: {str(e)[:100]}")
+    print(f"  Loaded {len(records)} valid records, skipped {skipped} invalid records from {path}")
     return records
 
 
@@ -68,7 +83,10 @@ def render_predictions_table(records, build_date):
     if not records:
         return '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No predictions currently tracked.</td></tr>'
 
-    sorted_records = sorted(records, key=lambda r: (r.resolution_date or "9999-99-99", r.statement_publication_date or "1900-01-01"))
+    sorted_records = sorted(
+        records,
+        key=lambda r: (r.resolution_date or "9999-99-99", r.statement_publication_date or "1900-01-01")
+    )
     rows = []
 
     for r in sorted_records:
@@ -146,7 +164,7 @@ def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_s
 
     <main class="max-w-7xl mx-auto px-6 py-10">
         <h1 class="text-3xl font-semibold tracking-tight mb-2">All Predictions Tracked</h1>
-        <p class="text-slate-600 mb-6">Unfiltered view • Data from predictions.jsonl • Generated on {build_date}</p>
+        <p class="text-slate-600 mb-6">Unfiltered view • Data from predictions_v2.jsonl • Generated on {build_date}</p>
 
         <!-- NEW: Forecaster Summary -->
         <div class="mb-8">
@@ -188,14 +206,14 @@ def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_s
     html = html.replace("{build_date}", str(build_date))
     html = html.replace("{rows}", rows)
     html = html.replace("{forecaster_cards}", cards)
-
     path.write_text(html, encoding="utf-8")
     print(f"Action: updated {path}")
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--predictions-jsonl", type=Path, default=Path("predictions.jsonl"))
+    parser.add_argument("--predictions-jsonl", type=Path, default=Path("predictions_v2.jsonl"),
+                        help="Path to the canonical predictions JSONL file (default: predictions_v2.jsonl)")
     parser.add_argument("--predictions-html", type=Path, default=Path("predictions.html"))
     parser.add_argument("--build-date", type=str, default=None)
     args = parser.parse_args()
@@ -204,10 +222,10 @@ def main():
     print(f"Trackrecord Table Generator | {build_date}")
 
     records = load_records(args.predictions_jsonl)
-    print(f"Predictions table: {len(records)} rows will be generated")
+    print(f"Predictions table: {len(records)} rows will be generated from {args.predictions_jsonl}")
 
-    # Calculate scores
-    forecaster_scores = calculate_forecaster_scores("predictions_v2.jsonl")
+    # Calculate scores from the SAME file (single source of truth)
+    forecaster_scores = calculate_forecaster_scores(str(args.predictions_jsonl))
     print("Calculated forecaster scores:", {k: v["overall"] for k, v in forecaster_scores.items()})
 
     pred_rows = render_predictions_table(records, build_date)

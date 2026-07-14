@@ -29,11 +29,11 @@ jobs:
 
       - name: Generate homepage scorecards
         run: python scripts/generate_homepage_scorecards.py --build-date $(date +%Y-%m-%d) --index-html index.html
-      
-      - name: Commit and push updated index.html
+
+      - name: Commit and push updated files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          git commit -m "chore: auto-regenerate tables from predictions.jsonl" || exit 0
+          git add index.html predictions.html
+          git commit -m "chore: auto-regenerate tables from predictions_v2.jsonl" || exit 0
           git push

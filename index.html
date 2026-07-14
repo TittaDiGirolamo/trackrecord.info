@@ -196,7 +196,7 @@
     <!-- Example Track Records Section - REPLACED BY DYNAMIC VERSION -->
     <!-- HOMEPAGE_SCORECARDS_START -->
 <!-- Dynamic Top-N Homepage Forecaster Scorecards
-     Generated: 2026-07-12 | N=3 | MIN_RESOLVED=15
+     Generated: 2026-07-14 | N=3 | MIN_RESOLVED=15
      Source: predictions_v2.jsonl (tiered partial_accuracy.weighted_score)
      DO NOT EDIT MANUALLY — regenerated automatically by generate_homepage_scorecards.py / GitHub Action
 -->
@@ -220,33 +220,16 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white rounded-3xl p-8 flex flex-col border border-slate-100 hover:border-emerald-100 transition-colors">
-    <div class="flex items-center gap-x-4 mb-6">
-        <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-xl tracking-tighter">CS</div>
-        <div class="min-w-0">
-            <div class="font-semibold text-xl tracking-tight">Chris Sutton</div>
-            <div class="text-sm text-slate-500">Public Forecaster</div>
-        </div>
+        <div class="col-span-1 md:col-span-3 bg-white rounded-3xl p-10 text-center border border-slate-100">
+    <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+        <i class="fa-solid fa-chart-line text-xl"></i>
     </div>
-
-    <div class="mb-6">
-        <div class="text-sm font-medium text-slate-500 mb-1">Score</div>
-        <div class="flex items-baseline gap-x-2">
-            <span class="text-6xl font-semibold tabular-nums tracking-tighter text-emerald-700">17.3</span>
-            <span class="text-3xl text-emerald-600 font-medium">/100</span>
-        </div>
-        <div class="mt-1 text-sm text-slate-500">(n=15) <span class="font-normal text-emerald-600">(tiered scoring)</span></div>
-    </div>
-
-    <div class="flex-1 text-xs text-slate-400 mb-6">
-        Average of weighted tiered scores from resolved match predictions.<br>
-        Exact = 100 • Winner + GD = 40 • Winner only = 20 (per scoring_rules.md v2.0)
-    </div>
-
-    <a href="forecasters.html"
-       class="mt-auto inline-flex w-full items-center justify-center gap-x-2 rounded-2xl border border-emerald-200 px-5 py-3 text-sm font-medium text-emerald-700 transition-all hover:border-emerald-300 hover:text-emerald-800 active:scale-[0.985]">
-        View full track record <i class="fa-solid fa-arrow-right text-xs"></i>
-    </a>
+    <h4 class="text-lg font-semibold tracking-tight text-slate-700">No forecasters qualify yet</h4>
+    <p class="mt-2 max-w-md mx-auto text-sm text-slate-500">
+        Currently no forecasters have ≥15 resolved match predictions with tiered partial-accuracy data in predictions_v2.jsonl.
+        As more WC2026 group-stage and knockout matches resolve, this section will automatically populate with the highest-accuracy forecasters.
+    </p>
+    <p class="mt-4 text-xs text-slate-400">Selection rule is strict and transparent. Check back after resolutions (see resolution dates in predictions_v2.jsonl).</p>
 </div>
     </div>
 

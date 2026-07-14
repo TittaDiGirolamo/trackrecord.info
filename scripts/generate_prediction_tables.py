@@ -32,8 +32,13 @@ def calculate_forecaster_scores(jsonl_path: str = "predictions_v2.jsonl"):
                 skipped += 1
                 continue
 
-            author = data.get("author", {})
-            name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip() or "Unknown"
+            # Prefer forecaster field, fallback to author
+            if data.get("forecaster"):
+                name = data["forecaster"].strip()
+            else:
+                author = data.get("author", {})
+                name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip() or "Unknown"
+
             topic = data.get("statement_topic", "General")
 
             if data.get("outcome") is not None:  # resolved
@@ -73,8 +78,8 @@ def load_records(path: Path):
                 records.append(PredictionRecord.model_validate_json(line))
             except Exception as e:
                 skipped += 1
-                if skipped <= 5:  # Only show first 5 errors to avoid spam
-                    print(f"[WARNING] Skipped invalid record: {str(e)[:100]}")
+                if skipped <= 5:
+                    print(f"[WARNING] Skipped invalid record: {str(e)[:130]}")
     print(f"  Loaded {len(records)} valid records, skipped {skipped} invalid records from {path}")
     return records
 
@@ -90,7 +95,14 @@ def render_predictions_table(records, build_date):
     rows = []
 
     for r in sorted_records:
-        name = f"{r.author.firstname} {r.author.lastname}".strip()
+        # Prefer forecaster field
+        if r.forecaster:
+            name = r.forecaster.strip()
+        elif r.author:
+            name = f"{r.author.firstname} {r.author.lastname}".strip()
+        else:
+            name = "Unknown"
+
         quote = r.original_statement.split("[")[0].strip()[:85]
         if len(quote) > 80:
             quote = quote[:80] + "..."
@@ -124,8 +136,17 @@ def render_predictions_table(records, build_date):
     return "\n".join(rows)
 
 
-def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_scores):
-    html = """<!DOCTYPE html>
+def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_scores, dry_run: bool = False):
+    # Build forecaster cards
+    cards = ""
+    for name, data in forecaster_scores.items():
+        cards += f'''<div class="bg-white border border-slate-200 rounded-2xl p-6">
+            <div class="font-semibold">{name}</div>
+            <div class="text-3xl font-bold text-emerald-600 mt-1">{data["overall"]}</div>
+            <div class="text-sm text-slate-500">Overall • {data["resolved_count"]} resolved</div>
+        </div>'''
+
+    html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -133,16 +154,16 @@ def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_s
     <title>Predictions • Trackrecord.info</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Inter', system-ui, sans-serif; }
-        .prediction-text { font-size: 1.02rem; line-height: 1.4; }
-        .status-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }
-        .status-pill.resolved { background-color: #d1fae5; color: #065f46; }
-        .topic-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #10b981; color: white; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }
+        body {{ font-family: 'Inter', system-ui, sans-serif; }}
+        .prediction-text {{ font-size: 1.02rem; line-height: 1.4; }}
+        .status-pill {{ display: inline-flex; align-items: center; padding: 2px 10px; background-color: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }}
+        .status-pill.resolved {{ background-color: #d1fae5; color: #065f46; }}
+        .topic-pill {{ display: inline-flex; align-items: center; padding: 2px 10px; background-color: #10b981; color: white; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }}
         
-        @media (max-width: 1023px) {
-            .mobile-table-row { display: flex; flex-direction: column; }
-            .mobile-table-row td { display: block; padding-top: 0.5rem; padding-bottom: 0.5rem; }
-        }
+        @media (max-width: 1023px) {{
+            .mobile-table-row {{ display: flex; flex-direction: column; }}
+            .mobile-table-row td {{ display: block; padding-top: 0.5rem; padding-bottom: 0.5rem; }}
+        }}
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -166,11 +187,11 @@ def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_s
         <h1 class="text-3xl font-semibold tracking-tight mb-2">All Predictions Tracked</h1>
         <p class="text-slate-600 mb-6">Unfiltered view • Data from predictions_v2.jsonl • Generated on {build_date}</p>
 
-        <!-- NEW: Forecaster Summary -->
+        <!-- Forecaster Summary -->
         <div class="mb-8">
             <h2 class="text-2xl font-semibold mb-4">Forecaster Accuracy Summary</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {forecaster_cards}
+                {cards}
             </div>
         </div>
 
@@ -194,28 +215,22 @@ def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_s
 </body>
 </html>"""
 
-    # Build forecaster cards
-    cards = ""
-    for name, data in forecaster_scores.items():
-        cards += f'''<div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">{name}</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">{data["overall"]}</div>
-            <div class="text-sm text-slate-500">Overall • {data["resolved_count"]} resolved</div>
-        </div>'''
-
-    html = html.replace("{build_date}", str(build_date))
-    html = html.replace("{rows}", rows)
-    html = html.replace("{forecaster_cards}", cards)
-    path.write_text(html, encoding="utf-8")
-    print(f"Action: updated {path}")
+    if dry_run:
+        print(f"[DRY-RUN] Would have written {len(rows.splitlines())} prediction rows to {path}")
+        print(f"[DRY-RUN] Would have updated forecaster accuracy summary with {len(forecaster_scores)} forecasters")
+    else:
+        path.write_text(html, encoding="utf-8")
+        print(f"Action: updated {path}")
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--predictions-jsonl", type=Path, default=Path("predictions_v2.jsonl"),
-                        help="Path to the canonical predictions JSONL file (default: predictions_v2.jsonl)")
+                        help="Path to the canonical predictions JSONL file")
     parser.add_argument("--predictions-html", type=Path, default=Path("predictions.html"))
     parser.add_argument("--build-date", type=str, default=None)
+    parser.add_argument("--dry-run", action="store_true", help="Preview changes without writing files")
+    parser.add_argument("--verbose", action="store_true", help="Show more detailed output")
     args = parser.parse_args()
 
     build_date = date.fromisoformat(args.build_date) if args.build_date else date.today()
@@ -224,14 +239,16 @@ def main():
     records = load_records(args.predictions_jsonl)
     print(f"Predictions table: {len(records)} rows will be generated from {args.predictions_jsonl}")
 
-    # Calculate scores from the SAME file (single source of truth)
     forecaster_scores = calculate_forecaster_scores(str(args.predictions_jsonl))
     print("Calculated forecaster scores:", {k: v["overall"] for k, v in forecaster_scores.items()})
 
     pred_rows = render_predictions_table(records, build_date)
-    write_predictions_html(args.predictions_html, pred_rows, build_date, forecaster_scores)
+    write_predictions_html(args.predictions_html, pred_rows, build_date, forecaster_scores, dry_run=args.dry_run)
 
-    print("Done.")
+    if args.dry_run:
+        print("DRY RUN complete — no files were modified.")
+    else:
+        print("Done.")
 
 
 if __name__ == "__main__":

@@ -143,8 +143,7 @@ A GitHub Action automatically regenerates the tables whenever `predictions.jsonl
 We welcome contributions, especially:
 - Expanding the Gold Standard dataset
 - Improving documentation and methodology
-- Reporting bugs or suggesting improvements
-- Please open an issue or pull request to discuss.
+- Reporting bugs or suggesting improvements Please open an issue or pull request to discuss.
 
 ## License
 This project is currently unlicensed. Licensing terms will be defined in a future release.

@@ -86,7 +86,7 @@ The gold standard is used to develop and test automated extraction systems.
 - ├── scripts/
 - │   ├── validate_gold_records.py
 - │   └── generate_prediction_tables.py
-- ├── predictions.jsonl            # Main public prediction database
+- ├── predictions_v2.jsonl         # Canonical predictions database (single source of truth)`
 - ├── METHODOLOGY.md               # Full scoring and resolution rules
 - ├── index.html                   # Public website (GitHub Pages)
 - └── README.md
@@ -121,17 +121,17 @@ During the 2026 FIFA World Cup period, we are temporarily focusing on high-visib
 
 ## Automated Table Regeneration
 
-The prediction and forecaster tables on the website are **automatically generated** from `predictions.jsonl`.
+The prediction and forecaster tables on the website are **automatically generated** from `predictions_v2.jsonl` (the single canonical data file).
 
 ### Manual Regeneration
 
 ```bash
-
 # Preview what would change (safe)
 python3 scripts/generate_prediction_tables.py --dry-run --verbose
 
-# Update index.html
+# Regenerate tables
 python3 scripts/generate_prediction_tables.py
+python3 scripts/generate_homepage_scorecards.py --build-date $(date +%Y-%m-%d) --index-html index.html
 
 ```
 

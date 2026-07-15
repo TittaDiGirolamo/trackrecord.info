@@ -195,51 +195,33 @@
     </div>
     <!-- Example Track Records Section - REPLACED BY DYNAMIC VERSION -->
     <!-- HOMEPAGE_SCORECARDS_START -->
-<!-- Dynamic Top-N Homepage Forecaster Scorecards
-     Generated: 2026-07-14 | N=3 | MIN_RESOLVED=15
-     Source: predictions_v2.jsonl (tiered partial_accuracy.weighted_score)
-     DO NOT EDIT MANUALLY — regenerated automatically by generate_homepage_scorecards.py / GitHub Action
--->
 <div class="max-w-7xl mx-auto px-6 py-12">
-    <div class="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-y-4">
-        <div>
-            <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 mb-3">
-                <i class="fa-solid fa-sync fa-fw"></i>
-                LIVE • TIERED SCORING
-            </div>
-            <h3 class="text-3xl font-semibold tracking-tighter text-slate-900">Top 3 Forecasters by Accuracy</h3>
-            <p class="mt-2 max-w-2xl text-slate-600">
-                Highest tiered accuracy forecasters with at least 15 resolved predictions.
-                Scores are the average of (weighted_score × 100) rounded to 1 decimal place.
-            </p>
+    <div class="mb-8">
+        <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 mb-3">
+            LIVE
         </div>
-        <a href="forecasters.html"
-           class="inline-flex items-center gap-x-2 self-start rounded-2xl border border-emerald-200 px-4 py-2 text-sm font-medium text-emerald-700 transition hover:bg-emerald-50">
-            See all forecasters <i class="fa-solid fa-arrow-right-long"></i>
-        </a>
+        <h3 class="text-3xl font-semibold tracking-tighter">Top 3 Forecasters by Accuracy</h3>
+        <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum 10).</p>
     </div>
-
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="col-span-1 md:col-span-3 bg-white rounded-3xl p-10 text-center border border-slate-100">
-    <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
-        <i class="fa-solid fa-chart-line text-xl"></i>
-    </div>
-    <h4 class="text-lg font-semibold tracking-tight text-slate-700">No forecasters qualify yet</h4>
-    <p class="mt-2 max-w-md mx-auto text-sm text-slate-500">
-        Currently no forecasters have ≥15 resolved match predictions with tiered partial-accuracy data in predictions_v2.jsonl.
-        As more WC2026 group-stage and knockout matches resolve, this section will automatically populate with the highest-accuracy forecasters.
-    </p>
-    <p class="mt-4 text-xs text-slate-400">Selection rule is strict and transparent. Check back after resolutions (see resolution dates in predictions_v2.jsonl).</p>
-</div>
-    </div>
-
-    <div class="mt-8 text-center">
-        <p class="text-xs text-slate-400 max-w-3xl mx-auto">
-            <strong>Transparent selection rule:</strong> Top 3 by overall tiered score (descending), tie-broken by resolved_count (descending).
-            Only predictions processed with scoring_version 2.0 partial_accuracy (match results: exact/winner+GD/winner-only tiers) contribute.
-            Full methodology and all forecasters available on the <a href="forecasters.html" class="underline">forecasters page</a>.
-            Auto-regenerated on every predictions.jsonl update via GitHub Actions. No manual curation.
-        </p>
+        
+        <div class="bg-white rounded-3xl p-8 border border-slate-100">
+            <div class="flex items-center gap-x-4 mb-6">
+                <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-semibold text-xl">CS</div>
+                <div>
+                    <div class="font-semibold text-xl">Chris Sutton</div>
+                    <div class="text-sm text-slate-500">Public Forecaster</div>
+                </div>
+            </div>
+            <div>
+                <div class="text-sm text-slate-500">Score</div>
+                <div class="flex items-baseline gap-x-2">
+                    <span class="text-6xl font-semibold text-emerald-700">16.0</span>
+                    <span class="text-3xl text-emerald-600">/100</span>
+                </div>
+                <div class="text-sm text-slate-500 mt-1">(n=15)</div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- HOMEPAGE_SCORECARDS_END -->

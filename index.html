@@ -8,15 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
- 
         :root {
             --primary: #0F172A;
         }
- 
         body {
             font-family: 'Inter', system_ui, sans-serif;
         }
- 
         .font-display {
             font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
             font-weight: 600;
@@ -73,11 +70,10 @@
                     class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1 rounded-full hover:bg-emerald-100 transition-colors">×</button>
         </div>
     </div>
-    <!-- Navigation - Consistent & Mobile-First -->
+    <!-- Navigation - Consistent & Mobile-First (Congruent v1 - 2026-07-15) -->
     <nav id="main-nav" class="border-b border-slate-200 bg-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-between h-16 md:h-20">
-               
                 <!-- Logo -->
                 <div class="flex items-center gap-x-2.5">
                     <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -88,7 +84,6 @@
    
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-x-8 text-sm">
-                    <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Home</a>
                     <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
                     <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
@@ -101,10 +96,6 @@
                        class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
                         <i class="fa-brands fa-x-twitter"></i>
                         <span>Follow</span>
-                    </a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/resolution_report_v0.6.md"
-                       class="hidden md:block px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-2xl transition-all active:scale-[0.985]">
-                        Latest Report
                     </a>
    
                     <!-- Mobile Hamburger -->
@@ -120,19 +111,14 @@
             <!-- Mobile Menu (Collapsible) -->
             <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 py-4">
                 <div class="flex flex-col gap-y-4 text-sm">
-                    <a href="index.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Home</a>
                     <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
                     <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Forecasters</a>
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
                        class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
-                   
+   
                     <div class="pt-4 border-t border-slate-100 flex flex-col gap-y-3">
                         <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
                             <i class="fa-brands fa-x-twitter"></i> Follow on X
-                        </a>
-                        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/resolution_report_v0.6.md"
-                           class="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-2xl text-center">
-                            View Latest Report
                         </a>
                     </div>
                 </div>
@@ -204,7 +190,7 @@
         <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum 10).</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
+       
         <div class="bg-white rounded-3xl p-8 border border-slate-100">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-semibold text-xl">CS</div>
@@ -270,7 +256,7 @@
         <div class="max-w-3xl">
             <div class="text-sm font-medium text-emerald-600 mb-4">How it works</div>
             <h2 class="text-3xl font-semibold tracking-tight mb-6">A transparent, human-reviewed process</h2>
-          
+         
             <div class="grid gap-4">
                 <!-- Step 1 -->
                 <div class="bg-white rounded-3xl p-6">
@@ -377,17 +363,16 @@
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#0F172A');
         }
-
         function initializeMobileMenu() {
             const mobileBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
-           
+          
             if (mobileBtn && mobileMenu) {
                 mobileBtn.addEventListener('click', () => {
                     const isHidden = mobileMenu.classList.contains('hidden');
                     mobileMenu.classList.toggle('hidden');
                     mobileBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-                   
+                  
                     // Optional: icon swap (bars <-> x)
                     const icon = mobileBtn.querySelector('i');
                     if (icon) {
@@ -396,7 +381,6 @@
                     }
                 });
             }
-
             // Safe ESC handler (re-queries elements to avoid null issues)
             document.addEventListener('keydown', (e) => {
                 const currentMenu = document.getElementById('mobile-menu');
@@ -412,7 +396,6 @@
                 }
             });
         }
-
         let isSubmitting = false;
         function showSuccessBanner() {
             const banner = document.getElementById('success-banner');
@@ -545,7 +528,7 @@
         window.onload = function() {
             initializeTailwind();
             initializeMobileMenu();
-          
+         
             // Stay updated form (hero interest form removed as incomplete remnant)
             const stayForm = document.getElementById('stay-updated-form');
             const stayBtn = document.getElementById('stay-submit-btn');

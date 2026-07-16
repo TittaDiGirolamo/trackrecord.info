@@ -7,6 +7,20 @@ All notable changes to Trackrecord.info are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and adheres to [Semantic Versioning](https://semver.org/).
 ---
 ## [Unreleased] — 2026-07-10
+
+## [2026-07-16] — Hybrid LLM-Assisted Resolution Documentation
+
+### Added
+- New `resolution_requirements_overdue_2026-07-16.md` defining requirements for human-reviewed resolution with optional LLM assistance.
+- New `prompts/resolution_draft_v1.0.md` — controlled prompt for generating resolution drafts.
+- Added Section 5.1 **LLM-Assisted Resolution with Human-in-the-Loop** to `METHODOLOGY.md`.
+- Full hybrid workflow now documented: LLM for drafting + mandatory human verification, source checking, and approval.
+
+### Changed
+- Updated `METHODOLOGY.md` to version 0.9.
+- Strengthened documentation and accountability requirements for any use of LLM assistance in resolution.
+- Added explicit rules that LLM output is always treated as draft only.- Added explicit rules that LLM output is always treated as draft only.
+
 ### Changed
 - Refined hero section spacing (tighter margin after introductory paragraph) and removed specified gray borders/lines across pill, search bar, Suggest section, and How it works steps for cleaner, calmer UI.
 - Consistent visual treatment for form inputs in Stay Updated section.

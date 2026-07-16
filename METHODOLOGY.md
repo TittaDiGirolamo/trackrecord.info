@@ -1,7 +1,7 @@
 # Trackrecord.info Methodology
 
-**Version:** 0.8  
-**Effective Date:** 2026-06-09  
+**Version:** 0.9  
+**Effective Date:** 2026-07-16  
 **Status:** Active (aligned with Vision Document v1.5 and 90-Day Action Plan v1.0)
 
 ## 1. Core Principles
@@ -83,6 +83,30 @@ All resolutions follow this process:
 - **Gold Standard** records (`gold_standard/wc2026/`) are manually created high-fidelity examples used for prompt development and calibration.
 - **Public predictions** (`predictions.jsonl`) are real-world forecasts made by identifiable individuals that are resolved through the human-reviewed process above.
 
+### 5.1 LLM-Assisted Resolution with Human-in-the-Loop
+
+To efficiently resolve large volumes of overdue predictions while maintaining the project’s strict standards of accuracy, verifiability, and accountability, a hybrid workflow is supported.
+
+**LLM Draft Phase (optional)**  
+An LLM, guided by a controlled and versioned prompt from `prompts/resolution_draft_v*.md`, may generate draft proposals for `outcome`, `outcome_proof`, `outcome_verification_url`, and `rationale`. Drafts must be based strictly on the provided `resolution_criteria` and available source materials.
+
+**Human Verification & Approval Phase (mandatory)**  
+The human resolver must:
+- Access primary/official sources directly (FIFA, official match reports, etc.).
+- Validate or correct the LLM’s interpretation of the `resolution_criteria`.
+- Confirm or revise the proposed `outcome` (including any application of `scoring_rules.md` or `apply_partial_scoring.py`).
+- Ensure `outcome_proof` and `outcome_verification_url` are accurate and point to authoritative sources.
+- Approve or rewrite the final 1–3 sentence rationale.
+
+**Documentation**  
+Every resolution session Markdown file must explicitly record:
+- Whether LLM assistance was used for that record.
+- The model and prompt version used.
+- Any material differences between the LLM draft and the final human-approved values.
+- Confirmation that the human resolver personally verified the primary sources.
+
+This hybrid approach does **not** change any core principles of the project. The LLM functions only as a productivity tool for drafting and research acceleration. The named human resolver remains fully accountable for every resolved record.
+
 ## 6. Data Storage Format (`predictions.jsonl`)
 
 Each record contains the fields defined in `schema/prediction_schema.py`, including (but not limited to):
@@ -109,7 +133,7 @@ The previous temporary Oranje/Dutch focus (v0.7) is superseded by the broader En
 
 - **v0.7 (2026-06-04)**: Temporary Oranje focus
 - **v0.8 (2026-06-09)**: Aligned with Vision Document v1.5 (English WC2026 focus). Clarified gold standard vs public prediction workflows. Updated scope and references.
-- **v0.9 (2026-07-04)**: Added Topic / Circle-of-Competence Scoring (section 3.3) to support granular accuracy by subject (e.g., England national team vs Nigeria or transfers). Enhances granularity principle.
+- **v0.9 (2026-07-16)**: Added hybrid LLM-assisted resolution with mandatory human oversight (Section 5.1). Introduced `prompts/resolution_draft_v*.md` and updated documentation requirements for LLM usage.
 
 ## 10. Governance
 
@@ -143,13 +167,10 @@ Scores on Trackrecord.info should be interpreted with the following consideratio
 - A statistically robust ranking when sample sizes are small.
 
 **Known limitations:**
-- Many predictions currently tracked are binary or low-granularity. Probabilistic predictions (with explicit probabilities) allow for more powerful evaluation using proper scoring rules such as the Brier Score.
-- Compound and vaguely worded predictions introduce unavoidable judgment calls during resolution.
-- The current dataset is still relatively small and concentrated on specific topics (e.g. FIFA World Cup 2026). Broader conclusions require larger and more diverse samples.
-- Automated extraction and resolution are not yet fully mature; most records currently involve manual review.
-
-Users are encouraged to examine individual predictions and rationales rather than relying solely on aggregate scores.
+- Many predictions currently tracked are binary or low-granularity. Probabilistic predictions (with explicit probabilities) allow for more powerful evaluation using proper scoring rules.
+- Small sample sizes limit statistical confidence. Interpretations should remain cautious until larger datasets are available.
+- The system currently focuses on English-language sources for WC2026. Broader language and topic coverage is planned for future phases.
 
 ---
 
-**Trackrecord.info — Building transparent accountability for public predictions from a clean, integrity-first foundation.**
+*This document is version-controlled. All changes must be proposed via pull request with clear justification.*

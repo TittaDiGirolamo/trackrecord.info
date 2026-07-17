@@ -181,3 +181,20 @@ Factual record of lessons learned, confined to process observations that do not 
 - Future revisions of these requirements follow semantic versioning and are recorded in `CHANGELOG.md`.
 ---
 **This v1.1 specification corrects the factual, versioning, granularity, naming, and transparency defects identified in v1.0. It is executable only after the FR-01 identification output has been produced and recorded. All subsequent work must remain inside the boundaries defined above.**
+
+---
+
+## Phase 0 Completion Record (2026-07-17)
+
+FR-01 identification executed successfully.
+
+- Script: `scripts/identify_overdue_predictions.py`
+- Machine-readable output: `overdue_candidates_2026-07-16.jsonl`
+- Human-readable output: `overdue_candidates_2026-07-16.md`
+- Exact overdue count: **44**
+- Total records scanned: 73
+- Cutoff applied: `resolution_date` ≤ 2026-07-16 **and** `outcome` is null
+
+This list is now the single authoritative set for all subsequent resolution work.
+No records outside this set may be resolved under this specification.
+

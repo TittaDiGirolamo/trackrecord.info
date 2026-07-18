@@ -1,11 +1,21 @@
-## [2026-06-11] — Action 2 Follow-up
-### Changed
-- Also applied consistent topic labeling (`Winner` + `Netherlands Performance (5 stages)`) to the Current Predictions Tracked table for visual coherence (outside original Action 2 scope).
-
 # Trackrecord.info — Changelog
 All notable changes to Trackrecord.info are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and adheres to [Semantic Versioning](https://semver.org/).
 ---
+
+## [Unreleased]
+
+### Added
+- First pilot resolution batch (2026-07-17_batch01): 5 records resolved using Grok 4 LLM draft assistance with full human verification.
+- Session log: `resolution_sessions/2026-07-17_batch01.md`
+- Methodology version: [exact string]
+- Scoring-rules version: [exact string]
+
+### Changed
+- Updated `predictions_v2.jsonl` with 5 resolved records from the FR-01 overdue set.
+
+...
+
 ## [Unreleased] — 2026-07-10
 
 ## [2026-07-16] — Hybrid LLM-Assisted Resolution Documentation
@@ -26,7 +36,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 - Consistent visual treatment for form inputs in Stay Updated section.
 - Search icon vertically centered.
 - Follows trackrecord-design-principles (clarity, simplicity, mobile-first). No functional or content changes.
+
+## [2026-06-11] — Action 2 Follow-up
+### Changed
+- Also applied consistent topic labeling (`Winner` + `Netherlands Performance (5 stages)`) to the Current Predictions Tracked table for visual coherence (outside original Action 2 scope).
+
 ---
+
 ## [0.6.0] — 2026-06-01
 ### Added
 - Professional public launch page (`index.html`) with live accuracy metrics

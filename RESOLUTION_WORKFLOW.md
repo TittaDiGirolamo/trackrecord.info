@@ -40,3 +40,22 @@ nano resolution_sessions/YYYY-MM-DD_batchXX.md
 - Full disclosure in session log (including LLM use)
 - Human primary-source verification is mandatory
 
+## Individual Resolved Prediction Files
+
+For each resolved prediction we also create a dedicated Markdown file:
+---
+resolved_predictions/
+pred-YYYY-MM-DD-forecaster-slug.md
+---
+
+
+**How to create them (manual for now):**
+- Use the template from `resolved_pilot_batch01_full_details.md`
+- Or copy one of the existing files and adapt it
+
+**Why?**  
+- Each resolved prediction has its own public, linkable page with full context (sources, archives, LLM disclosure, human verification).
+- This is the foundation for future "clickable scorecard" feature.
+
+**Naming convention:**  
+`pred-YYYY-MM-DD-forecaster-slug.md` (use the same `statement_id` without the `pred-` prefix if shorter).

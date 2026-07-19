@@ -1,0 +1,42 @@
+{
+  "pred-2026-06-10-sutton-switzerland-group": {
+    "outcome": 1.0,
+    "outcome_proof": "Switzerland finished first in its group (Group B), as confirmed by the official FIFA group standings.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-sutton-turkey-group": {
+    "outcome": 0.0,
+    "outcome_proof": "Turkey finished fourth in Group D with 3 points (behind United States, Australia and Paraguay), per official FIFA group standings.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-01-vandenhoven-nl-qf": {
+    "outcome": 0.0,
+    "outcome_proof": "Netherlands reached the Round of 32 but were eliminated by Morocco on penalties and did not reach the quarterfinals.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures"
+  },
+  "pred-2025-12-06-sneijder-nl-no-semifinal": {
+    "outcome": 1.0,
+    "outcome_proof": "Netherlands did not reach the semifinals (eliminated in Round of 32), as shown by the official FIFA knockout bracket.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures"
+  },
+  "pred-2026-06-04-klement-nl-spain-sf": {
+    "outcome": 0.0,
+    "outcome_proof": "Netherlands did not reach the semifinals and therefore did not play Spain in a semifinal match.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures"
+  },
+  "pred-2026-06-04-klement-portugal-england-sf": {
+    "outcome": 0.0,
+    "outcome_proof": "Portugal and England did not meet in a semifinal. England reached the semifinals but lost to Argentina; Portugal was eliminated earlier.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-04-klement-semifinalists": {
+    "outcome": 0.0,
+    "outcome_proof": "The four semifinalists were Spain, Argentina, France and England — not Netherlands, Spain, Portugal and England.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-shearer-england-sf": {
+    "outcome": 1.0,
+    "outcome_proof": "England reached the semifinals (lost 1–2 to Argentina) and later won the third-place match against France.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/england/fixtures"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "pred-2026-04-18-statham-nl-qf": {
+    "outcome": 0.0,
+    "outcome_proof": "Netherlands reached the Round of 32 but were eliminated by Morocco on penalties and did not reach the quarterfinals.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures"
+  },
+  "pred-2026-06-08-mewis-ecuador-2006": {
+    "outcome": 0.0,
+    "outcome_proof": "Ecuador advanced from the group stage to the Round of 32 but were eliminated by Mexico (0-2) and did not reach the Round of 16.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/ecuador/fixtures"
+  },
+  "pred-2026-06-08-mewis-mexico-trouble": {
+    "outcome": 1.0,
+    "outcome_proof": "Mexico advanced from the group stage and reached the Round of 16 (lost to England).",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/mexico/fixtures"
+  },
+  "pred-2026-06-08-mewis-norway-deep": {
+    "outcome": 1.0,
+    "outcome_proof": "Norway advanced from the group stage and reached the quarterfinals.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/norway/fixtures"
+  },
+  "pred-2026-06-08-mewis-sweden-surge": {
+    "outcome": 1.0,
+    "outcome_proof": "Sweden finished third in Group F and advanced to the Round of 32 as one of the best third-placed teams.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/sweden/fixtures"
+  },
+  "pred-2026-06-10-marcotti-uruguay-no-advance": {
+    "outcome": 1.0,
+    "outcome_proof": "Uruguay finished third or fourth in its group and did not advance to the knockout stage.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-ogden-portugal-underdog": {
+    "outcome": 0.0,
+    "outcome_proof": "Portugal reached the Round of 16 but were eliminated by Spain and did not reach the quarterfinals.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/portugal/fixtures"
+  },
+  "pred-2026-06-10-ogden-usmnt-group-exit": {
+    "outcome": 0.0,
+    "outcome_proof": "The United States finished first in Group D and advanced to the Round of 16 (did not exit in the group stage).",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/usa/fixtures"
+  }
+}

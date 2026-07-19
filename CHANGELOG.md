@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 ## [Unreleased]
 
 ### Added
+- First pilot resolution batch (2026-07-17_batch01): 5 records resolved using Grok 4 LLM draft assistance with full human primary-source verification.
+- Reusable automation script: `update_predictions.py` + batch_updates.json workflow.
+- Session log: `resolution_sessions/2026-07-17_batch01.md`
+
+### Changed
+- Updated `predictions_v2.jsonl` with 5 resolved records from the FR-01 overdue set (44 total).
+
+## [Unreleased]
+
+### Added
 - First pilot resolution batch (2026-07-17_batch01): 5 records resolved using Grok 4 LLM draft assistance with full human verification.
 - Session log: `resolution_sessions/2026-07-17_batch01.md`
 - Methodology version: [exact string]

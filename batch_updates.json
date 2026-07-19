@@ -1,0 +1,27 @@
+{
+  "pred-2026-05-21-crebolder-nl-groupf": {
+    "outcome": 1.0,
+    "outcome_proof": "Netherlands finished first in Group F with 7 points (2 wins, 1 draw) and advanced to the knockout stage, per official FIFA group stage results published 2026-06-26.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures"
+  },
+  "pred-2026-06-10-becherano-mexico-qf": {
+    "outcome": 0.0,
+    "outcome_proof": "Mexico reached the round of 16 but was eliminated by England (2-3) on 2026-07-05 and therefore did not appear in the official FIFA quarterfinal bracket.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/mexico/fixtures"
+  },
+  "pred-2026-06-10-connelly-colombia-deep": {
+    "outcome": 0.0,
+    "outcome_proof": "Colombia reached the round of 16 but was eliminated by Switzerland on penalties (0-0, 3-4) on 2026-07-07 and did not appear in the official FIFA quarterfinal bracket.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/colombia/fixtures"
+  },
+  "pred-2026-06-10-dawson-nl-no-advance": {
+    "outcome": 0.0,
+    "outcome_proof": "Netherlands finished first in Group F with 7 points and advanced to the knockout stage, per official FIFA results published 2026-06-26.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures"
+  },
+  "pred-2026-06-10-hamilton-paraguay-no-advance": {
+    "outcome": 0.0,
+    "outcome_proof": "Paraguay finished third in Group D but advanced to the knockout stage (round of 32) and therefore did advance from the group stage, per official FIFA results.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/paraguay/fixtures"
+  }
+}

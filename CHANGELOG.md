@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 ## [Unreleased]
 
 ### Added
+- Resolution batches 01–04 completed (29 predictions resolved in total).
+- New automation: `auto_prepare_batch.py` for fully automatic batch preparation.
+- Individual resolved prediction files in `resolved_predictions/`.
+- Edge-case documentation for compound/exact-set predictions (METHODOLOGY.md §2 applied).
+
+### Changed
+- `predictions_v2.jsonl` updated with 29 resolved records from the FR-01 overdue set.
+
+## [Unreleased]
+
+### Added
 - First pilot resolution batch (2026-07-17_batch01): 5 records resolved using Grok 4 LLM draft assistance with full human primary-source verification.
 - Reusable automation script: `update_predictions.py` + batch_updates.json workflow.
 - Session log: `resolution_sessions/2026-07-17_batch01.md`

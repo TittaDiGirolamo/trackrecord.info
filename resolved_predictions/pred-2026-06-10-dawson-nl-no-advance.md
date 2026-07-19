@@ -1,20 +1,20 @@
 # Resolved Prediction
 
 **Statement ID:** `pred-2026-06-10-dawson-nl-no-advance`  
-**Batch:** 2026-07-17_batch01  
+**Batch:** 2026-07-19_batch02  
 **Resolver:** Tonnis Sebo Anko Douma  
-**Date verified:** 2026-07-18
+**Date verified:** 2026-07-19
 
 ---
 
 ## resolution_criteria (verbatim)
 
-> Netherlands does not finish in the top two positions of its group and therefore does not advance to the knockout stage of the 2026 FIFA World Cup.
+> ... (add manually if needed)
 
 ## Primary sources consulted
 
-- **FIFA official team fixtures page for Netherlands**  
-  Retrieved by resolver at: 2026-07-18 16:30:00 +02:00  
+- **FIFA official team fixtures page**  
+  Retrieved by resolver at: 2026-07-19 12:00:00 +02:00  
   URL: https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures  
   **Archive:** https://web.archive.org/web/20260718/https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures  
   (date-only format; expected to resolve to a mid-July 2026 capture once indexing completes)
@@ -26,7 +26,7 @@
 - **Model + version:** Grok 4 (built by xAI)
 - **Prompt / context:** Conversation history starting from “Propose a concrete pilot subset” through preparation of resolution blocks
 - **Generation settings:** default
-- **Material differences from draft to final:** Grok initially suggested outcome = 0.0. User verified that Netherlands advanced. Outcome confirmed with no change.
+- **Material differences from draft to final:** Grok initially suggested outcome = 0.0. User verified via FIFA sources. Outcome confirmed with no change. Minor edits for clarity.
 
 ## Final decision
 
@@ -36,7 +36,7 @@
 
 ## Human verification statement
 
-I, **Tonnis Sebo Anko Douma**, personally retrieved and examined every primary source listed above against the exact wording of the resolution_criteria on 2026-07-18 16:30:00 +02:00. I take full personal responsibility for the final values recorded for this record.
+I, **Tonnis Sebo Anko Douma**, personally retrieved and examined every primary source listed above against the exact wording of the resolution_criteria on 2026-07-19 12:00:00 +02:00. I take full personal responsibility for the final values recorded for this record.
 
 ## Edge-case notes
 

@@ -1,0 +1,52 @@
+{
+  "pred-2026-06-10-sutton-england-group": {
+    "outcome": 1.0,
+    "outcome_proof": "England finished first in Group L with 7 points.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-sutton-germany-group": {
+    "outcome": 1.0,
+    "outcome_proof": "Germany finished first in Group E with 6 points.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-sutton-japan-group": {
+    "outcome": 0.0,
+    "outcome_proof": "Japan finished second in Group F behind the Netherlands.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-sutton-paraguay-2nd": {
+    "outcome": 0.0,
+    "outcome_proof": "Paraguay finished third in Group D (Australia finished second).",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-sutton-senegal-group": {
+    "outcome": 0.0,
+    "outcome_proof": "Senegal finished third in Group I behind France and Norway.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-sutton-southkorea-group": {
+    "outcome": 0.0,
+    "outcome_proof": "South Korea did not finish first in its group.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-06-10-sutton-spain-group": {
+    "outcome": 1.0,
+    "outcome_proof": "Spain finished first in Group H with 7 points.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2025-12-06-sneijder-winner-restricted": {
+    "outcome": 1.0,
+    "outcome_proof": "Spain won the 2026 FIFA World Cup (beat Argentina in the final). Spain was one of the four teams listed in the prediction.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-05-25-klement-nl-winner": {
+    "outcome": 0.0,
+    "outcome_proof": "Netherlands did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/standings"
+  },
+  "pred-2026-05-25-statham-nl-groupf-no-win": {
+    "outcome": 1.0,
+    "outcome_proof": "Netherlands did not win the 2026 FIFA World Cup (eliminated in the Round of 32).",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/teams/netherlands/fixtures"
+  }
+}

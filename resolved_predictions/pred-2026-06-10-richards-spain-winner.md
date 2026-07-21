@@ -18,7 +18,7 @@
 ## Final Decision
 
 - **Outcome:** `1.0`
-- **Outcome Proof:** Spain won the 2026 FIFA World Cup, defeating Argentina in the final.
+- **Outcome Proof:** Spain won the 2026 FIFA World Cup, defeating Argentina in the final. Richards also correctly noted that Argentina would go close.
 - **Verification URL:** https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026
 
 ## Primary Sources

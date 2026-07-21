@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## [Unreleased]
 
+### Resolved
+- **All outstanding predictions completed** (2026-07-21).
+  - Full FR-01 overdue set (44+ records) resolved across batches 01–06.
+  - Final winner predictions (11 records) resolved.
+  - Total resolved in this effort: ~58 predictions.
+- Structured data added: `resolved_details.jsonl` + individual high-quality files in `resolved_predictions/`.
+- Edge-case handling documented (exact-set / compound predictions scored all-or-nothing per METHODOLOGY.md §2).
+- Automation improved: `auto_prepare_batch.py`, `generate_resolved_details.py`.
+
+### Changed
+- `predictions_v2.jsonl` is now fully resolved for all currently resolvable records.
+
+## [Unreleased]
+
 ### Added
 - Resolution batches 01–04 completed (29 predictions resolved in total).
 - New automation: `auto_prepare_batch.py` for fully automatic batch preparation.

@@ -1,0 +1,57 @@
+{
+  "pred-2026-06-01-ozturk-nl-final": {
+    "outcome": 0.0,
+    "outcome_proof": "Netherlands did not reach the final. The final was Spain vs Argentina.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-01-ozturk-portugal-winner": {
+    "outcome": 0.0,
+    "outcome_proof": "Portugal did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-04-klement-nl-final": {
+    "outcome": 0.0,
+    "outcome_proof": "Netherlands did not reach the final. The final was Spain vs Argentina.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-10-shearer-france-winner": {
+    "outcome": 0.0,
+    "outcome_proof": "France did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-10-rooney-england-winner": {
+    "outcome": 0.0,
+    "outcome_proof": "England did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-10-richards-spain-winner": {
+    "outcome": 1.0,
+    "outcome_proof": "Spain won the 2026 FIFA World Cup, defeating Argentina in the final.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-10-frank-england-winner": {
+    "outcome": 0.0,
+    "outcome_proof": "England did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-04-klement-nl-winner-path": {
+    "outcome": 0.0,
+    "outcome_proof": "Netherlands did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-10-didonato-germany-winner": {
+    "outcome": 0.0,
+    "outcome_proof": "Germany did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-10-marcotti-brazil-winner": {
+    "outcome": 0.0,
+    "outcome_proof": "Brazil did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  },
+  "pred-2026-06-10-connelly-england-winner": {
+    "outcome": 0.0,
+    "outcome_proof": "England did not win the 2026 FIFA World Cup. Spain were the champions.",
+    "outcome_verification_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+  }
+}

@@ -5,6 +5,13 @@ Version: 1.0
 Single source of truth: predictions_v2.jsonl
 Session logs: resolution_sessions/
 
+## Current Status
+
+**All currently resolvable predictions have been resolved** (as of 2026-07-21).
+
+See the full status report here:  
+→ [`RESOLUTION_STATUS.md`](RESOLUTION_STATUS.md)
+
 ## For every new batch
 
 ### 1. Prepare updates file

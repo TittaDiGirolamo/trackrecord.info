@@ -7,6 +7,7 @@
     <meta name="description" content="Trackrecord.info systematically compares public predictions against real-world outcomes and publishes transparent, auditable accuracy metrics. Search public figures and major-event predictions.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://trackrecord.info/">
+
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://trackrecord.info/">
@@ -14,10 +15,12 @@
     <meta property="og:description" content="Systematically compare public predictions against real-world outcomes. Transparent accuracy metrics for public figures and major events.">
     <meta property="og:site_name" content="Trackrecord.info">
     <meta property="og:locale" content="en_US">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Trackrecord.info • Verify public predictions">
     <meta name="twitter:description" content="Systematically compare public predictions against real-world outcomes. Transparent accuracy metrics for public figures and major events.">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -43,6 +46,7 @@
             border: 1px solid #e2e8f0;
         }
     </style>
+
     <!-- Privacy-respecting analytics (Plausible – no cookies, no personal data) -->
     <script defer data-domain="trackrecord.info" src="https://plausible.io/js/script.js"></script>
     <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
@@ -68,6 +72,7 @@
                     class="text-amber-600 hover:text-amber-800 text-2xl leading-none px-2 flex-shrink-0">×</button>
         </div>
     </div>
+
     <!-- Success banner -->
     <div id="success-banner"
          role="status"
@@ -86,25 +91,25 @@
                     class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1 rounded-full hover:bg-emerald-100 transition-colors">×</button>
         </div>
     </div>
+
     <!-- Navigation -->
     <nav id="main-nav" class="border-b border-slate-200 bg-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-between h-16 md:h-20">
-                <!-- Logo – same typeface, same tracking as body text -->
                 <div class="flex items-center gap-x-2.5">
                     <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
                         <span class="text-white text-sm font-semibold tracking-tight">T</span>
                     </div>
                     <a href="index.html" class="text-lg font-semibold tracking-tight text-slate-900">Trackrecord.info</a>
                 </div>
-                <!-- Desktop menu -->
+
                 <div class="hidden md:flex items-center gap-x-8 text-sm">
                     <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
                     <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
                     <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
                        class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
                 </div>
-                <!-- Right side actions -->
+
                 <div class="flex items-center gap-x-3">
                     <a href="https://x.com/titta_girolamo"
                        class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
@@ -119,7 +124,7 @@
                     </button>
                 </div>
             </div>
-            <!-- Mobile menu -->
+
             <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 py-4">
                 <div class="flex flex-col gap-y-4 text-sm">
                     <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
@@ -135,6 +140,7 @@
             </div>
         </div>
     </nav>
+
     <!-- Hero section with single prominent search -->
     <div class="max-w-5xl mx-auto px-6 pt-16 pb-12">
         <div class="max-w-3xl">
@@ -148,7 +154,8 @@
             <p class="max-w-lg text-lg text-slate-600 leading-relaxed mb-8">
                 Trackrecord.info systematically compares public predictions against actual outcomes and publishes transparent accuracy metrics that reveal who truly gets it right over time.
             </p>
-            <!-- Single search bar (primary and only) -->
+
+            <!-- Single search bar -->
             <div class="relative max-w-xl" id="hero-search-wrapper">
                 <i class="fa-solid fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
                 <input type="text"
@@ -167,6 +174,7 @@
             </p>
         </div>
     </div>
+
     <!-- Forecaster scorecards – markers preserved for dynamic generation -->
     <!-- HOMEPAGE_SCORECARDS_START -->
     <div class="max-w-7xl mx-auto px-6 py-12">
@@ -174,11 +182,10 @@
             <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 mb-3">
                 Live
             </div>
-            <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">Top forecasters by accuracy</h2>
-            <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum 10 resolved required for display).</p>
+            <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">Forecasters with sufficient resolved predictions</h2>
+            <p class="mt-2 text-slate-600">Only forecasters with at least 10 resolved predictions are shown. Scores use the rules in METHODOLOGY.md.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Current real data: only Chris Sutton currently meets the min-resolved threshold of 10 -->
             <div class="bg-white rounded-3xl p-8 border border-slate-100">
                 <div class="flex items-center gap-x-4 mb-6">
                     <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-semibold text-lg">CS</div>
@@ -199,26 +206,27 @@
                     Explore the data →
                 </a>
             </div>
-            <!-- Additional cards are injected here by scripts/generate_homepage_scorecards.py when more forecasters reach the threshold -->
+            <!-- Additional cards will appear here automatically once more forecasters reach the minimum threshold -->
         </div>
         <div class="mt-6 text-center">
             <a href="forecasters.html" class="text-sm font-medium text-slate-600 hover:text-slate-900">See all tracked forecasters →</a>
         </div>
         <p class="mt-4 text-xs text-slate-400 text-center">
-            Scores are calculated from predictions_v2.jsonl using the rules in METHODOLOGY.md. This section is regenerated automatically when the data changes.
+            Scores calculated from predictions_v2.jsonl. This section is regenerated by the existing automation when data changes.
         </p>
     </div>
     <!-- HOMEPAGE_SCORECARDS_END -->
-    <!-- Recent and notable claims – filled with real resolved data -->
+
+    <!-- Recent and notable claims – concrete real data -->
     <div class="bg-white border-y border-slate-100">
         <div class="max-w-7xl mx-auto px-6 py-14">
             <div class="mb-8">
                 <div class="text-sm font-medium text-emerald-600 mb-2">High-visibility predictions</div>
                 <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">Recent and notable claims</h2>
-                <p class="mt-2 text-slate-600 max-w-2xl">A light selection of tracked predictions drawn from the public record. Status is determined solely by primary evidence against pre-defined resolution criteria.</p>
+                <p class="mt-2 text-slate-600 max-w-2xl">Concrete tracked predictions drawn from the public record. Status is determined solely by primary evidence against pre-defined resolution criteria.</p>
             </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <!-- Real data examples -->
                 <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 border border-slate-100 transition-colors">
                     <div class="flex items-start justify-between gap-4 mb-3">
                         <div class="text-sm font-medium text-slate-500">Micah Richards</div>
@@ -232,19 +240,21 @@
                         <span>Spain defeated Argentina in the final</span>
                     </div>
                 </a>
+
                 <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 border border-slate-100 transition-colors">
                     <div class="flex items-start justify-between gap-4 mb-3">
                         <div class="text-sm font-medium text-slate-500">Chris Sutton</div>
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Resolved true</span>
                     </div>
                     <p class="text-slate-900 font-medium leading-snug mb-3">
-                        Multiple group-stage exact-score and outcome predictions (Canada, USA, and others).
+                        “Argentina finishes first in its group at the 2026 FIFA World Cup.”
                     </p>
                     <div class="flex items-center gap-x-4 text-xs text-slate-500">
-                        <span>n=15 resolved</span>
-                        <span>Overall score 16.0 /100</span>
+                        <span>Resolved 2026</span>
+                        <span>Argentina finished first in Group J</span>
                     </div>
                 </a>
+
                 <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 border border-slate-100 transition-colors">
                     <div class="flex items-start justify-between gap-4 mb-3">
                         <div class="text-sm font-medium text-slate-500">Joachim Klement</div>
@@ -258,6 +268,7 @@
                         <span>Outcome did not occur</span>
                     </div>
                 </a>
+
                 <a href="predictions.html" class="block bg-emerald-50/70 hover:bg-emerald-50 rounded-2xl p-6 border border-emerald-100 transition-colors flex flex-col justify-center">
                     <div class="text-emerald-800 font-semibold mb-1">View the full public record</div>
                     <p class="text-sm text-emerald-700/90">All tracked predictions, resolution criteria, primary evidence and scores are available on the predictions page.</p>
@@ -265,17 +276,18 @@
                 </a>
             </div>
             <p class="mt-6 text-xs text-slate-400">
-                Data source: predictions_v2.jsonl and resolved_details.jsonl (last major resolution batch 2026-07-21). This section is intended to be regenerated from the same source of truth.
+                Data source: predictions_v2.jsonl and resolved_details.jsonl (last major resolution batch 2026-07-21).
             </p>
         </div>
     </div>
-    <!-- Process (step 3 removed and renumbered) -->
+
+    <!-- Process (4 steps) -->
     <div class="max-w-5xl mx-auto px-6 py-16">
         <div class="max-w-3xl">
             <div class="text-sm font-medium text-emerald-600 mb-4">How it works</div>
             <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-6 text-slate-900">A transparent, human-reviewed process</h2>
+
             <div class="grid gap-4">
-                <!-- Step 1 -->
                 <div class="bg-white rounded-3xl p-6">
                     <div class="flex items-start gap-x-4">
                         <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-xl tabular-nums">1</div>
@@ -285,7 +297,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Step 2 -->
                 <div class="bg-white rounded-3xl p-6">
                     <div class="flex items-start gap-x-4">
                         <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-xl tabular-nums">2</div>
@@ -295,7 +306,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Step 3 (former 4) -->
                 <div class="bg-white rounded-3xl p-6">
                     <div class="flex items-start gap-x-4">
                         <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-xl tabular-nums">3</div>
@@ -305,7 +315,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Step 4 (former 5) -->
                 <div class="bg-white rounded-3xl p-6">
                     <div class="flex items-start gap-x-4">
                         <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-semibold text-xl tabular-nums">4</div>
@@ -319,7 +328,8 @@
             <p class="mt-6 text-sm text-slate-500">Full details in <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-emerald-600">METHODOLOGY.md</a>. Everything is designed for transparency and repeatability.</p>
         </div>
     </div>
-    <!-- Stay updated – lightened background to blend better -->
+
+    <!-- Stay updated – lightened -->
     <div class="bg-slate-100 border-t border-slate-200">
         <div class="max-w-5xl mx-auto px-6 py-16">
             <div class="max-w-2xl mb-8">
@@ -351,6 +361,7 @@
             </div>
         </div>
     </div>
+
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-100">
         <div class="max-w-5xl mx-auto px-6 py-12 text-sm">
@@ -369,6 +380,7 @@
             </div>
         </div>
     </footer>
+
     <script>
         function initializeMobileMenu() {
             const mobileBtn = document.getElementById('mobile-menu-btn');
@@ -399,6 +411,7 @@
                 }
             });
         }
+
         let isSubmitting = false;
         function showSuccessBanner() {
             const banner = document.getElementById('success-banner');
@@ -457,9 +470,8 @@
             const banner = document.getElementById('temporary-banner');
             if (banner) banner.style.display = 'none';
         }
-        // Current tracked public figures (snapshot from predictions_v2.jsonl as of 2026-07-22)
-        // For true dynamism this list (and the scorecards / recent claims) must be regenerated
-        // by the existing scripts when predictions_v2.jsonl is updated.
+
+        // Current tracked public figures (snapshot from predictions_v2.jsonl)
         const FORECASTERS = [
             "Chris Sutton",
             "Joachim Klement",
@@ -486,6 +498,7 @@
             "Cesar Hernandez",
             "Tom Hamilton"
         ];
+
         function debounce(fn, delay) {
             let timer = null;
             return function (...args) {
@@ -493,11 +506,13 @@
                 timer = setTimeout(() => fn.apply(this, args), delay);
             };
         }
+
         function createSearchHandler(inputId, suggestionsId, wrapperId) {
             const input = document.getElementById(inputId);
             const suggestionsContainer = document.getElementById(suggestionsId);
             const wrapper = document.getElementById(wrapperId);
             if (!input || !suggestionsContainer || !wrapper) return;
+
             function showSuggestions(filtered) {
                 suggestionsContainer.innerHTML = '';
                 if (filtered.length === 0) {
@@ -523,6 +538,7 @@
                 }
                 suggestionsContainer.classList.remove('hidden');
             }
+
             const filterAndShow = debounce(function () {
                 const query = input.value.toLowerCase().trim();
                 if (query.length < 1) {
@@ -532,12 +548,15 @@
                 const filtered = FORECASTERS.filter(f => f.toLowerCase().includes(query));
                 showSuggestions(filtered);
             }, 160);
+
             input.addEventListener('input', filterAndShow);
+
             document.addEventListener('click', (e) => {
                 if (!wrapper.contains(e.target)) {
                     suggestionsContainer.classList.add('hidden');
                 }
             });
+
             input.addEventListener('focus', () => {
                 if (input.value.trim() === '') {
                     showSuggestions(FORECASTERS.slice(0, 12));
@@ -545,6 +564,7 @@
                     filterAndShow();
                 }
             });
+
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -561,8 +581,10 @@
                 }
             });
         }
+
         window.onload = function() {
             initializeMobileMenu();
+
             const stayForm = document.getElementById('stay-updated-form');
             const stayBtn = document.getElementById('stay-submit-btn');
             const stayBtnText = document.getElementById('stay-btn-text');
@@ -572,6 +594,7 @@
                     handleFormSubmit(stayForm, stayBtn, stayBtnText);
                 });
             }
+
             createSearchHandler('hero-prediction-search', 'hero-search-suggestions', 'hero-search-wrapper');
         };
     </script>

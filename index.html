@@ -25,9 +25,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        :root {
-            --primary: #0F172A;
-        }
         body, h1, h2, h3, h4, h5, h6, a, button, input, p, span, div {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
@@ -42,42 +39,42 @@
             opacity: 0.8;
             cursor: not-allowed;
         }
-        #hero-search-suggestions {
-            border: 1px solid #e2e8f0;
-        }
     </style>
 
-    <!-- Privacy-respecting analytics (Plausible – no cookies, no personal data) -->
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-9WXVR9NY9S"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-9WXVR9NY9S');
+	</script>
+
+    <!-- Privacy-respecting analytics (Plausible) -->
     <script defer data-domain="trackrecord.info" src="https://plausible.io/js/script.js"></script>
     <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 </head>
 <body class="bg-slate-50 text-slate-900">
+
     <!-- Temporary focus banner -->
-    <div id="temporary-banner"
-         role="status"
-         aria-live="polite"
-         class="bg-amber-100 border-b border-amber-300 shadow-sm">
+    <div id="temporary-banner" role="status" aria-live="polite" class="bg-amber-50">
         <div class="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between text-sm">
             <div class="flex items-center gap-x-3 text-amber-800">
                 <i class="fa-solid fa-info-circle text-amber-500"></i>
                 <div>
                     Temporary focus on prominent voices making FIFA World Cup 2026 predictions.
                     Full methodology and reversion plan documented in
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-amber-900 font-medium">METHODOLOGY.md</a>.
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-amber-900">METHODOLOGY.md</a>.
                     Re-evaluation: 2026-08-01.
                 </div>
             </div>
-            <button onclick="dismissTemporaryBanner()"
-                    aria-label="Close banner"
-                    class="text-amber-600 hover:text-amber-800 text-2xl leading-none px-2 flex-shrink-0">×</button>
+            <button onclick="dismissTemporaryBanner()" aria-label="Close banner" class="text-amber-600 hover:text-amber-800 text-2xl leading-none px-2 flex-shrink-0">×</button>
         </div>
     </div>
 
     <!-- Success banner -->
-    <div id="success-banner"
-         role="status"
-         aria-live="polite"
-         class="hidden fixed top-0 left-0 right-0 z-[9999] bg-emerald-50 border-b border-emerald-200 shadow-md">
+    <div id="success-banner" role="status" aria-live="polite" class="hidden fixed top-0 left-0 right-0 z-[9999] bg-emerald-50">
         <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-x-3">
                 <div class="text-emerald-600 text-2xl">✓</div>
@@ -86,52 +83,44 @@
                     <span class="text-emerald-700"> You're now on the list. We'll keep you updated.</span>
                 </div>
             </div>
-            <button onclick="hideSuccessBanner()"
-                    aria-label="Close success message"
-                    class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1 rounded-full hover:bg-emerald-100 transition-colors">×</button>
+            <button onclick="hideSuccessBanner()" aria-label="Close success message" class="text-emerald-600 hover:text-emerald-800 text-3xl leading-none px-3 py-1">×</button>
         </div>
     </div>
 
-    <!-- Navigation -->
-    <nav id="main-nav" class="border-b border-slate-200 bg-white sticky top-0 z-50">
+    <!-- Navigation – regular weight logo and links, minimal separation -->
+    <nav id="main-nav" class="bg-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex items-center justify-between h-16 md:h-20">
                 <div class="flex items-center gap-x-2.5">
                     <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span class="text-white text-sm font-semibold tracking-tight">T</span>
+                        <span class="text-white text-sm font-normal tracking-tight">T</span>
                     </div>
-                    <a href="index.html" class="text-lg font-semibold tracking-tight text-slate-900">Trackrecord.info</a>
+                    <a href="index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
                 </div>
 
                 <div class="hidden md:flex items-center gap-x-8 text-sm">
-                    <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
-                    <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
-                       class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
+                    <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
+                    <a href="forecasters.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
                 </div>
 
                 <div class="flex items-center gap-x-3">
-                    <a href="https://x.com/titta_girolamo"
-                       class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
+                    <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-normal text-slate-700 hover:text-slate-900 transition-colors">
                         <i class="fa-brands fa-x-twitter"></i>
                         <span>Follow</span>
                     </a>
-                    <button id="mobile-menu-btn"
-                            class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none"
-                            aria-label="Toggle menu"
-                            aria-expanded="false">
+                    <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
                         <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
 
-            <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 py-4">
+            <div id="mobile-menu" class="hidden md:hidden py-4">
                 <div class="flex flex-col gap-y-4 text-sm">
-                    <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
-                    <a href="forecasters.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Forecasters</a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
-                       class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
-                    <div class="pt-4 border-t border-slate-100 flex flex-col gap-y-3">
+                    <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
+                    <a href="forecasters.html" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Forecasters</a>
+                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
+                    <div class="pt-4 flex flex-col gap-y-3">
                         <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
                             <i class="fa-brands fa-x-twitter"></i> Follow on X
                         </a>
@@ -141,10 +130,10 @@
         </div>
     </nav>
 
-    <!-- Hero section with single prominent search -->
+    <!-- Hero -->
     <div class="max-w-5xl mx-auto px-6 pt-16 pb-12">
         <div class="max-w-3xl">
-            <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-white rounded-3xl text-sm font-medium mb-6">
+            <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-white rounded-3xl text-sm font-normal mb-6">
                 <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                 <span class="text-slate-600">v0.9</span>
             </div>
@@ -155,18 +144,16 @@
                 Trackrecord.info systematically compares public predictions against actual outcomes and publishes transparent accuracy metrics that reveal who truly gets it right over time.
             </p>
 
-            <!-- Single search bar -->
             <div class="relative max-w-xl" id="hero-search-wrapper">
                 <i class="fa-solid fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
                 <input type="text"
                        id="hero-prediction-search"
                        placeholder="Search a public figure… e.g. Sutton, Marcotti, Richards"
-                       class="w-full pl-14 pr-5 py-4 rounded-3xl text-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-sm border border-slate-200"
+                       class="w-full pl-14 pr-5 py-4 rounded-3xl text-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-sm"
                        autocomplete="off"
                        aria-label="Search public figures and predictors"
                        aria-describedby="hero-search-help">
-                <div id="hero-search-suggestions"
-                     class="hidden absolute z-50 mt-2 w-full bg-white shadow-xl max-h-80 overflow-auto text-sm rounded-2xl border border-slate-100">
+                <div id="hero-search-suggestions" class="hidden absolute z-50 mt-2 w-full bg-white shadow-xl max-h-80 overflow-auto text-sm rounded-2xl">
                 </div>
             </div>
             <p id="hero-search-help" class="mt-3 text-sm text-slate-500">
@@ -175,20 +162,20 @@
         </div>
     </div>
 
-    <!-- Forecaster scorecards – markers preserved for dynamic generation -->
+    <!-- Scorecards -->
     <!-- HOMEPAGE_SCORECARDS_START -->
     <div class="max-w-7xl mx-auto px-6 py-12">
         <div class="mb-8">
-            <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 mb-3">
+            <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-normal text-emerald-700 mb-3">
                 Live
             </div>
             <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">Forecasters with sufficient resolved predictions</h2>
             <p class="mt-2 text-slate-600">Only forecasters with at least 10 resolved predictions are shown. Scores use the rules in METHODOLOGY.md.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white rounded-3xl p-8 border border-slate-100">
+            <div class="bg-white rounded-3xl p-8">
                 <div class="flex items-center gap-x-4 mb-6">
-                    <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-semibold text-lg">CS</div>
+                    <div class="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-normal text-lg">CS</div>
                     <div>
                         <div class="font-semibold text-lg text-slate-900">Chris Sutton</div>
                         <div class="text-sm text-slate-500">Public forecaster</div>
@@ -202,14 +189,13 @@
                     </div>
                     <div class="text-sm text-slate-500 mt-1">(n=15)</div>
                 </div>
-                <a href="predictions.html?search=Chris%20Sutton" class="mt-6 inline-block text-sm font-medium text-emerald-700 hover:text-emerald-800">
+                <a href="predictions.html?search=Chris%20Sutton" class="mt-6 inline-block text-sm font-normal text-emerald-700 hover:text-emerald-800">
                     Explore the data →
                 </a>
             </div>
-            <!-- Additional cards will appear here automatically once more forecasters reach the minimum threshold -->
         </div>
         <div class="mt-6 text-center">
-            <a href="forecasters.html" class="text-sm font-medium text-slate-600 hover:text-slate-900">See all tracked forecasters →</a>
+            <a href="forecasters.html" class="text-sm font-normal text-slate-600 hover:text-slate-900">See all tracked forecasters →</a>
         </div>
         <p class="mt-4 text-xs text-slate-400 text-center">
             Scores calculated from predictions_v2.jsonl. This section is regenerated by the existing automation when data changes.
@@ -217,62 +203,62 @@
     </div>
     <!-- HOMEPAGE_SCORECARDS_END -->
 
-    <!-- Recent and notable claims – concrete real data -->
-    <div class="bg-white border-y border-slate-100">
+    <!-- Recent and notable claims – cleaner, no heavy borders -->
+    <div class="bg-white">
         <div class="max-w-7xl mx-auto px-6 py-14">
             <div class="mb-8">
-                <div class="text-sm font-medium text-emerald-600 mb-2">High-visibility predictions</div>
+                <div class="text-sm font-normal text-emerald-600 mb-2">High-visibility predictions</div>
                 <h2 class="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">Recent and notable claims</h2>
                 <p class="mt-2 text-slate-600 max-w-2xl">Concrete tracked predictions drawn from the public record. Status is determined solely by primary evidence against pre-defined resolution criteria.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 border border-slate-100 transition-colors">
+                <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 transition-colors">
                     <div class="flex items-start justify-between gap-4 mb-3">
-                        <div class="text-sm font-medium text-slate-500">Micah Richards</div>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Resolved true</span>
+                        <div class="text-sm font-normal text-slate-500">Micah Richards</div>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-100 text-emerald-800">True</span>
                     </div>
                     <p class="text-slate-900 font-medium leading-snug mb-3">
                         “Spain will win the 2026 FIFA World Cup.”
                     </p>
                     <div class="flex items-center gap-x-4 text-xs text-slate-500">
-                        <span>Resolved 2026-07-21</span>
-                        <span>Spain defeated Argentina in the final</span>
+                        <span>Published: June 2026</span>
+                        <span>Resolved: July 2026</span>
                     </div>
                 </a>
 
-                <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 border border-slate-100 transition-colors">
+                <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 transition-colors">
                     <div class="flex items-start justify-between gap-4 mb-3">
-                        <div class="text-sm font-medium text-slate-500">Chris Sutton</div>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Resolved true</span>
+                        <div class="text-sm font-normal text-slate-500">Chris Sutton</div>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-100 text-emerald-800">True</span>
                     </div>
                     <p class="text-slate-900 font-medium leading-snug mb-3">
                         “Argentina finishes first in its group at the 2026 FIFA World Cup.”
                     </p>
                     <div class="flex items-center gap-x-4 text-xs text-slate-500">
-                        <span>Resolved 2026</span>
-                        <span>Argentina finished first in Group J</span>
+                        <span>Published: June 2026</span>
+                        <span>Resolved: July 2026</span>
                     </div>
                 </a>
 
-                <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 border border-slate-100 transition-colors">
+                <a href="predictions.html" class="block bg-slate-50 hover:bg-slate-100/80 rounded-2xl p-6 transition-colors">
                     <div class="flex items-start justify-between gap-4 mb-3">
-                        <div class="text-sm font-medium text-slate-500">Joachim Klement</div>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800">Resolved false</span>
+                        <div class="text-sm font-normal text-slate-500">Joachim Klement</div>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-100 text-rose-800">False</span>
                     </div>
                     <p class="text-slate-900 font-medium leading-snug mb-3">
                         “Portugal defeats England in the semifinals of the 2026 FIFA World Cup.”
                     </p>
                     <div class="flex items-center gap-x-4 text-xs text-slate-500">
-                        <span>Resolved 2026</span>
-                        <span>Outcome did not occur</span>
+                        <span>Published: June 2026</span>
+                        <span>Resolved: July 2026</span>
                     </div>
                 </a>
 
-                <a href="predictions.html" class="block bg-emerald-50/70 hover:bg-emerald-50 rounded-2xl p-6 border border-emerald-100 transition-colors flex flex-col justify-center">
+                <a href="predictions.html" class="block bg-emerald-50/70 hover:bg-emerald-50 rounded-2xl p-6 transition-colors flex flex-col justify-center">
                     <div class="text-emerald-800 font-semibold mb-1">View the full public record</div>
                     <p class="text-sm text-emerald-700/90">All tracked predictions, resolution criteria, primary evidence and scores are available on the predictions page.</p>
-                    <div class="mt-3 text-sm font-medium text-emerald-700">Open predictions →</div>
+                    <div class="mt-3 text-sm font-normal text-emerald-700">Open predictions →</div>
                 </a>
             </div>
             <p class="mt-6 text-xs text-slate-400">
@@ -281,10 +267,10 @@
         </div>
     </div>
 
-    <!-- Process (4 steps) -->
+    <!-- Process -->
     <div class="max-w-5xl mx-auto px-6 py-16">
         <div class="max-w-3xl">
-            <div class="text-sm font-medium text-emerald-600 mb-4">How it works</div>
+            <div class="text-sm font-normal text-emerald-600 mb-4">How it works</div>
             <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-6 text-slate-900">A transparent, human-reviewed process</h2>
 
             <div class="grid gap-4">
@@ -329,8 +315,8 @@
         </div>
     </div>
 
-    <!-- Stay updated – lightened -->
-    <div class="bg-slate-100 border-t border-slate-200">
+    <!-- Stay updated – softer button -->
+    <div class="bg-slate-100">
         <div class="max-w-5xl mx-auto px-6 py-16">
             <div class="max-w-2xl mb-8">
                 <h2 class="text-2xl md:text-3xl font-semibold mb-4 text-slate-900">Most public predictions disappear without accountability</h2>
@@ -339,21 +325,21 @@
             <div class="max-w-md">
                 <form id="stay-updated-form" class="space-y-4">
                     <div>
-                        <label for="stay-name" class="block text-sm font-medium text-slate-700 mb-1.5">Your name</label>
+                        <label for="stay-name" class="block text-sm font-normal text-slate-700 mb-1.5">Your name</label>
                         <input type="text" id="stay-name" name="name" required
-                               class="w-full px-4 py-3 bg-white text-slate-900 placeholder-slate-400 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors">
+                               class="w-full px-4 py-3 bg-white text-slate-900 placeholder-slate-400 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors">
                     </div>
                     <div>
-                        <label for="stay-email" class="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
+                        <label for="stay-email" class="block text-sm font-normal text-slate-700 mb-1.5">Email address</label>
                         <input type="email" id="stay-email" name="email" required
-                               class="w-full px-4 py-3 bg-white text-slate-900 placeholder-slate-400 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors">
+                               class="w-full px-4 py-3 bg-white text-slate-900 placeholder-slate-400 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors">
                     </div>
                     <div class="honeypot">
                         <label for="website2">Website</label>
                         <input type="text" id="website2" name="website" tabindex="-1" autocomplete="off">
                     </div>
                     <button type="submit" id="stay-submit-btn"
-                            class="w-full px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-3xl transition-all text-base active:scale-[0.985] flex items-center justify-center gap-x-2">
+                            class="w-full px-4 py-3 bg-slate-500 hover:bg-slate-400 text-white font-normal rounded-2xl transition-all text-sm active:scale-[0.985] flex items-center justify-center gap-x-2">
                         <span id="stay-btn-text">Signal my interest</span>
                     </button>
                     <p class="text-xs text-slate-500 text-center">We’ll only email you when we have meaningful updates.</p>
@@ -363,7 +349,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-100">
+    <footer class="bg-white">
         <div class="max-w-5xl mx-auto px-6 py-12 text-sm">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-y-6">
                 <div class="text-slate-500">
@@ -471,32 +457,13 @@
             if (banner) banner.style.display = 'none';
         }
 
-        // Current tracked public figures (snapshot from predictions_v2.jsonl)
         const FORECASTERS = [
-            "Chris Sutton",
-            "Joachim Klement",
-            "Gab Marcotti",
-            "Micah Richards",
-            "Alan Shearer",
-            "Wayne Rooney",
-            "Joe Mewis",
-            "Mark Ogden",
-            "Michael Statham",
-            "Süleyman Öztürk",
-            "Wesley Sneijder",
-            "Thomas Frank",
-            "Damian Didonato",
-            "Bill Connelly",
-            "Connor O'Halloran",
-            "James Olley",
-            "Finley Crebolder",
-            "Lizzy Becherano",
-            "Julien Laurens",
-            "Beth Lindop",
-            "Rob Dawson",
-            "Alex Kirkland",
-            "Cesar Hernandez",
-            "Tom Hamilton"
+            "Chris Sutton", "Joachim Klement", "Gab Marcotti", "Micah Richards",
+            "Alan Shearer", "Wayne Rooney", "Joe Mewis", "Mark Ogden",
+            "Michael Statham", "Süleyman Öztürk", "Wesley Sneijder", "Thomas Frank",
+            "Damian Didonato", "Bill Connelly", "Connor O'Halloran", "James Olley",
+            "Finley Crebolder", "Lizzy Becherano", "Julien Laurens", "Beth Lindop",
+            "Rob Dawson", "Alex Kirkland", "Cesar Hernandez", "Tom Hamilton"
         ];
 
         function debounce(fn, delay) {
@@ -528,9 +495,7 @@
                         item.onclick = () => {
                             suggestionsContainer.classList.add('hidden');
                             input.value = name;
-                            if (window.plausible) {
-                                window.plausible('Search', { props: { query: name } });
-                            }
+                            if (window.plausible) window.plausible('Search', { props: { query: name } });
                             window.location.href = `predictions.html?search=${encodeURIComponent(name)}`;
                         };
                         suggestionsContainer.appendChild(item);
@@ -550,41 +515,26 @@
             }, 160);
 
             input.addEventListener('input', filterAndShow);
-
             document.addEventListener('click', (e) => {
-                if (!wrapper.contains(e.target)) {
-                    suggestionsContainer.classList.add('hidden');
-                }
+                if (!wrapper.contains(e.target)) suggestionsContainer.classList.add('hidden');
             });
-
             input.addEventListener('focus', () => {
-                if (input.value.trim() === '') {
-                    showSuggestions(FORECASTERS.slice(0, 12));
-                } else {
-                    filterAndShow();
-                }
+                if (input.value.trim() === '') showSuggestions(FORECASTERS.slice(0, 12));
+                else filterAndShow();
             });
-
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     suggestionsContainer.classList.add('hidden');
                     const val = input.value.trim();
-                    if (window.plausible) {
-                        window.plausible('Search', { props: { query: val || '(empty)' } });
-                    }
-                    if (val) {
-                        window.location.href = `predictions.html?search=${encodeURIComponent(val)}`;
-                    } else {
-                        window.location.href = 'predictions.html';
-                    }
+                    if (window.plausible) window.plausible('Search', { props: { query: val || '(empty)' } });
+                    window.location.href = val ? `predictions.html?search=${encodeURIComponent(val)}` : 'predictions.html';
                 }
             });
         }
 
         window.onload = function() {
             initializeMobileMenu();
-
             const stayForm = document.getElementById('stay-updated-form');
             const stayBtn = document.getElementById('stay-submit-btn');
             const stayBtnText = document.getElementById('stay-btn-text');
@@ -594,7 +544,6 @@
                     handleFormSubmit(stayForm, stayBtn, stayBtnText);
                 });
             }
-
             createSearchHandler('hero-prediction-search', 'hero-search-suggestions', 'hero-search-wrapper');
         };
     </script>

@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 
 ## [Unreleased]
 
+### Added
+- Permanent **Prediction Detail** pages at `/predictions/{statement_id}.html` for every resolved prediction.
+- Generator: `scripts/generate_prediction_details.py`.
+- Predictions table rows now link to the matching detail page.
+- Visual system documentation: `trackrecord-design-principles/VISUAL_SYSTEM.md`.
+- CI workflow regenerates detail pages together with tables when `predictions_v2.jsonl` changes.
+
+### Changed
+- Homepage (`index.html`) aligned to the visual system (type weights 400/500, unified pills, left-aligned footnotes).
+- Root README documents detail pages, regeneration commands, and the visual system.
+
+## [Unreleased]
+
 ### Resolved
 - **All outstanding predictions completed** (2026-07-21).
   - Full FR-01 overdue set (44+ records) resolved across batches 01–06.

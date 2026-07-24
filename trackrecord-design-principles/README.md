@@ -10,6 +10,7 @@ The principles prioritize calm, trustworthy, and evidence-based user experiences
 ## Main Document
 
 - [DESIGN-PRINCIPLES.md](./DESIGN-PRINCIPLES.md) — Complete set of 7 core principles with rationale and application guidance.
+- [VISUAL_SYSTEM.md](./VISUAL_SYSTEM.md) — Concrete visual system for static pages (how).
 
 ## Key Decisions
 

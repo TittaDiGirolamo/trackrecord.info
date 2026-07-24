@@ -99,7 +99,7 @@ def render_predictions_table(records, build_date):
             try:
                 days = max(0, (date.fromisoformat(r.resolution_date) - build_date).days)
                 days_text = f"{days} days"
-            except:
+            except Exception:
                 pass
 
         if getattr(r, 'outcome', None) is not None:
@@ -111,9 +111,10 @@ def render_predictions_table(records, build_date):
         topic = (r.statement_topic or "General")[:35]
         topic_html = f'<span class="topic-pill">{topic}</span>'
 
+        detail_href = f"predictions/{r.statement_id}.html"
         row = f'''<tr class="prediction-row mobile-table-row">
     <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">{name}</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction">“{quote}”</td>
+    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="{detail_href}" class="text-slate-900 hover:text-emerald-700 transition-colors">“{quote}”</a></td>
     <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">{days_text}</td>
     <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status">{status}</td>
     <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic">{topic_html}</td>

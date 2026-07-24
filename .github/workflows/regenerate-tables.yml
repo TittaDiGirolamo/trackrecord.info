@@ -27,6 +27,9 @@ jobs:
       - name: Run table generator
         run: python scripts/generate_prediction_tables.py --build-date $(date +%Y-%m-%d)
 
+      - name: Generate prediction detail pages
+        run: python scripts/generate_prediction_details.py
+
       - name: Generate homepage scorecards
         run: python scripts/generate_homepage_scorecards.py --build-date $(date +%Y-%m-%d) --index-html index.html
 
@@ -34,6 +37,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.html predictions.html
-          git commit -m "chore: auto-regenerate tables from predictions_v2.jsonl" || exit 0
+          git add index.html predictions.html predictions/
+          git commit -m "chore: auto-regenerate tables and detail pages from predictions_v2.jsonl" || exit 0
           git push

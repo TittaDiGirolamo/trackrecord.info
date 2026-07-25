@@ -1,898 +1,469 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trackrecord.info • Unfiltered forecaster accuracy tracking for WC2026. All forecasters and current resolution status.">
-    <title>Forecasters • Trackrecord.info</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forecasters — trackrecord.info</title>
+  <meta name="description" content="All tracked public forecasters and their accuracy records on trackrecord.info." />
+  <link rel="canonical" href="https://trackrecord.info/forecasters.html" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap" rel="stylesheet">
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trackrecord.info/forecasters.html" />
+  <meta property="og:title" content="Forecasters — trackrecord.info" />
+  <meta property="og:description" content="All tracked public forecasters and their accuracy records." />
+  <meta property="og:site_name" content="trackrecord.info" />
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <style>
-        body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-        .font-display {
-            font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-weight: 600;
-        }
-        .topic-pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.75rem;
-            background-color: #10b981;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border-radius: 9999px;
-            white-space: nowrap;
-        }
-        .table-container {
-            overflow-x: auto;
-        }
-        #forecaster-search:focus {
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
-    </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    body, h1, h2, h3, h4, h5, h6, a, button, input, p, span, div {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
-    <!-- Navigation - Consistent & Mobile-First (Congruent v1 - 2026-07-15) -->
-    <nav id="main-nav" class="border-b border-slate-200 bg-white sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16 md:h-20">
-                <!-- Logo -->
-                <div class="flex items-center gap-x-2.5">
-                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span class="text-white text-xl font-bold tracking-tighter">T</span>
-                    </div>
-                    <a href="index.html" class="font-display text-lg font-semibold tracking-tight">Trackrecord.info</a>
-                </div>
-    
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-x-8 text-sm">
-                    <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
-                    <a href="forecasters.html" class="font-medium text-emerald-600 transition-colors" aria-current="page">Forecasters</a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
-                       class="font-medium text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
-                </div>
-    
-                <!-- Right side actions -->
-                <div class="flex items-center gap-x-3">
-                    <a href="https://x.com/titta_girolamo"
-                       class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors">
-                        <i class="fa-brands fa-x-twitter"></i>
-                        <span>Follow</span>
-                    </a>
-    
-                    <!-- Mobile Hamburger -->
-                    <button id="mobile-menu-btn"
-                            class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none"
-                            aria-label="Toggle menu"
-                            aria-expanded="false">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-    
-            <!-- Mobile Menu (Collapsible) -->
-            <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 py-4">
-                <div class="flex flex-col gap-y-4 text-sm">
-                    <a href="predictions.html" class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
-                    <a href="forecasters.html" class="font-medium text-emerald-600 px-2 py-1" aria-current="page">Forecasters</a>
-                    <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md"
-                       class="font-medium text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
-    
-                    <div class="pt-4 border-t border-slate-100 flex flex-col gap-y-3">
-                        <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
-                            <i class="fa-brands fa-x-twitter"></i> Follow on X
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body class="bg-white text-slate-900 antialiased">
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-semibold tracking-tight">Who we're tracking</h1>
-            <p class="text-slate-600 mt-2 max-w-2xl mx-auto">
-                Unfiltered • All forecasters and their current accuracy scores (0.0/100 pending resolutions). 
-                Data is updated as matches resolve.
-            </p>
+  <!-- Navigation – identical to index.html -->
+  <nav id="main-nav" class="bg-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <!-- Logo -->
+        <div class="flex items-center gap-x-2.5">
+          <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
+            <span class="text-white text-sm font-normal tracking-tight">T</span>
+          </div>
+          <a href="index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
         </div>
 
-        <!-- Search / Filter -->
-        <div class="mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div class="text-sm text-slate-500">
-                <span id="visible-count">20</span> forecasters shown
-            </div>
-            <div class="relative w-full sm:w-80">
-                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input 
-                    id="forecaster-search" 
-                    type="search" 
-                    placeholder="Search by name or topic..." 
-                    class="w-full pl-11 pr-4 py-2.5 border border-slate-200 rounded-2xl text-sm bg-white focus:outline-none focus:border-emerald-500 transition-colors"
-                    aria-label="Search forecasters by name or topic">
-            </div>
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center gap-x-8 text-sm">
+          <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
+          <a href="forecasters.html" class="font-normal text-slate-900 transition-colors">Forecasters</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
         </div>
 
-        <!-- Clean, valid single table structure -->
-        <div class="bg-white rounded-3xl overflow-hidden shadow-sm">
-            <div class="table-container">
-                <table id="forecasters-table" class="w-full">
-                    <thead>
-                        <tr class="bg-slate-50">
-                            <th scope="col" class="text-left py-4 px-8 text-sm font-medium text-slate-500">Forecaster</th>
-                            <th scope="col" class="text-center py-4 px-6 text-sm font-medium text-slate-500">Accuracy Score</th>
-                            <th scope="col" class="text-center py-4 px-6 text-sm font-medium text-slate-500">Resolved</th>
-                            <th scope="col" class="text-left py-4 px-8 text-sm font-medium text-slate-500">WC2026 Topics</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm">
-                        <!-- BEGIN-FORECASTERS-TBODY (now properly structured) -->
-
-                        <!-- Lizzy Becherano -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">BL</div>
-                                    <div>
-                                        <div class="font-semibold">Lizzy Becherano</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Quarterfinals</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Bill Connelly -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">CB</div>
-                                    <div>
-                                        <div class="font-semibold">Bill Connelly</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Quarterfinals</span>
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Rob Dawson -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">DR</div>
-                                    <div>
-                                        <div class="font-semibold">Rob Dawson</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Damian Didonato -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">DD</div>
-                                    <div>
-                                        <div class="font-semibold">Damian Didonato</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Thomas Frank -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-teal-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">FT</div>
-                                    <div>
-                                        <div class="font-semibold">Thomas Frank</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Tom Hamilton -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">HT</div>
-                                    <div>
-                                        <div class="font-semibold">Tom Hamilton</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Group Stage</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Cesar Hernandez -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">HC</div>
-                                    <div>
-                                        <div class="font-semibold">Cesar Hernandez</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Quarterfinals</span>
-                                    <span class="topic-pill">Round Of 16</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Alex Kirkland -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KA</div>
-                                    <div>
-                                        <div class="font-semibold">Alex Kirkland</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Last 16</span>
-                                    <span class="topic-pill">Quarterfinals</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Joachim Klement -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">KJ</div>
-                                    <div>
-                                        <div class="font-semibold">Joachim Klement</div>
-                                        <div class="text-xs text-slate-500">Economist &amp; Modeler</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/7</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
-                                    <span class="topic-pill">Semifinals</span>
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Julien Laurens -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">LJ</div>
-                                    <div>
-                                        <div class="font-semibold">Julien Laurens</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Quarterfinals</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Beth Lindop -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">LB</div>
-                                    <div>
-                                        <div class="font-semibold">Beth Lindop</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Quarterfinals</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Gab Marcotti -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MG</div>
-                                    <div>
-                                        <div class="font-semibold">Gab Marcotti</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/3</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Group Stage</span>
-                                    <span class="topic-pill">Last 16</span>
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Joe Mewis -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">MJ</div>
-                                    <div>
-                                        <div class="font-semibold">Joe Mewis</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/4</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Knockout Stages</span>
-                                    <span class="topic-pill">Last 16</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Connor O'Halloran -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-rose-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OC</div>
-                                    <div>
-                                        <div class="font-semibold">Connor O'Halloran</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Knockout Stages</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Mark Ogden -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OM</div>
-                                    <div>
-                                        <div class="font-semibold">Mark Ogden</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Group Stage</span>
-                                    <span class="topic-pill">Quarterfinals</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- James Olley -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-amber-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">OJ</div>
-                                    <div>
-                                        <div class="font-semibold">James Olley</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Group Stage</span>
-                                    <span class="topic-pill">Quarterfinals</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Micah Richards -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">RM</div>
-                                    <div>
-                                        <div class="font-semibold">Micah Richards</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Wayne Rooney -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">RW</div>
-                                    <div>
-                                        <div class="font-semibold">Wayne Rooney</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Alan Shearer -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-purple-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SA</div>
-                                    <div>
-                                        <div class="font-semibold">Alan Shearer</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Semifinals</span>
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Wesley Sneijder -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-orange-500 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SW</div>
-                                    <div>
-                                        <div class="font-semibold">Wesley Sneijder</div>
-                                        <div class="text-xs text-slate-500">Dutch football legend</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Michael Statham -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SM</div>
-                                    <div>
-                                        <div class="font-semibold">Michael Statham</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Chris Sutton (the only forecaster with real resolved data in this snapshot) -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">SC</div>
-                                    <div>
-                                        <div class="font-semibold">Chris Sutton</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">15/29</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1 max-w-[620px]">
-                                    <span class="topic-pill">Group Stage</span>
-                                    <span class="topic-pill">Match Result [Australia Vs Turkey]</span>
-                                    <span class="topic-pill">Match Result [Brazil Vs Morocco]</span>
-                                    <span class="topic-pill">Match Result [Canada Vs Bosnia And Herzegovina]</span>
-                                    <span class="topic-pill">Match Result [England Vs Croatia]</span>
-                                    <span class="topic-pill">Match Result [Germany Vs Curacao]</span>
-                                    <span class="topic-pill">Match Result [Ghana Vs Panama]</span>
-                                    <span class="topic-pill">Match Result [Haiti Vs Scotland]</span>
-                                    <span class="topic-pill">Match Result [Ivory Coast Vs Ecuador]</span>
-                                    <span class="topic-pill">Match Result [Mexico Vs South Africa]</span>
-                                    <span class="topic-pill">Match Result [Netherlands Vs Japan]</span>
-                                    <span class="topic-pill">Match Result [Portugal Vs Dr Congo]</span>
-                                    <span class="topic-pill">Match Result [Qatar Vs Switzerland]</span>
-                                    <span class="topic-pill">Match Result [South Korea Vs Czechia]</span>
-                                    <span class="topic-pill">Match Result [Sweden Vs Tunisia]</span>
-                                    <span class="topic-pill">Match Result [Usa Vs Paraguay]</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Bas van den Hoven -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">VB</div>
-                                    <div>
-                                        <div class="font-semibold">Bas van den Hoven</div>
-                                        <div class="text-xs text-slate-500">Voetbal International</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/1</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Süleyman Öztürk -->
-                        <tr>
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-x-4">
-                                    <div class="w-10 h-10 bg-blue-600 rounded-2xl flex-shrink-0 flex items-center justify-center text-white font-semibold text-lg">ÖS</div>
-                                    <div>
-                                        <div class="font-semibold">Süleyman Öztürk</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <div class="inline-flex items-center gap-x-1.5">
-                                    <span class="text-3xl font-semibold tabular-nums">0.0</span>
-                                    <span class="text-xs text-emerald-600 font-medium">/100</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-5 text-center">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">0/2</span>
-                            </td>
-                            <td class="px-8 py-5">
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="topic-pill">Netherlands Performance (5 stages)</span>
-                                    <span class="topic-pill">Winner</span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- END-FORECASTERS-TBODY -->
-                    </tbody>
-                </table>
-            </div>
+        <!-- Social & mobile-toggle -->
+        <div class="flex items-center gap-x-3">
+          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-normal text-slate-700 hover:text-slate-900 transition-colors">
+            <i class="fa-brands fa-x-twitter"></i>
+            <span>Follow</span>
+          </a>
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
         </div>
+      </div>
 
-        <div class="mt-4 text-center text-xs text-slate-400">
-            All accuracy scores are pending final resolutions. Data reflects the latest available match outcomes.
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="hidden md:hidden py-4">
+        <div class="flex flex-col gap-y-4 text-sm">
+          <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
+          <a href="forecasters.html" class="font-normal text-slate-900 px-2 py-1">Forecasters</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
+          <div class="pt-4 flex flex-col gap-y-3">
+            <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
+              <i class="fa-brands fa-x-twitter"></i> Follow on X
+            </a>
+          </div>
         </div>
-    </main>
+      </div>
+    </div>
+  </nav>
 
-    <footer class="bg-white border-t border-slate-100 mt-12">
-        <div class="max-w-7xl mx-auto px-6 py-8 text-sm text-slate-500 text-center">
-            © 2026 Trackrecord.info • <a href="index.html" class="underline hover:text-slate-700">Back to homepage</a>
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+
+    <!-- Header -->
+    <header class="mb-8">
+      <p class="text-sm font-normal text-emerald-600 mb-1">Directory</p>
+      <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900">Forecasters</h1>
+      <p class="mt-2 text-slate-600 max-w-2xl leading-relaxed">
+        Every public figure with at least one tracked prediction. Open a profile for the full accuracy record, topic breakdown, and recent claims.
+      </p>
+    </header>
+
+    <!-- Search -->
+    <div class="mb-8">
+      <label for="forecaster-search" class="sr-only">Search forecasters</label>
+      <div class="relative max-w-md">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+        <input
+          id="forecaster-search"
+          type="search"
+          placeholder="Search by name…"
+          autocomplete="off"
+          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-100 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
+        />
+      </div>
+      <p class="mt-2 text-xs text-slate-400">
+        <span id="visible-count">25</span> of <span id="total-count">25</span> forecasters
+      </p>
+    </div>
+
+    <!-- Card grid – one card per live profile (from generate_forecaster_profiles.py) -->
+    <div id="forecaster-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <a href="forecasters/alan-shearer.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="alan shearer">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">AS</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Alan Shearer</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
         </div>
-    </footer>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
 
-    <!-- Minimal vanilla JS for client-side filtering -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('forecaster-search');
-            const tbody = document.querySelector('#forecasters-table tbody');
-            const visibleCount = document.getElementById('visible-count');
+      <a href="forecasters/alex-kirkland.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="alex kirkland">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-cyan-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">AK</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Alex Kirkland</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
 
-            if (!searchInput || !tbody || !visibleCount) return;
+      <a href="forecasters/bas-van-den-hoven.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="bas van den hoven">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-teal-700 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">BH</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Bas van den Hoven</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
 
-            function updateVisibleCount() {
-                const visibleRows = tbody.querySelectorAll('tr:not([style*="display: none"])').length;
-                visibleCount.textContent = visibleRows;
-            }
+      <a href="forecasters/beth-lindop.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="beth lindop">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-fuchsia-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">BL</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Beth Lindop</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
 
-            searchInput.addEventListener('input', function() {
-                const query = this.value.toLowerCase().trim();
-                
-                tbody.querySelectorAll('tr').forEach(function(row) {
-                    const nameCell = row.querySelector('td:first-child');
-                    if (!nameCell) return;
+      <a href="forecasters/bill-connelly.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="bill connelly">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-slate-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">BC</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Bill Connelly</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
 
-                    const name = nameCell.textContent.toLowerCase();
-                    const topicsCell = row.querySelector('td:last-child');
-                    const topics = topicsCell ? topicsCell.textContent.toLowerCase() : '';
+      <a href="forecasters/cesar-hernandez.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="cesar hernandez">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-amber-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">CH</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Cesar Hernandez</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
 
-                    if (name.includes(query) || topics.includes(query)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
+      <a href="forecasters/chris-sutton.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="chris sutton">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-rose-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">CS</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Chris Sutton</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-x-1.5 mb-1">
+          <span class="text-3xl font-medium text-slate-900 tabular-nums">39.3</span>
+          <span class="text-sm text-slate-500">/100</span>
+        </div>
+        <div class="text-xs text-slate-500">29 resolved</div>
+      </a>
 
-                updateVisibleCount();
-            });
+      <a href="forecasters/connor-o-halloran.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="connor o'halloran connor o halloran">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-violet-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">CO</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Connor O'Halloran</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const initialSearch = urlParams.get('search');
-            if (initialSearch) {
-                searchInput.value = initialSearch;
-                searchInput.dispatchEvent(new Event('input'));
-            }
+      <a href="forecasters/damian-didonato.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="damian didonato">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-pink-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">DD</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Damian Didonato</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
 
-            updateVisibleCount();
-        });
-    </script>
-    <script>
-        function initializeMobileMenu() {
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-           
-            if (mobileBtn && mobileMenu) {
-                mobileBtn.addEventListener('click', () => {
-                    const isHidden = mobileMenu.classList.contains('hidden');
-                    mobileMenu.classList.toggle('hidden');
-                    mobileBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-                   
-                    const icon = mobileBtn.querySelector('i');
-                    if (icon) {
-                        icon.classList.toggle('fa-bars');
-                        icon.classList.toggle('fa-xmark');
-                    }
-                });
-            }
-    
-            document.addEventListener('keydown', (e) => {
-                const currentMenu = document.getElementById('mobile-menu');
-                const currentBtn = document.getElementById('mobile-menu-btn');
-                if (e.key === 'Escape' && currentMenu && !currentMenu.classList.contains('hidden')) {
-                    currentMenu.classList.add('hidden');
-                    if (currentBtn) currentBtn.setAttribute('aria-expanded', 'false');
-                    const icon = currentBtn ? currentBtn.querySelector('i') : null;
-                    if (icon) {
-                        icon.classList.remove('fa-xmark');
-                        icon.classList.add('fa-bars');
-                    }
-                }
-            });
-        }
-    
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeMobileMenu);
-        } else {
-            initializeMobileMenu();
-        }
-    </script>
+      <a href="forecasters/finley-crebolder.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="finley crebolder">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-sky-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">FC</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Finley Crebolder</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
+
+      <a href="forecasters/gab-marcotti.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="gab marcotti">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">GM</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Gab Marcotti</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">3 resolved</div>
+      </a>
+
+      <a href="forecasters/james-olley.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="james olley">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-orange-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">JO</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">James Olley</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
+
+      <a href="forecasters/joachim-klement.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="joachim klement">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-pink-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">JK</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Joachim Klement</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">7 resolved</div>
+      </a>
+
+      <a href="forecasters/joe-mewis.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="joe mewis">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-pink-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">JM</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Joe Mewis</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">4 resolved</div>
+      </a>
+
+      <a href="forecasters/julien-laurens.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="julien laurens">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">JL</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Julien Laurens</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
+
+      <a href="forecasters/lizzy-becherano.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="lizzy becherano">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-violet-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">LB</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Lizzy Becherano</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
+
+      <a href="forecasters/mark-ogden.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="mark ogden">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-amber-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">MO</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Mark Ogden</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
+
+      <a href="forecasters/micah-richards.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="micah richards">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-sky-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">MR</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Micah Richards</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
+
+      <a href="forecasters/michael-statham.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="michael statham">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">MS</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Michael Statham</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
+
+      <a href="forecasters/rob-dawson.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="rob dawson">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-cyan-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">RD</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Rob Dawson</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
+
+      <a href="forecasters/suleyman-ozturk.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="süleyman öztürk suleyman ozturk">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-rose-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">SÖ</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Süleyman Öztürk</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
+
+      <a href="forecasters/thomas-frank.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="thomas frank">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-slate-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">TF</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Thomas Frank</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
+
+      <a href="forecasters/tom-hamilton.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="tom hamilton">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-teal-700 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">TH</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Tom Hamilton</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
+
+      <a href="forecasters/wayne-rooney.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="wayne rooney">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-orange-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">WR</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Wayne Rooney</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">1 resolved</div>
+      </a>
+
+      <a href="forecasters/wesley-sneijder.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="wesley sneijder">
+        <div class="flex items-center gap-x-3 mb-4">
+          <div class="w-11 h-11 bg-orange-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">WS</div>
+          <div class="min-w-0">
+            <div class="font-medium text-slate-900 truncate">Wesley Sneijder</div>
+            <div class="text-xs text-slate-500">Public forecaster</div>
+          </div>
+        </div>
+        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
+        <div class="text-xs text-slate-500">2 resolved</div>
+      </a>
+
+    </div>
+
+    <p id="empty-state" class="hidden text-center text-sm text-slate-500 py-12">
+      No forecasters match that search.
+    </p>
+
+    <p class="mt-12 text-xs text-slate-400 leading-relaxed max-w-2xl">
+      Numeric scores are shown only when a forecaster has at least 10 resolved predictions (same threshold as the homepage).
+      Scores calculated per METHODOLOGY.md. Each card links to a permanent Profile page under /forecasters/{slug}.html.
+    </p>
+  </main>
+
+  <script>
+    // Mobile menu (same behaviour as index.html)
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {
+      const m = document.getElementById('mobile-menu');
+      const open = !m.classList.contains('hidden');
+      m.classList.toggle('hidden', open);
+      this.setAttribute('aria-expanded', String(!open));
+      this.querySelector('i').className = open
+        ? 'fa-solid fa-bars text-2xl'
+        : 'fa-solid fa-xmark text-2xl';
+    });
+
+    // Client-side search
+    const input = document.getElementById('forecaster-search');
+    const cards = Array.from(document.querySelectorAll('.forecaster-card'));
+    const visibleCount = document.getElementById('visible-count');
+    const totalCount = document.getElementById('total-count');
+    const emptyState = document.getElementById('empty-state');
+    const grid = document.getElementById('forecaster-grid');
+
+    if (totalCount) totalCount.textContent = cards.length;
+    if (visibleCount) visibleCount.textContent = cards.length;
+
+    function filterCards() {
+      const q = (input.value || '').toLowerCase().trim();
+      let shown = 0;
+      cards.forEach(card => {
+        const match = !q || (card.dataset.name || '').includes(q);
+        card.classList.toggle('hidden', !match);
+        if (match) shown++;
+      });
+      if (visibleCount) visibleCount.textContent = shown;
+      emptyState.classList.toggle('hidden', shown > 0);
+      grid.classList.toggle('hidden', shown === 0);
+    }
+
+    input?.addEventListener('input', filterCards);
+
+    // Support ?search= from URL
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('search')) {
+      input.value = params.get('search');
+      filterCards();
+    }
+  </script>
 </body>
 </html>

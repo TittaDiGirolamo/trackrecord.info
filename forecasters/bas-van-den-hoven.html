@@ -7,14 +7,12 @@
   <meta name="description" content="Accuracy Insufficient data (n=1). 1 resolved of 1 tracked predictions." />
   <link rel="canonical" href="https://trackrecord.info/forecasters/bas-van-den-hoven.html" />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="profile" />
   <meta property="og:url" content="https://trackrecord.info/forecasters/bas-van-den-hoven.html" />
   <meta property="og:title" content="Bas van den Hoven — Forecaster Profile | trackrecord.info" />
   <meta property="og:description" content="Accuracy Insufficient data (n=1). 1 resolved of 1 tracked predictions." />
   <meta property="og:site_name" content="trackrecord.info" />
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Bas van den Hoven — Forecaster Profile | trackrecord.info" />
   <meta name="twitter:description" content="Accuracy Insufficient data (n=1). 1 resolved of 1 tracked predictions." />
@@ -31,41 +29,56 @@
 </head>
 <body class="bg-white text-slate-900 antialiased">
   
-  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-      <a href="../index.html" class="flex items-center gap-x-2.5">
-        <div class="w-7 h-7 bg-slate-900 rounded-lg"></div>
-        <span class="text-lg font-normal tracking-tight text-slate-900">trackrecord.info</span>
-      </a>
-      <div class="hidden md:flex items-center gap-x-6 text-sm font-normal text-slate-600">
-        <a href="../predictions.html" class="hover:text-slate-900">Predictions</a>
-        <a href="../forecasters.html" class="hover:text-slate-900">Forecasters</a>
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="hover:text-slate-900" target="_blank" rel="noopener">Methodology</a>
+  <nav id="main-nav" class="bg-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <div class="flex items-center gap-x-2.5">
+          <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
+            <span class="text-white text-sm font-normal tracking-tight">T</span>
+          </div>
+          <a href="../index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
+        </div>
+
+        <div class="hidden md:flex items-center gap-x-8 text-sm">
+          <a href="../predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
+          <a href="../forecasters.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
+        </div>
+
+        <div class="flex items-center gap-x-3">
+          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-normal text-slate-700 hover:text-slate-900 transition-colors">
+            <i class="fa-brands fa-x-twitter"></i>
+            <span>Follow</span>
+          </a>
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
+        </div>
       </div>
-      <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600" aria-label="Open menu" aria-expanded="false">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white">
-      <div class="px-4 py-3 space-y-2 text-sm">
-        <a href="../predictions.html" class="block py-2 text-slate-700">Predictions</a>
-        <a href="../forecasters.html" class="block py-2 text-slate-700">Forecasters</a>
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="block py-2 text-slate-700" target="_blank" rel="noopener">Methodology</a>
+
+      <div id="mobile-menu" class="hidden md:hidden py-4">
+        <div class="flex flex-col gap-y-4 text-sm">
+          <a href="../predictions.html" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
+          <a href="../forecasters.html" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Forecasters</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
+          <div class="pt-4 flex flex-col gap-y-3">
+            <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
+              <i class="fa-brands fa-x-twitter"></i> Follow on X
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
 
 
   <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
-    <!-- Back link -->
     <a href="../forecasters.html" class="inline-flex items-center gap-x-1.5 text-sm text-slate-500 hover:text-slate-800 mb-6">
       <i class="fa-solid fa-arrow-left text-xs"></i> All forecasters
     </a>
 
-    <!-- Section title sits outside the card (matches homepage pattern) -->
     <p class="text-sm font-normal text-emerald-600 mb-3">Forecaster profile</p>
 
-    <!-- Primary info in light-grey block (above the fold) -->
     <header class="bg-slate-100 rounded-2xl p-6 md:p-8">
       <div class="flex items-center gap-x-4">
         <div class="w-12 h-12 bg-sky-600 rounded-2xl flex items-center justify-center text-white font-medium text-lg shrink-0">BH</div>
@@ -126,7 +139,6 @@
       </p>
     </section>
 
-    <!-- Neutrality + audit footer (REQ-PR-008, NFR-PR-005) -->
     <footer class="mt-16 pt-8 border-t border-slate-200">
       <p class="text-xs text-slate-400 leading-relaxed">
         Score calculated per METHODOLOGY.md §4 (0–100 Accuracy Score) + scoring_rules.md v2.0. Pending predictions are excluded from accuracy.
@@ -144,13 +156,14 @@
   </main>
 
   <script>
-    // Mobile menu (same pattern as other pages)
     document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {
       const m = document.getElementById('mobile-menu');
       const open = !m.classList.contains('hidden');
       m.classList.toggle('hidden', open);
       this.setAttribute('aria-expanded', String(!open));
-      this.querySelector('i').className = open ? 'fa-solid fa-bars' : 'fa-solid fa-xmark';
+      this.querySelector('i').className = open
+        ? 'fa-solid fa-bars text-2xl'
+        : 'fa-solid fa-xmark text-2xl';
     });
   </script>
 </body>

@@ -6,29 +6,9 @@ Generates permanent static Forecaster Profile pages for trackrecord.info.
 
 Implements REQUIREMENTS_Forecaster_Profile_Surface.md (v1.0.0, 2026-07-24)
 
-Key design decisions (Zero-Assumption Validation):
-- ASS-PR-001: Uses author.firstname + " " + author.lastname (same as existing
-  generate_homepage_scorecards.py / generate_prediction_tables.py) as the
-  canonical display name and grouping key. The parallel "forecaster" field
-  (Lastname, Firstname) is ignored for consistency with published scores.
-  Validation: all current records have consistent author objects; no
-  systematic fragmentation observed among the ~25 names.
-- ASS-PR-002: Re-uses the exact scoring logic from generate_homepage_scorecards.py
-  so NFR-PR-003 (cross-surface consistency) holds by construction.
-- ASS-PR-003: statement_topic is present on all records and used as-is.
-- ASS-PR-004: Emits pure static HTML under forecasters/{slug}.html + a small
-  JSON search index. Compatible with existing GitHub Pages + Actions pattern.
-- ASS-PR-005: Overall numeric score shown only when resolved_count >= 10
-  (observed live homepage threshold). Topic scores require >= 5 (METHODOLOGY.md).
-- ASS-PR-006: Stable permanent URLs /forecasters/{slug}.html required for Share.
-
 Usage (from repo root):
   python3 scripts/generate_forecaster_profiles.py
   python3 scripts/generate_forecaster_profiles.py --dry-run --verbose
-  python3 scripts/generate_forecaster_profiles.py --min-resolved 10
-
-The script is intended to be called from the same GitHub Action that already
-regenerates tables and detail pages, guaranteeing atomicity.
 """
 
 from __future__ import annotations
@@ -39,15 +19,15 @@ import json
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 # ---------------------------------------------------------------------------
-# Constants (validated against live site + METHODOLOGY.md)
+# Constants
 # ---------------------------------------------------------------------------
-MIN_RESOLVED_FOR_OVERALL = 10          # homepage scorecards threshold
-MIN_RESOLVED_FOR_TOPIC = 5             # METHODOLOGY.md
+MIN_RESOLVED_FOR_OVERALL = 10
+MIN_RESOLVED_FOR_TOPIC = 5
 MAX_TOPICS_SHOWN = 7
 MAX_PREDICTIONS_LIST = 8
 OUTPUT_DIR = Path("forecasters")
@@ -57,27 +37,19 @@ METHODOLOGY_REF = "METHODOLOGY.md §4 (0–100 Accuracy Score) + scoring_rules.m
 
 
 # ---------------------------------------------------------------------------
-# Name / slug helpers (pure, deterministic, reversible for audit)
+# Name / slug helpers
 # ---------------------------------------------------------------------------
 def display_name_from_record(record: dict) -> str:
-    """Canonical display name matching existing generators."""
     author = record.get("author") or {}
     first = (author.get("firstname") or "").strip()
     last = (author.get("lastname") or "").strip()
     name = f"{first} {last}".strip()
     if not name:
-        # Fallback to the parallel field if author is missing
         name = (record.get("forecaster") or "Unknown").strip()
     return name
 
 
 def slugify(name: str) -> str:
-    """
-    Deterministic URL-safe slug.
-    "Chris Sutton" -> "chris-sutton"
-    "Süleyman Öztürk" -> "suleyman-ozturk"
-    """
-    # Normalize unicode (ö -> o, etc.)
     nfkd = unicodedata.normalize("NFKD", name)
     ascii_name = "".join(c for c in nfkd if not unicodedata.combining(c))
     slug = re.sub(r"[^a-z0-9]+", "-", ascii_name.lower()).strip("-")
@@ -85,25 +57,18 @@ def slugify(name: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Scoring (byte-identical logic to generate_homepage_scorecards.py)
+# Scoring
 # ---------------------------------------------------------------------------
 def score_of_record(record: dict) -> Optional[float]:
-    """Return 0–100 score for a resolved record, or None if pending."""
     if record.get("outcome") is None:
         return None
     weighted = (record.get("partial_accuracy") or {}).get("weighted_score")
     if weighted is not None:
         return float(weighted) * 100.0
-    # Binary fallback
     return 100.0 if bool(record["outcome"]) else 0.0
 
 
 def status_label(record: dict) -> Tuple[str, str, str]:
-    """
-    Return (label, badge_classes, card_bg_classes) for status.
-    Vocabulary matches Prediction Detail + Visual System.
-    Card backgrounds: green / amber / red for True / Pending / False.
-    """
     outcome = record.get("outcome")
     if outcome is None:
         return "Pending", "bg-amber-500 text-white", "bg-amber-50"
@@ -113,14 +78,12 @@ def status_label(record: dict) -> Tuple[str, str, str]:
 
 
 def short_topic_label(topic: str) -> str:
-    """Prefer a single concise word/phrase from the hierarchical topic."""
     if not topic:
         return "General"
     parts = [p.strip() for p in topic.split(" - ") if p.strip()]
     if not parts:
         return "General"
     last = parts[-1]
-    # Collapse common multi-word endings to one preferred word where sensible
     mapping = {
         "Group Stage": "Group",
         "Knockout Stages": "Knockout",
@@ -134,8 +97,6 @@ def short_topic_label(topic: str) -> str:
     return mapping.get(last, last.split()[0] if " " in last and len(last) > 14 else last)
 
 
-# Deterministic initials badge colour — excludes primary emerald / green
-# so the badge never collides with the site accent (matches homepage spirit).
 _AVATAR_PALETTE = [
     "bg-blue-600",
     "bg-violet-600",
@@ -153,10 +114,6 @@ _AVATAR_PALETTE = [
 
 
 def initials_and_color(name: str) -> Tuple[str, str]:
-    """
-    Return (initials, tailwind_bg_class).
-    Same name always yields the same colour across the whole site.
-    """
     parts = [p for p in name.replace(",", " ").split() if p]
     if len(parts) >= 2:
         initials = (parts[0][0] + parts[-1][0]).upper()
@@ -164,7 +121,6 @@ def initials_and_color(name: str) -> Tuple[str, str]:
         initials = parts[0][:2].upper()
     else:
         initials = "?"
-    # Stable hash → palette index (avoid emerald/primary green)
     h = hashlib.md5(name.encode("utf-8")).hexdigest()
     idx = int(h[:8], 16) % len(_AVATAR_PALETTE)
     return initials, _AVATAR_PALETTE[idx]
@@ -174,22 +130,6 @@ def initials_and_color(name: str) -> Tuple[str, str]:
 # Aggregation
 # ---------------------------------------------------------------------------
 def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
-    """
-    Returns:
-      {
-        display_name: {
-          "slug": str,
-          "total": int,
-          "resolved_count": int,
-          "pending_count": int,
-          "overall": float | None,          # None when below threshold
-          "scores": list[float],            # for audit
-          "topics": {topic: {"count": int, "avg": float | None}},
-          "predictions": list[dict],        # sorted for the short list
-          "statement_ids": list[str],
-        }
-      }
-    """
     buckets: Dict[str, dict] = defaultdict(
         lambda: {
             "scores": [],
@@ -215,7 +155,7 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
 
             sc = score_of_record(rec)
             raw_topic = (rec.get("statement_topic") or "General").strip()
-            topic = short_topic_label(raw_topic)  # one-word / short pills
+            topic = short_topic_label(raw_topic)
             sid = rec.get("statement_id") or ""
 
             buckets[name]["predictions"].append(rec)
@@ -236,7 +176,6 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
         if resolved >= MIN_RESOLVED_FOR_OVERALL and data["scores"]:
             overall = round(sum(data["scores"]) / len(data["scores"]), 1)
         elif resolved > 0:
-            # Still compute for internal use / audit, but UI will hide it
             overall = round(sum(data["scores"]) / len(data["scores"]), 1)
 
         topic_stats = {}
@@ -245,9 +184,6 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
             avg = round(sum(scores) / cnt, 1) if cnt >= MIN_RESOLVED_FOR_TOPIC else None
             topic_stats[t] = {"count": cnt, "avg": avg}
 
-        # Deterministic ordering of the prediction list (REQ-PR-004)
-        # Resolved first (most recent resolution_date desc), then pending
-        # (publication_date desc). AC-004: pending appear only after resolved.
         resolved_preds = [r for r in data["predictions"] if r.get("outcome") is not None]
         pending_preds = [r for r in data["predictions"] if r.get("outcome") is None]
         resolved_preds.sort(key=lambda r: r.get("resolution_date") or "", reverse=True)
@@ -269,30 +205,49 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# HTML rendering (matches Visual System + existing detail/homepage style)
+# HTML
 # ---------------------------------------------------------------------------
 def render_nav(relative_prefix: str = "../") -> str:
+    """Same nav markup as index.html (logo T, wordmark, Follow on X, mobile menu)."""
     return f"""
-  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-      <a href="{relative_prefix}index.html" class="flex items-center gap-x-2.5">
-        <div class="w-7 h-7 bg-slate-900 rounded-lg"></div>
-        <span class="text-lg font-normal tracking-tight text-slate-900">trackrecord.info</span>
-      </a>
-      <div class="hidden md:flex items-center gap-x-6 text-sm font-normal text-slate-600">
-        <a href="{relative_prefix}predictions.html" class="hover:text-slate-900">Predictions</a>
-        <a href="{relative_prefix}forecasters.html" class="hover:text-slate-900">Forecasters</a>
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="hover:text-slate-900" target="_blank" rel="noopener">Methodology</a>
+  <nav id="main-nav" class="bg-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <div class="flex items-center gap-x-2.5">
+          <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
+            <span class="text-white text-sm font-normal tracking-tight">T</span>
+          </div>
+          <a href="{relative_prefix}index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
+        </div>
+
+        <div class="hidden md:flex items-center gap-x-8 text-sm">
+          <a href="{relative_prefix}predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
+          <a href="{relative_prefix}forecasters.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
+        </div>
+
+        <div class="flex items-center gap-x-3">
+          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-normal text-slate-700 hover:text-slate-900 transition-colors">
+            <i class="fa-brands fa-x-twitter"></i>
+            <span>Follow</span>
+          </a>
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
+        </div>
       </div>
-      <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600" aria-label="Open menu" aria-expanded="false">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white">
-      <div class="px-4 py-3 space-y-2 text-sm">
-        <a href="{relative_prefix}predictions.html" class="block py-2 text-slate-700">Predictions</a>
-        <a href="{relative_prefix}forecasters.html" class="block py-2 text-slate-700">Forecasters</a>
-        <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="block py-2 text-slate-700" target="_blank" rel="noopener">Methodology</a>
+
+      <div id="mobile-menu" class="hidden md:hidden py-4">
+        <div class="flex flex-col gap-y-4 text-sm">
+          <a href="{relative_prefix}predictions.html" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
+          <a href="{relative_prefix}forecasters.html" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Forecasters</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
+          <div class="pt-4 flex flex-col gap-y-3">
+            <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
+              <i class="fa-brands fa-x-twitter"></i> Follow on X
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -311,9 +266,6 @@ def render_profile_page(
     pending = data["pending_count"]
     overall = data["overall"]
 
-    # Score block (REQ-PR-002 + REQ-PR-008) — sits inside the light-grey main card
-    # Note: resolved count is already shown in the counts row below, so we omit
-    # the redundant "n = X resolved" line under the large score (matches homepage).
     if resolved < MIN_RESOLVED_FOR_OVERALL:
         score_html = f"""
         <div class="mt-4">
@@ -337,10 +289,8 @@ def render_profile_page(
         og_score = f"{overall}/100 (n={resolved})"
 
     initials, avatar_bg = initials_and_color(name)
-    # Placeholder bio — can later be driven from data if a bio field is added
     bio = "Public forecaster"
 
-    # Topic breakdown (REQ-PR-003) — short one-word (or short-phrase) pills
     topics_sorted = sorted(
         data["topics"].items(),
         key=lambda kv: (-kv[1]["count"], kv[0]),
@@ -375,14 +325,12 @@ def render_profile_page(
     else:
         topics_html = ""
 
-    # Prediction short list (REQ-PR-004) — status-tinted card backgrounds
     pred_items = []
     for rec in data["predictions"]:
         label, badge_cls, card_bg = status_label(rec)
         stmt = rec.get("original_statement") or ""
         if len(stmt) > 140:
             stmt = stmt[:137] + "…"
-        # Present as a quotation; outcome is already conveyed by the True/False/Pending pill
         quoted = f"“{stmt}”"
         pub = rec.get("statement_publication_date") or "—"
         sid = rec.get("statement_id") or ""
@@ -417,12 +365,10 @@ def render_profile_page(
       </p>
     </section>"""
 
-    # Open Graph / Twitter cards (REQ-PR-007)
     og_title = f"{name} — Forecaster Profile | trackrecord.info"
     og_desc = f"Accuracy {og_score}. {resolved} resolved of {total} tracked predictions."
     permanent_url = f"https://trackrecord.info/forecasters/{slug}.html"
 
-    # Audit meta (NFR-PR-005)
     audit_comment = (
         f"<!-- PROFILE_AUDIT "
         f"generated={build_date} "
@@ -443,14 +389,12 @@ def render_profile_page(
   <meta name="description" content="{og_desc}" />
   <link rel="canonical" href="{permanent_url}" />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="profile" />
   <meta property="og:url" content="{permanent_url}" />
   <meta property="og:title" content="{og_title}" />
   <meta property="og:description" content="{og_desc}" />
   <meta property="og:site_name" content="trackrecord.info" />
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="{og_title}" />
   <meta name="twitter:description" content="{og_desc}" />
@@ -469,15 +413,12 @@ def render_profile_page(
   {render_nav("../")}
 
   <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
-    <!-- Back link -->
     <a href="../forecasters.html" class="inline-flex items-center gap-x-1.5 text-sm text-slate-500 hover:text-slate-800 mb-6">
       <i class="fa-solid fa-arrow-left text-xs"></i> All forecasters
     </a>
 
-    <!-- Section title sits outside the card (matches homepage pattern) -->
     <p class="text-sm font-normal text-emerald-600 mb-3">Forecaster profile</p>
 
-    <!-- Primary info in light-grey block (above the fold) -->
     <header class="bg-slate-100 rounded-2xl p-6 md:p-8">
       <div class="flex items-center gap-x-4">
         <div class="w-12 h-12 {avatar_bg} rounded-2xl flex items-center justify-center text-white font-medium text-lg shrink-0">{initials}</div>
@@ -498,7 +439,6 @@ def render_profile_page(
     {topics_html}
     {predictions_html}
 
-    <!-- Neutrality + audit footer (REQ-PR-008, NFR-PR-005) -->
     <footer class="mt-16 pt-8 border-t border-slate-200">
       <p class="text-xs text-slate-400 leading-relaxed">
         Score calculated per {METHODOLOGY_REF}. Pending predictions are excluded from accuracy.
@@ -516,13 +456,14 @@ def render_profile_page(
   </main>
 
   <script>
-    // Mobile menu (same pattern as other pages)
     document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {{
       const m = document.getElementById('mobile-menu');
       const open = !m.classList.contains('hidden');
       m.classList.toggle('hidden', open);
       this.setAttribute('aria-expanded', String(!open));
-      this.querySelector('i').className = open ? 'fa-solid fa-bars' : 'fa-solid fa-xmark';
+      this.querySelector('i').className = open
+        ? 'fa-solid fa-bars text-2xl'
+        : 'fa-solid fa-xmark text-2xl';
     }});
   </script>
 </body>
@@ -551,13 +492,12 @@ def main() -> None:
     aggregates = load_and_aggregate(args.predictions_jsonl)
     print(f"  Found {len(aggregates)} distinct forecasters")
 
-    # Data hash for audit (NFR-PR-005)
     all_ids = sorted(sid for d in aggregates.values() for sid in d["statement_ids"])
     data_hash = hashlib.sha256("|".join(all_ids).encode()).hexdigest()
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
-    index: Dict[str, str] = {}  # display_name -> slug
+    index: Dict[str, str] = {}
     written = 0
 
     for name in sorted(aggregates.keys()):
@@ -569,14 +509,17 @@ def main() -> None:
         out_path = args.output_dir / f"{slug}.html"
 
         if args.verbose or args.dry_run:
-            score_disp = data["overall"] if data["resolved_count"] >= MIN_RESOLVED_FOR_OVERALL else f"insuff (n={data['resolved_count']})"
+            score_disp = (
+                data["overall"]
+                if data["resolved_count"] >= MIN_RESOLVED_FOR_OVERALL
+                else f"insuff (n={data['resolved_count']})"
+            )
             print(f"  {name:30s}  slug={slug:25s}  score={score_disp}  resolved={data['resolved_count']}")
 
         if not args.dry_run:
             out_path.write_text(html, encoding="utf-8")
             written += 1
 
-    # Search index (REQ-PR-005)
     index_payload = {
         "generated": args.build_date,
         "data_hash": data_hash,
@@ -586,7 +529,9 @@ def main() -> None:
         ],
     }
     if not args.dry_run:
-        args.index_path.write_text(json.dumps(index_payload, indent=2, ensure_ascii=False), encoding="utf-8")
+        args.index_path.write_text(
+            json.dumps(index_payload, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
         print(f"Wrote search index → {args.index_path}")
 
     print(f"{'Would write' if args.dry_run else 'Wrote'} {written} profile pages under {args.output_dir}/")

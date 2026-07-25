@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 ## [Unreleased]
 
 ### Added
+- Forecaster Profile pages at `/forecasters/{slug}.html` (overall score with ≥10 threshold, topic breakdown, recent predictions with True/False/Pending pills)
+- `forecasters_index.json` search index (name → slug)
+- Generator script: `scripts/generate_forecaster_profiles.py`
+- Rewritten `forecasters.html` as a card directory linking to Profiles
+
+## [Unreleased]
+
+### Added
 - Permanent **Prediction Detail** pages at `/predictions/{statement_id}.html` for every resolved prediction.
 - Generator: `scripts/generate_prediction_details.py`.
 - Predictions table rows now link to the matching detail page.

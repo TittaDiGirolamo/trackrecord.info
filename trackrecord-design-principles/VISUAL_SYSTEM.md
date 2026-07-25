@@ -186,4 +186,37 @@ Date format everywhere: `6 December 2025` (day + full month + year).
 
 ---
 
+## 9. Forecaster Profile page
+
+Layout (top → bottom):
+
+1. Back link (“All forecasters”)
+2. Section title **outside** the card: “Forecaster profile” (eyebrow, emerald)
+3. Light-grey header block (`bg-slate-100 rounded-2xl`):
+   - Deterministic initials badge (palette excludes the site primary emerald)
+   - Name + subtitle “Public forecaster”
+   - Overall score: numeric only if resolved ≥ 10; otherwise “Insufficient data”
+   - Tracked / Resolved / Pending counts (no redundant “n = …” under the score)
+4. Topic breakdown as short one-word pills (no borders); numeric topic score only if ≥ 5 resolved
+5. Recent predictions (limit 8):
+   - Statement in quotation marks
+   - Outcome only via True / False / Pending pill + tinted card background (`bg-emerald-50` / `bg-rose-50` / `bg-amber-50`)
+   - No numeric 0/100 next to the quote
+6. Link to the full predictions table for this person
+7. Neutrality + audit footer (methodology reference, data hash, permanent URL, copy-link)
+
+### Directory (`forecasters.html`)
+
+- Same nav and logo as `index.html` (T mark, Trackrecord.info wordmark, Follow on X)
+- Card grid; whole card links to the Profile
+- Same initials-badge colours and score thresholds as the Profile page
+- Client-side name search; supports `?search=`
+
+### Shared rules (already in this document)
+
+- Inter 400/500 only; sentence case
+- No grey horizontal rules or borders on pills/cards — spacing separates sections
+- Status pill structure and colours unchanged
+- Accent remains emerald; initials badges never use the primary emerald
+
 *Living document. Update this file first, then the pages.*

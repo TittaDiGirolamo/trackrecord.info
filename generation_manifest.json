@@ -1,0 +1,11 @@
+{
+  "commit": "e066ef78cc9bc5359e38c0c8b79fab94dda602ce",
+  "generation_id": "20260726T175827Z",
+  "limitations_note": "Scores are mean Brier scores (lower is better). Only resolved predictions are included. Sample sizes remain modest for many topics; treat rankings as provisional.",
+  "probability_methods_used": {
+    "manual-curation-v1": 73
+  },
+  "rules_version": "brier-1.0.0",
+  "source": "data/predictions_v2.jsonl",
+  "timestamp_utc": "20260726T175827Z"
+}

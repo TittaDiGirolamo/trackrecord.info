@@ -1,0 +1,807 @@
+{
+  "commit": "e066ef78cc9bc5359e38c0c8b79fab94dda602ce",
+  "forecasters": {
+    "Becherano, Lizzy": {
+      "overall_score": 0.06760000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-becherano-mexico-qf"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Mexico Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-becherano-mexico-qf"
+          ],
+          "resolved_count": 1,
+          "score": 0.06760000000000001
+        }
+      }
+    },
+    "Connelly, Bill": {
+      "overall_score": 0.042249999999999996,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-connelly-england-winner",
+        "pred-2026-06-10-connelly-colombia-deep"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Colombia Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-connelly-colombia-deep"
+          ],
+          "resolved_count": 1,
+          "score": 0.0484
+        },
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-06-10-connelly-england-winner"
+          ],
+          "resolved_count": 1,
+          "score": 0.0361
+        }
+      }
+    },
+    "Crebolder, Finley": {
+      "overall_score": 0.27040000000000003,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-05-21-crebolder-nl-groupf"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Netherlands Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-05-21-crebolder-nl-groupf"
+          ],
+          "resolved_count": 1,
+          "score": 0.27040000000000003
+        }
+      }
+    },
+    "Dawson, Rob": {
+      "overall_score": 0.0324,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-dawson-nl-no-advance"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Netherlands Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-dawson-nl-no-advance"
+          ],
+          "resolved_count": 1,
+          "score": 0.0324
+        }
+      }
+    },
+    "Didonato, Damian": {
+      "overall_score": 0.028900000000000006,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-didonato-germany-winner"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-06-10-didonato-germany-winner"
+          ],
+          "resolved_count": 1,
+          "score": 0.028900000000000006
+        }
+      }
+    },
+    "Frank, Thomas": {
+      "overall_score": 0.04000000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-frank-england-winner"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-06-10-frank-england-winner"
+          ],
+          "resolved_count": 1,
+          "score": 0.04000000000000001
+        }
+      }
+    },
+    "Hamilton, Tom": {
+      "overall_score": 0.04000000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-hamilton-paraguay-no-advance"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Paraguay Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-hamilton-paraguay-no-advance"
+          ],
+          "resolved_count": 1,
+          "score": 0.04000000000000001
+        }
+      }
+    },
+    "Hernandez, Cesar": {
+      "overall_score": 0.20740000000000006,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-hernandez-japan-qf",
+        "pred-2026-06-10-hernandez-usmnt-r16"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Japan Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-hernandez-japan-qf"
+          ],
+          "resolved_count": 1,
+          "score": 0.07840000000000001
+        },
+        "FIFA World Cup 2026 - United States Performance - Round of 16": {
+          "prediction_ids": [
+            "pred-2026-06-10-hernandez-usmnt-r16"
+          ],
+          "resolved_count": 1,
+          "score": 0.3364000000000001
+        }
+      }
+    },
+    "Kirkland, Alex": {
+      "overall_score": 0.27625,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-kirkland-ecuador-qf",
+        "pred-2026-06-10-kirkland-canada-last16"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Canada Performance - Last 16": {
+          "prediction_ids": [
+            "pred-2026-06-10-kirkland-canada-last16"
+          ],
+          "resolved_count": 1,
+          "score": 0.48999999999999994
+        },
+        "FIFA World Cup 2026 - Ecuador Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-kirkland-ecuador-qf"
+          ],
+          "resolved_count": 1,
+          "score": 0.0625
+        }
+      }
+    },
+    "Klement, Joachim": {
+      "overall_score": 0.095,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-05-25-klement-nl-winner",
+        "pred-2026-05-25-klement-nl-group-qf",
+        "pred-2026-06-04-klement-portugal-england-sf",
+        "pred-2026-06-04-klement-nl-spain-sf",
+        "pred-2026-06-04-klement-nl-final",
+        "pred-2026-06-04-klement-semifinalists",
+        "pred-2026-06-04-klement-nl-winner-path"
+      ],
+      "resolved_count": 7,
+      "topics": {
+        "FIFA World Cup 2026 - England Performance - Semifinals": {
+          "prediction_ids": [
+            "pred-2026-06-04-klement-portugal-england-sf"
+          ],
+          "resolved_count": 1,
+          "score": 0.1024
+        },
+        "FIFA World Cup 2026 - Netherlands Performance - Final": {
+          "prediction_ids": [
+            "pred-2026-06-04-klement-nl-final"
+          ],
+          "resolved_count": 1,
+          "score": 0.0625
+        },
+        "FIFA World Cup 2026 - Netherlands Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-05-25-klement-nl-group-qf"
+          ],
+          "resolved_count": 1,
+          "score": 0.3364
+        },
+        "FIFA World Cup 2026 - Spain Performance - Semifinals": {
+          "prediction_ids": [
+            "pred-2026-06-04-klement-nl-spain-sf"
+          ],
+          "resolved_count": 1,
+          "score": 0.07840000000000001
+        },
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-05-25-klement-nl-winner",
+            "pred-2026-06-04-klement-semifinalists",
+            "pred-2026-06-04-klement-nl-winner-path"
+          ],
+          "resolved_count": 3,
+          "score": 0.028433333333333335
+        }
+      }
+    },
+    "Laurens, Julien": {
+      "overall_score": 0.06760000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-laurens-japan-deeper"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Japan Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-laurens-japan-deeper"
+          ],
+          "resolved_count": 1,
+          "score": 0.06760000000000001
+        }
+      }
+    },
+    "Lindop, Beth": {
+      "overall_score": 0.0324,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-lindop-usmnt-qf"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - United States Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-lindop-usmnt-qf"
+          ],
+          "resolved_count": 1,
+          "score": 0.0324
+        }
+      }
+    },
+    "Marcotti, Gab": {
+      "overall_score": 0.3932666666666667,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-marcotti-brazil-winner",
+        "pred-2026-06-10-marcotti-uruguay-no-advance",
+        "pred-2026-06-10-marcotti-ecuador-knockout"
+      ],
+      "resolved_count": 3,
+      "topics": {
+        "FIFA World Cup 2026 - Ecuador Performance - Last 16": {
+          "prediction_ids": [
+            "pred-2026-06-10-marcotti-ecuador-knockout"
+          ],
+          "resolved_count": 1,
+          "score": 0.5041
+        },
+        "FIFA World Cup 2026 - Uruguay Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-marcotti-uruguay-no-advance"
+          ],
+          "resolved_count": 1,
+          "score": 0.6561000000000001
+        },
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-06-10-marcotti-brazil-winner"
+          ],
+          "resolved_count": 1,
+          "score": 0.019600000000000003
+        }
+      }
+    },
+    "Mewis, Joe": {
+      "overall_score": 0.48042500000000005,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-08-mewis-norway-deep",
+        "pred-2026-06-08-mewis-sweden-surge",
+        "pred-2026-06-08-mewis-ecuador-2006",
+        "pred-2026-06-08-mewis-mexico-trouble"
+      ],
+      "resolved_count": 4,
+      "topics": {
+        "FIFA World Cup 2026 - Ecuador Performance - Last 16": {
+          "prediction_ids": [
+            "pred-2026-06-08-mewis-ecuador-2006"
+          ],
+          "resolved_count": 1,
+          "score": 0.07840000000000001
+        },
+        "FIFA World Cup 2026 - Mexico Performance - Knockout Stages": {
+          "prediction_ids": [
+            "pred-2026-06-08-mewis-mexico-trouble"
+          ],
+          "resolved_count": 1,
+          "score": 0.5625
+        },
+        "FIFA World Cup 2026 - Norway Performance - Knockout Stages": {
+          "prediction_ids": [
+            "pred-2026-06-08-mewis-norway-deep"
+          ],
+          "resolved_count": 1,
+          "score": 0.6084
+        },
+        "FIFA World Cup 2026 - Sweden Performance - Knockout Stages": {
+          "prediction_ids": [
+            "pred-2026-06-08-mewis-sweden-surge"
+          ],
+          "resolved_count": 1,
+          "score": 0.6724000000000001
+        }
+      }
+    },
+    "O'Halloran, Connor": {
+      "overall_score": 0.04000000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-ohalloran-senegal-deep"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Senegal Performance - Knockout Stages": {
+          "prediction_ids": [
+            "pred-2026-06-10-ohalloran-senegal-deep"
+          ],
+          "resolved_count": 1,
+          "score": 0.04000000000000001
+        }
+      }
+    },
+    "Ogden, Mark": {
+      "overall_score": 0.056249999999999994,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-ogden-usmnt-group-exit",
+        "pred-2026-06-10-ogden-portugal-underdog"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Portugal Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-ogden-portugal-underdog"
+          ],
+          "resolved_count": 1,
+          "score": 0.09
+        },
+        "FIFA World Cup 2026 - United States Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-ogden-usmnt-group-exit"
+          ],
+          "resolved_count": 1,
+          "score": 0.0225
+        }
+      }
+    },
+    "Olley, James": {
+      "overall_score": 0.058499999999999996,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-olley-mexico-altitude",
+        "pred-2026-06-10-olley-australia-no-advance"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Australia Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-olley-australia-no-advance"
+          ],
+          "resolved_count": 1,
+          "score": 0.04409999999999999
+        },
+        "FIFA World Cup 2026 - Mexico Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-olley-mexico-altitude"
+          ],
+          "resolved_count": 1,
+          "score": 0.0729
+        }
+      }
+    },
+    "Richards, Micah": {
+      "overall_score": 0.6084,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-richards-spain-winner"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-06-10-richards-spain-winner"
+          ],
+          "resolved_count": 1,
+          "score": 0.6084
+        }
+      }
+    },
+    "Rooney, Wayne": {
+      "overall_score": 0.0324,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-rooney-england-winner"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-06-10-rooney-england-winner"
+          ],
+          "resolved_count": 1,
+          "score": 0.0324
+        }
+      }
+    },
+    "Shearer, Alan": {
+      "overall_score": 0.18505000000000002,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-shearer-france-winner",
+        "pred-2026-06-10-shearer-england-sf"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - England Performance - Semifinals": {
+          "prediction_ids": [
+            "pred-2026-06-10-shearer-england-sf"
+          ],
+          "resolved_count": 1,
+          "score": 0.30250000000000005
+        },
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-06-10-shearer-france-winner"
+          ],
+          "resolved_count": 1,
+          "score": 0.06760000000000001
+        }
+      }
+    },
+    "Sneijder, Wesley": {
+      "overall_score": 0.35425000000000006,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2025-12-06-sneijder-nl-no-semifinal",
+        "pred-2025-12-06-sneijder-winner-restricted"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Netherlands Performance - Semifinals": {
+          "prediction_ids": [
+            "pred-2025-12-06-sneijder-nl-no-semifinal"
+          ],
+          "resolved_count": 1,
+          "score": 0.3721
+        },
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2025-12-06-sneijder-winner-restricted"
+          ],
+          "resolved_count": 1,
+          "score": 0.3364000000000001
+        }
+      }
+    },
+    "Statham, Michael": {
+      "overall_score": 0.4514,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-04-18-statham-nl-qf",
+        "pred-2026-05-25-statham-nl-groupf-no-win"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Netherlands Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-05-25-statham-nl-groupf-no-win"
+          ],
+          "resolved_count": 1,
+          "score": 0.5184
+        },
+        "FIFA World Cup 2026 - Netherlands Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-04-18-statham-nl-qf"
+          ],
+          "resolved_count": 1,
+          "score": 0.3844
+        }
+      }
+    },
+    "Sutton, Chris": {
+      "overall_score": 0.15760689655172416,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-sutton-japan-group",
+        "pred-2026-06-10-sutton-brazil-group",
+        "pred-2026-06-10-sutton-germany-group",
+        "pred-2026-06-10-sutton-senegal-group",
+        "pred-2026-06-10-sutton-argentina-group",
+        "pred-2026-06-10-sutton-england-group",
+        "pred-2026-06-10-sutton-spain-group",
+        "pred-2026-06-10-sutton-colombia-group",
+        "pred-2026-06-10-sutton-turkey-group",
+        "pred-2026-06-10-sutton-southkorea-group",
+        "pred-2026-06-10-sutton-switzerland-group",
+        "pred-2026-06-10-sutton-belgium-group",
+        "pred-2026-06-10-sutton-paraguay-2nd",
+        "pred-2026-06-10-sutton-canada-2nd",
+        "pred-2026-06-10-sutton-mex-sa-1-0",
+        "pred-2026-06-10-sutton-kor-cze-1-1",
+        "pred-2026-06-10-sutton-can-bih-1-1",
+        "pred-2026-06-10-sutton-usa-par-1-1",
+        "pred-2026-06-10-sutton-qat-sui-0-2",
+        "pred-2026-06-10-sutton-bra-mar-2-1",
+        "pred-2026-06-10-sutton-hai-sco-1-2",
+        "pred-2026-06-10-sutton-aus-tur-2-2",
+        "pred-2026-06-10-sutton-ger-cuw-3-0",
+        "pred-2026-06-10-sutton-civ-ecu-0-0",
+        "pred-2026-06-10-sutton-ned-jpn-1-2",
+        "pred-2026-06-10-sutton-swe-tun-1-1",
+        "pred-2026-06-10-sutton-eng-cro-2-0",
+        "pred-2026-06-10-sutton-gha-pan-2-1",
+        "pred-2026-06-10-sutton-por-cod-2-1"
+      ],
+      "resolved_count": 29,
+      "topics": {
+        "FIFA World Cup 2026 - Argentina Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-argentina-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.1444
+        },
+        "FIFA World Cup 2026 - Belgium Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-belgium-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.27040000000000003
+        },
+        "FIFA World Cup 2026 - Brazil Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-brazil-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.2304
+        },
+        "FIFA World Cup 2026 - Canada Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-canada-2nd"
+          ],
+          "resolved_count": 1,
+          "score": 0.36
+        },
+        "FIFA World Cup 2026 - Colombia Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-colombia-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.27040000000000003
+        },
+        "FIFA World Cup 2026 - England Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-england-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.20249999999999996
+        },
+        "FIFA World Cup 2026 - Germany Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-germany-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.17640000000000003
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Australia vs Turkey]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-aus-tur-2-2"
+          ],
+          "resolved_count": 1,
+          "score": 0.0484
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Brazil vs Morocco]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-bra-mar-2-1"
+          ],
+          "resolved_count": 1,
+          "score": 0.1444
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Canada vs Bosnia and Herzegovina]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-can-bih-1-1"
+          ],
+          "resolved_count": 1,
+          "score": 0.42250000000000004
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [England vs Croatia]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-eng-cro-2-0"
+          ],
+          "resolved_count": 1,
+          "score": 0.10890000000000001
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Germany vs Curacao]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-ger-cuw-3-0"
+          ],
+          "resolved_count": 1,
+          "score": 0.16000000000000003
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Ghana vs Panama]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-gha-pan-2-1"
+          ],
+          "resolved_count": 1,
+          "score": 0.0961
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Haiti vs Scotland]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-hai-sco-1-2"
+          ],
+          "resolved_count": 1,
+          "score": 0.0729
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Ivory Coast vs Ecuador]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-civ-ecu-0-0"
+          ],
+          "resolved_count": 1,
+          "score": 0.06760000000000001
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Mexico vs South Africa]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-mex-sa-1-0"
+          ],
+          "resolved_count": 1,
+          "score": 0.1024
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Netherlands vs Japan]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-ned-jpn-1-2"
+          ],
+          "resolved_count": 1,
+          "score": 0.0576
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Portugal vs DR Congo]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-por-cod-2-1"
+          ],
+          "resolved_count": 1,
+          "score": 0.1296
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Qatar vs Switzerland]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-qat-sui-0-2"
+          ],
+          "resolved_count": 1,
+          "score": 0.0625
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [South Korea vs Czechia]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-kor-cze-1-1"
+          ],
+          "resolved_count": 1,
+          "score": 0.07840000000000001
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [Sweden vs Tunisia]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-swe-tun-1-1"
+          ],
+          "resolved_count": 1,
+          "score": 0.0841
+        },
+        "FIFA World Cup 2026 - Group Stage - Match Result [USA vs Paraguay]": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-usa-par-1-1"
+          ],
+          "resolved_count": 1,
+          "score": 0.09
+        },
+        "FIFA World Cup 2026 - Japan Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-japan-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.12249999999999998
+        },
+        "FIFA World Cup 2026 - Paraguay Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-paraguay-2nd"
+          ],
+          "resolved_count": 1,
+          "score": 0.1024
+        },
+        "FIFA World Cup 2026 - Senegal Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-senegal-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.2025
+        },
+        "FIFA World Cup 2026 - South Korea Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-southkorea-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.12249999999999998
+        },
+        "FIFA World Cup 2026 - Spain Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-spain-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.16000000000000003
+        },
+        "FIFA World Cup 2026 - Switzerland Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-switzerland-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.3364000000000001
+        },
+        "FIFA World Cup 2026 - Turkey Performance - Group Stage": {
+          "prediction_ids": [
+            "pred-2026-06-10-sutton-turkey-group"
+          ],
+          "resolved_count": 1,
+          "score": 0.1444
+        }
+      }
+    },
+    "van den Hoven, Bas": {
+      "overall_score": 0.42250000000000004,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-01-vandenhoven-nl-qf"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Netherlands Performance - Quarterfinals": {
+          "prediction_ids": [
+            "pred-2026-06-01-vandenhoven-nl-qf"
+          ],
+          "resolved_count": 1,
+          "score": 0.42250000000000004
+        }
+      }
+    },
+    "\u00d6zt\u00fcrk, S\u00fcleyman": {
+      "overall_score": 0.0404,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-01-ozturk-nl-final",
+        "pred-2026-06-01-ozturk-portugal-winner"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Netherlands Performance - Final": {
+          "prediction_ids": [
+            "pred-2026-06-01-ozturk-nl-final"
+          ],
+          "resolved_count": 1,
+          "score": 0.0484
+        },
+        "FIFA World Cup 2026 - Winner": {
+          "prediction_ids": [
+            "pred-2026-06-01-ozturk-portugal-winner"
+          ],
+          "resolved_count": 1,
+          "score": 0.0324
+        }
+      }
+    }
+  },
+  "generation_id": "20260726T175827Z",
+  "probability_methods_used": {
+    "manual-curation-v1": 73
+  },
+  "rules_version": "brier-1.0.0"
+}

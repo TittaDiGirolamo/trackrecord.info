@@ -20,7 +20,7 @@ from scoring import score_forecaster, RULES_VERSION, LIMITATIONS_NOTE, format_br
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data" / "predictions_v2.jsonl"
-PUBLIC = ROOT / "public"
+PUBLIC = ROOT
 PUBLIC.mkdir(exist_ok=True)
 
 

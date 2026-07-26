@@ -1,0 +1,24 @@
+name: Score Consistency Gate
+
+on:
+  push:
+    branches: [ main, phase1-foundation ]
+  pull_request:
+    branches: [ main, phase1-foundation ]
+
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate site
+        run: python3 regenerate.py
+
+      - name: Run consistency gate
+        run: python3 ci/check_score_consistency.py

@@ -325,6 +325,93 @@ def write_audit(scores: Dict[str, Any], preds: List[Dict[str, Any]], generation_
     }
     write_json(PUBLIC / "generation_manifest.json", manifest)
 
+def update_homepage_scorecards(scores: Dict[str, Any], generation_id: str) -> None:
+    """
+    Rewrite the HOMEPAGE_SCORECARDS section in the designed index.html
+    so it shows the new canonical Brier scores.
+    """
+    index_path = ROOT / "index.html"
+    if not index_path.exists():
+        return
+
+    html = index_path.read_text(encoding="utf-8")
+
+    start_marker = "<!-- HOMEPAGE_SCORECARDS_START -->"
+    end_marker = "<!-- HOMEPAGE_SCORECARDS_END -->"
+
+    if start_marker not in html or end_marker not in html:
+        print("Warning: scorecard markers not found in index.html")
+        return
+
+    # Only show forecasters with at least 5 resolved predictions
+    MIN_N = 5
+    eligible = [
+        (fid, s) for fid, s in scores.items()
+        if s["overall"] is not None and s["resolved_count"] >= MIN_N
+    ]
+    # Sort by Brier (lower better)
+    eligible.sort(key=lambda x: x[1]["overall"])
+
+    cards = []
+    for fid, s in eligible:
+        brier = s["overall"]
+        n = s["resolved_count"]
+        parts = fid.replace(",", " ").split()
+        initials = (parts[0][0] + parts[-1][0]).upper() if len(parts) >= 2 else fid[:2].upper()
+
+        profile_slug = fid.lower().replace(", ", "-").replace(" ", "-").replace("'", "")
+        profile_href = f"forecasters/{profile_slug}.html"
+
+        card = f"""
+            <a href="{profile_href}" class="block bg-white rounded-3xl p-8 hover:bg-slate-50 transition-colors">
+                <div class="flex items-center gap-x-4 mb-6">
+                    <div class="w-12 h-12 bg-slate-700 rounded-2xl flex items-center justify-center text-white font-normal text-lg">{initials}</div>
+                    <div>
+                        <div class="font-medium text-lg text-slate-900">{fid}</div>
+                        <div class="text-sm text-slate-500">Public forecaster</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="text-sm text-slate-500">Score</div>
+                    <div class="text-5xl font-medium text-slate-900 tabular-nums">{brier:.3f}</div>
+                    <div class="text-sm text-slate-500 mt-1">Brier-score · 0–1 scale · lower better</div>
+                    <div class="text-sm text-slate-500">n = {n}</div>
+                </div>
+            </a>"""
+        cards.append(card)
+
+    if not cards:
+        cards_html = '<p class="text-slate-500">No forecasters currently meet the minimum sample size.</p>'
+    else:
+        cards_html = "\n".join(cards)
+
+    new_section = f"""<!-- HOMEPAGE_SCORECARDS_START -->
+    <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-normal text-emerald-700 mb-3">
+                Live
+            </div>
+            <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-slate-900">Forecasters with sufficient resolved predictions</h2>
+            <p class="mt-2 text-slate-600">Only forecasters with at least {MIN_N} resolved predictions are shown. Scores are mean Brier (0–1, lower is better).</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+{cards_html}
+        </div>
+        <div class="mt-6 text-center">
+            <a href="forecasters.html" class="text-sm font-normal text-slate-600 hover:text-slate-900">See all tracked forecasters →</a>
+        </div>
+        <p class="mt-4 text-xs text-slate-400">
+            Scores calculated from predictions_v2.jsonl · as of {generation_id} · regenerated atomically.
+        </p>
+    </div>
+    <!-- HOMEPAGE_SCORECARDS_END -->"""
+
+    before = html.split(start_marker)[0]
+    after = html.split(end_marker)[1]
+    new_html = before + new_section + after
+
+    index_path.write_text(new_html, encoding="utf-8")
+    print(f"Updated homepage scorecards ({len(eligible)} forecasters)")
 
 def main() -> None:
     preds = load_predictions()
@@ -335,11 +422,12 @@ def main() -> None:
     generation_id = datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
     commit = get_git_commit()
 
-    generate_homepage(scores, generation_id, commit)
+    # generate_homepage(scores, generation_id, commit)   # disabled – we keep the designed index.html
     generate_profiles(scores, by_forecaster, generation_id, commit)
     generate_predictions_table(preds, scores, generation_id, commit)
     generate_detail_pages(preds, scores, generation_id, commit)
     write_audit(scores, preds, generation_id, commit)
+    update_homepage_scorecards(scores, generation_id)
 
     print(f"Atomic regeneration complete")
     print(f"  generation_id : {generation_id}")
@@ -349,6 +437,96 @@ def main() -> None:
     for fid, s in sorted(scores.items()):
         print(f"    {fid:10s}  Brier={format_brier(s['overall']):6s}  n={s['resolved_count']}")
 
+def update_homepage_scorecards(scores: Dict[str, Any], generation_id: str) -> None:
+    """
+    Rewrite the HOMEPAGE_SCORECARDS section in the designed index.html
+    so it shows the new canonical Brier scores.
+    """
+    index_path = ROOT / "index.html"
+    if not index_path.exists():
+        return
+
+    html = index_path.read_text(encoding="utf-8")
+
+    start_marker = "<!-- HOMEPAGE_SCORECARDS_START -->"
+    end_marker = "<!-- HOMEPAGE_SCORECARDS_END -->"
+
+    if start_marker not in html or end_marker not in html:
+        print("Warning: scorecard markers not found in index.html")
+        return
+
+    # Only show forecasters with at least 5 resolved predictions (adjustable)
+    MIN_N = 5
+    eligible = [
+        (fid, s) for fid, s in scores.items()
+        if s["overall"] is not None and s["resolved_count"] >= MIN_N
+    ]
+    # Sort by Brier (lower better)
+    eligible.sort(key=lambda x: x[1]["overall"])
+
+    cards = []
+    for fid, s in eligible:
+        brier = s["overall"]
+        n = s["resolved_count"]
+        # Create a simple initials avatar
+        parts = fid.replace(",", " ").split()
+        initials = (parts[0][0] + parts[-1][0]).upper() if len(parts) >= 2 else fid[:2].upper()
+
+        # Link to the designed profile if it exists, otherwise to our Phase 1 profile
+        profile_slug = fid.lower().replace(", ", "-").replace(" ", "-").replace("'", "")
+        profile_href = f"forecasters/{profile_slug}.html"
+
+        card = f"""
+            <a href="{profile_href}" class="block bg-white rounded-3xl p-8 hover:bg-slate-50 transition-colors">
+                <div class="flex items-center gap-x-4 mb-6">
+                    <div class="w-12 h-12 bg-slate-700 rounded-2xl flex items-center justify-center text-white font-normal text-lg">{initials}</div>
+                    <div>
+                        <div class="font-medium text-lg text-slate-900">{fid}</div>
+                        <div class="text-sm text-slate-500">Public forecaster</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="text-sm text-slate-500">Score</div>
+                    <div class="text-5xl font-medium text-slate-900 tabular-nums">{brier:.3f}</div>
+                    <div class="text-sm text-slate-500 mt-1">Brier-score · 0–1 scale · lower better</div>
+                    <div class="text-sm text-slate-500">n = {n}</div>
+                </div>
+            </a>"""
+        cards.append(card)
+
+    if not cards:
+        cards_html = '<p class="text-slate-500">No forecasters currently meet the minimum sample size.</p>'
+    else:
+        cards_html = "\n".join(cards)
+
+    new_section = f"""<!-- HOMEPAGE_SCORECARDS_START -->
+    <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-normal text-emerald-700 mb-3">
+                Live
+            </div>
+            <h2 class="text-2xl md:text-3xl font-medium tracking-tight text-slate-900">Forecasters with sufficient resolved predictions</h2>
+            <p class="mt-2 text-slate-600">Only forecasters with at least {MIN_N} resolved predictions are shown. Scores are mean Brier (0–1, lower is better).</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+{cards_html}
+        </div>
+        <div class="mt-6 text-center">
+            <a href="forecasters.html" class="text-sm font-normal text-slate-600 hover:text-slate-900">See all tracked forecasters →</a>
+        </div>
+        <p class="mt-4 text-xs text-slate-400">
+            Scores calculated from predictions_v2.jsonl · as of {generation_id} · regenerated atomically.
+        </p>
+    </div>
+    <!-- HOMEPAGE_SCORECARDS_END -->"""
+
+    # Replace the section
+    before = html.split(start_marker)[0]
+    after = html.split(end_marker)[1]
+    new_html = before + new_section + after
+
+    index_path.write_text(new_html, encoding="utf-8")
+    print(f"Updated homepage scorecards ({len(eligible)} forecasters)")
 
 if __name__ == "__main__":
     main()

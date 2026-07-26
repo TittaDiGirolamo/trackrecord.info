@@ -1,0 +1,66 @@
+# Phase 1 – Canonical Brier Scoring Foundation
+
+Single source of truth + pure Brier scores + atomic regeneration + CI consistency gate + probability provenance.
+
+## Quick start
+
+```bash
+# 1. Put your predictions in data/predictions_v2.jsonl
+# 2. Regenerate everything
+python3 regenerate.py
+
+# 3. Verify consistency (must pass before any deploy)
+python3 ci/check_score_consistency.py
+
+Core guarantees
+
+Single source of truth: only data/predictions_v2.jsonl is read.
+One canonical scoring function: pure mean Brier (scoring/score.py).
+Atomic regeneration: one command rebuilds every public page.
+CI gate: recomputes every score and fails the build on any mismatch.
+Inspectable: every score shows “as of”, sample size, limitations note, and the exact prediction IDs that produced it.
+Provenance: every probability carries a probability_method_id so extraction is reproducible.
+
+Key files
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+File / directoryPurposeHuman-readable scoring rulesHow probabilities may enter the datasetscoring/Canonical Brier implementationAtomic full-site rebuildci/check_score_consistency.pyConsistency gateextractors/Upstream probability extractorsdata/predictions_v2.jsonlSole authoritative data
+Accuracy numbers
+Any “accuracy” / higher-is-better number is a frontend-only derivation from the Brier score. It is never computed or stored by the scoring pipeline.
+License
+Add your preferred license here.

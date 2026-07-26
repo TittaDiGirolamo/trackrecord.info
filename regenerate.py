@@ -203,6 +203,7 @@ def generate_detail_pages(preds: List[Dict], scores: Dict[str, Any], generation_
         fid = p["forecaster_id"]
         s = scores[fid]
         contrib = s["contributions"].get(pid)
+        original = p.get("original") or {}
 
         if contrib is not None:
             contrib_str = format_brier(contrib)
@@ -213,53 +214,74 @@ def generate_detail_pages(preds: List[Dict], scores: Dict[str, Any], generation_
 
         badge = render_score_badge(s["overall"], s["resolved_count"], generation_id, commit)
 
+        # Provenance
         method = p.get("probability_method_id") or "—"
         source = p.get("probability_source") or "—"
         generated_at = p.get("probability_generated_at") or "—"
-        model = p.get("probability_model")
-        prompt_hash = p.get("probability_prompt_hash")
-        seed = p.get("probability_seed")
 
-        provenance_rows = [
-            f"<tr><td>Method ID</td><td><code>{method}</code></td></tr>",
-            f"<tr><td>Source</td><td>{source}</td></tr>",
-            f"<tr><td>Generated at</td><td>{generated_at}</td></tr>",
-        ]
-        if model:
-            provenance_rows.append(f"<tr><td>Model</td><td>{model}</td></tr>")
-        if prompt_hash:
-            provenance_rows.append(f"<tr><td>Prompt hash</td><td><code>{prompt_hash}</code></td></tr>")
-        if seed is not None:
-            provenance_rows.append(f"<tr><td>Seed</td><td>{seed}</td></tr>")
+        # Rich original fields
+        original_statement = original.get("original_statement") or "—"
+        context = original.get("statement_context") or "—"
+        resolution_criteria = original.get("resolution_criteria") or "—"
+        outcome_proof = original.get("outcome_proof") or "—"
+        verification_url = original.get("outcome_verification_url") or ""
+        original_url = original.get("statement_original_url") or ""
+        pub_date = original.get("statement_publication_date") or "—"
+        resolution_date = original.get("resolution_date") or "—"
+
+        verification_link = f'<a href="{verification_url}" target="_blank" rel="noopener">{verification_url}</a>' if verification_url else "—"
+        original_link = f'<a href="{original_url}" target="_blank" rel="noopener">{original_url}</a>' if original_url else "—"
 
         html = f"""<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8"><title>Prediction {pid}</title></head>
 <body>
 <h1>Prediction {pid}</h1>
-<p>Forecaster: <a href="../profiles/{fid}.html">{fid}</a></p>
-<p>Topic: {p.get("topic", "—")}</p>
-<p>Probability: {p["probability"]}</p>
-<p>Outcome: {p.get("outcome") if p.get("outcome") is not None else "pending"}</p>
+
+<p><strong>Forecaster:</strong> <a href="../profiles/{fid}.html">{fid}</a></p>
+<p><strong>Topic:</strong> {p.get("topic", "—")}</p>
+<p><strong>Probability:</strong> {p["probability"]}</p>
+<p><strong>Outcome:</strong> {p.get("outcome") if p.get("outcome") is not None else "pending"}</p>
+<p><strong>Publication date:</strong> {pub_date}</p>
+<p><strong>Resolution date:</strong> {resolution_date}</p>
+
+<hr>
+<h2>Original statement</h2>
+<blockquote>{original_statement}</blockquote>
+
+<h2>Context</h2>
+<p>{context}</p>
+
+<h2>Resolution criteria</h2>
+<p>{resolution_criteria}</p>
+
+<h2>Outcome proof</h2>
+<p>{outcome_proof}</p>
+<p><strong>Verification:</strong> {verification_link}</p>
+<p><strong>Original source:</strong> {original_link}</p>
+
 <hr>
 <h2>How this probability was obtained</h2>
 <table border="1" cellpadding="6">
-{''.join(provenance_rows)}
+<tr><td>Method ID</td><td><code>{method}</code></td></tr>
+<tr><td>Source</td><td>{source}</td></tr>
+<tr><td>Generated / published at</td><td>{generated_at}</td></tr>
 </table>
-<p><small>See <code>PROVENANCE.md</code> for the meaning of method IDs.</small></p>
+
 <hr>
-<h2>Contribution to score</h2>
+<h2>Contribution to score (REQ-4.1)</h2>
 <p>{contrib_note}</p>
 <p>Individual Brier: {contrib_str}</p>
+
 <hr>
 <h2>Forecaster’s current overall score</h2>
 {badge}
+
 <p><a href="../predictions.html">← All predictions</a></p>
 </body>
 </html>
 """
         (out / f"{pid}.html").write_text(html)
-
 
 def write_audit(scores: Dict[str, Any], preds: List[Dict[str, Any]], generation_id: str, commit: str) -> None:
     method_counts: Dict[str, int] = {}

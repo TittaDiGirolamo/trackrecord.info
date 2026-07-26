@@ -25,12 +25,36 @@ PUBLIC.mkdir(exist_ok=True)
 
 
 def load_predictions() -> List[Dict[str, Any]]:
+    """
+    Load the sole data source and normalize to the shape expected by
+    the canonical scoring function, while preserving all original fields.
+    """
     preds = []
     with DATA.open() as f:
         for line in f:
             line = line.strip()
-            if line:
-                preds.append(json.loads(line))
+            if not line:
+                continue
+            raw = json.loads(line)
+
+            # Normalize real schema → internal shape
+            normalized = {
+                # Required by scorer
+                "id": raw.get("statement_id") or raw.get("id"),
+                "forecaster_id": raw.get("forecaster") or raw.get("forecaster_id"),
+                "topic": raw.get("statement_topic") or raw.get("topic") or "untagged",
+                "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
+                "outcome": raw.get("outcome"),
+
+                # Provenance (default for existing curated data)
+                "probability_method_id": raw.get("probability_method_id") or "manual-curation-v1",
+                "probability_source": raw.get("original_statement") or raw.get("probability_source"),
+                "probability_generated_at": raw.get("statement_publication_date") or raw.get("probability_generated_at"),
+
+                # Keep everything original for rich detail pages
+                "original": raw,
+            }
+            preds.append(normalized)
     return preds
 
 

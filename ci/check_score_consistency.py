@@ -24,14 +24,28 @@ DATA = ROOT / "data" / "predictions_v2.jsonl"
 PUBLIC = ROOT / "public"
 COMPOSITION = PUBLIC / "score_composition.json"
 
-
 def load_predictions() -> List[Dict[str, Any]]:
+    """Same normalization as regenerate.py so CI and regeneration stay identical."""
     preds = []
     with DATA.open() as f:
         for line in f:
             line = line.strip()
-            if line:
-                preds.append(json.loads(line))
+            if not line:
+                continue
+            raw = json.loads(line)
+
+            normalized = {
+                "id": raw.get("statement_id") or raw.get("id"),
+                "forecaster_id": raw.get("forecaster") or raw.get("forecaster_id"),
+                "topic": raw.get("statement_topic") or raw.get("topic") or "untagged",
+                "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
+                "outcome": raw.get("outcome"),
+                "probability_method_id": raw.get("probability_method_id") or "manual-curation-v1",
+                "probability_source": raw.get("original_statement") or raw.get("probability_source"),
+                "probability_generated_at": raw.get("statement_publication_date") or raw.get("probability_generated_at"),
+                "original": raw,
+            }
+            preds.append(normalized)
     return preds
 
 
@@ -40,7 +54,6 @@ def group_by_forecaster(preds: List[Dict[str, Any]]) -> Dict[str, List[Dict[str,
     for p in preds:
         groups[p["forecaster_id"]].append(p)
     return dict(groups)
-
 
 def nearly_equal(a: float | None, b: float | None, tol: float = 1e-9) -> bool:
     if a is None and b is None:

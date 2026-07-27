@@ -1,5 +1,5 @@
 {
-  "commit": "e066ef78cc9bc5359e38c0c8b79fab94dda602ce",
+  "commit": "f9ca58c718c4cb69d805f1a4327ef3d1db9cc62b",
   "forecasters": {
     "Becherano, Lizzy": {
       "overall_score": 0.06760000000000001,
@@ -799,7 +799,7 @@
       }
     }
   },
-  "generation_id": "20260726T175827Z",
+  "generation_id": "20260727T180745Z",
   "probability_methods_used": {
     "manual-curation-v1": 73
   },

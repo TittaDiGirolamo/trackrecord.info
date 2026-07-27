@@ -7,6 +7,10 @@ Final clean version - Generates predictions.html with forecaster scores
 from collections import defaultdict
 import json
 import argparse
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from scoring import score_forecaster, format_brier, LIMITATIONS_NOTE
 from datetime import date
 from pathlib import Path
 import sys
@@ -16,49 +20,47 @@ from prediction_schema import PredictionRecord
 
 
 def calculate_forecaster_scores(jsonl_path: str = "predictions_v2.jsonl"):
-    """Calculate overall and topic scores from scored JSONL."""
-    forecasters = defaultdict(lambda: {"overall_scores": [], "topics": defaultdict(list)})
-    processed = 0
-    skipped = 0
+    """Score every forecaster with the single canonical pure-Brier function."""
+    from collections import defaultdict
 
-    with open(jsonl_path, 'r', encoding='utf-8') as f:
-        for line in f:
-            if not line.strip():
+    buckets = defaultdict(list)
+    with open(jsonl_path, "r", encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
                 continue
             try:
-                data = json.loads(line)
-                processed += 1
-            except Exception:
-                skipped += 1
+                rec = json.loads(line)
+            except json.JSONDecodeError:
                 continue
-
-            author = data.get("author", {})
-            name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip() or "Unknown"
-            topic = data.get("statement_topic", "General")
-
-            if data.get("outcome") is not None:  # resolved
-                weighted = data.get("partial_accuracy", {}).get("weighted_score", 0) * 100
-                forecasters[name]["overall_scores"].append(weighted)
-                forecasters[name]["topics"][topic].append(weighted)
+            name = (rec.get("forecaster") or "").strip()
+            if not name:
+                author = rec.get("author") or {}
+                name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip()
+            if not name:
+                continue
+            buckets[name].append(rec)
 
     result = {}
-    for name, data in forecasters.items():
-        overall = (
-            sum(data["overall_scores"]) / len(data["overall_scores"])
-            if data["overall_scores"] else 0
-        )
+    for name, raw_preds in buckets.items():
+        normalized = []
+        for raw in raw_preds:
+            normalized.append({
+                "id": raw.get("statement_id") or raw.get("id"),
+                "forecaster_id": name,
+                "topic": raw.get("statement_topic") or "untagged",
+                "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
+                "outcome": raw.get("outcome"),
+            })
+        scored = score_forecaster(normalized)
         result[name] = {
-            "overall": round(overall, 1),
-            "resolved_count": len(data["overall_scores"]),
-            "topics": {}
+            "overall": scored["overall"],
+            "resolved_count": scored["resolved_count"],
+            "pending_count": scored["pending_count"],
+            "topics": {t: {"score": td["score"], "count": td["resolved_count"]} for t, td in scored["topics"].items()},
+            "prediction_ids": scored["prediction_ids"],
         }
-        for t, scores in data["topics"].items():
-            if len(scores) >= 5:
-                result[name]["topics"][t] = round(sum(scores) / len(scores), 1)
-
-    print(f"  Scoring: processed {processed} records, skipped {skipped} from {jsonl_path}")
     return result
-
 
 def load_records(path: Path):
     records = []

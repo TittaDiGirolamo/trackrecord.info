@@ -13,11 +13,16 @@ Usage (from repo root):
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import argparse
 import hashlib
 import json
 import re
 import unicodedata
+from scoring import score_forecaster, format_brier, LIMITATIONS_NOTE, RULES_VERSION
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
@@ -26,14 +31,14 @@ from typing import Any, Dict, List, Optional, Tuple
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-MIN_RESOLVED_FOR_OVERALL = 10
-MIN_RESOLVED_FOR_TOPIC = 5
+MIN_RESOLVED_FOR_OVERALL = 1
+MIN_RESOLVED_FOR_TOPIC = 1
 MAX_TOPICS_SHOWN = 7
 MAX_PREDICTIONS_LIST = 8
 OUTPUT_DIR = Path("forecasters")
 SEARCH_INDEX_PATH = Path("forecasters_index.json")
 PREDICTIONS_JSONL = Path("predictions_v2.jsonl")
-METHODOLOGY_REF = "METHODOLOGY.md §4 (0–100 Accuracy Score) + scoring_rules.md v2.0"
+METHODOLOGY_REF = "SCORING.md (pure mean Brier, lower is better)"
 
 
 # ---------------------------------------------------------------------------
@@ -59,14 +64,6 @@ def slugify(name: str) -> str:
 # ---------------------------------------------------------------------------
 # Scoring
 # ---------------------------------------------------------------------------
-def score_of_record(record: dict) -> Optional[float]:
-    if record.get("outcome") is None:
-        return None
-    weighted = (record.get("partial_accuracy") or {}).get("weighted_score")
-    if weighted is not None:
-        return float(weighted) * 100.0
-    return 100.0 if bool(record["outcome"]) else 0.0
-
 
 def status_label(record: dict) -> Tuple[str, str, str]:
     outcome = record.get("outcome")
@@ -130,15 +127,14 @@ def initials_and_color(name: str) -> Tuple[str, str]:
 # Aggregation
 # ---------------------------------------------------------------------------
 def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
-    buckets: Dict[str, dict] = defaultdict(
-        lambda: {
-            "scores": [],
-            "topics": defaultdict(list),
-            "predictions": [],
-            "statement_ids": [],
-        }
-    )
+    """
+    Load predictions_v2.jsonl and score every forecaster with the
+    single canonical pure-Brier function. No divergent logic allowed.
+    """
+    from collections import defaultdict
 
+    # Group raw records by display name
+    buckets: Dict[str, list] = defaultdict(list)
     with open(jsonl_path, "r", encoding="utf-8") as fh:
         for line in fh:
             line = line.strip()
@@ -148,61 +144,59 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
                 rec = json.loads(line)
             except json.JSONDecodeError:
                 continue
-
             name = display_name_from_record(rec)
             if not name or name == "Unknown":
                 continue
-
-            sc = score_of_record(rec)
-            raw_topic = (rec.get("statement_topic") or "General").strip()
-            topic = short_topic_label(raw_topic)
-            sid = rec.get("statement_id") or ""
-
-            buckets[name]["predictions"].append(rec)
-            if sid:
-                buckets[name]["statement_ids"].append(sid)
-
-            if sc is not None:
-                buckets[name]["scores"].append(sc)
-                buckets[name]["topics"][topic].append(sc)
+            buckets[name].append(rec)
 
     result = {}
-    for name, data in buckets.items():
-        resolved = len(data["scores"])
-        total = len(data["predictions"])
-        pending = total - resolved
+    for name, raw_preds in buckets.items():
+        # Normalize to the shape expected by the canonical scorer
+        normalized = []
+        for raw in raw_preds:
+            normalized.append({
+                "id": raw.get("statement_id") or raw.get("id"),
+                "forecaster_id": name,
+                "topic": raw.get("statement_topic") or "untagged",
+                "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
+                "outcome": raw.get("outcome"),
+            })
 
-        overall = None
-        if resolved >= MIN_RESOLVED_FOR_OVERALL and data["scores"]:
-            overall = round(sum(data["scores"]) / len(data["scores"]), 1)
-        elif resolved > 0:
-            overall = round(sum(data["scores"]) / len(data["scores"]), 1)
+        # THE only place scores are calculated
+        scored = score_forecaster(normalized)
 
-        topic_stats = {}
-        for t, scores in data["topics"].items():
-            cnt = len(scores)
-            avg = round(sum(scores) / cnt, 1) if cnt >= MIN_RESOLVED_FOR_TOPIC else None
-            topic_stats[t] = {"count": cnt, "avg": avg}
-
-        resolved_preds = [r for r in data["predictions"] if r.get("outcome") is not None]
-        pending_preds = [r for r in data["predictions"] if r.get("outcome") is None]
+        # Keep a short list of recent predictions for the profile page
+        resolved_preds = [r for r in raw_preds if r.get("outcome") is not None]
+        pending_preds = [r for r in raw_preds if r.get("outcome") is None]
         resolved_preds.sort(key=lambda r: r.get("resolution_date") or "", reverse=True)
         pending_preds.sort(key=lambda r: r.get("statement_publication_date") or "", reverse=True)
         preds_sorted = resolved_preds + pending_preds
 
+        # Topic stats in the shape the HTML expects
+        topic_stats = {}
+        for t, tdata in scored["topics"].items():
+            topic_stats[t] = {
+                "count": tdata["resolved_count"],
+                "avg": tdata["score"],          # pure Brier (lower = better)
+                "prediction_ids": tdata["prediction_ids"],
+            }
+
         result[name] = {
             "slug": slugify(name),
-            "total": total,
-            "resolved_count": resolved,
-            "pending_count": pending,
-            "overall": overall,
-            "scores": data["scores"],
+            "total": scored["resolved_count"] + scored["pending_count"],
+            "resolved_count": scored["resolved_count"],
+            "pending_count": scored["pending_count"],
+            "overall": scored["overall"],          # pure Brier or None
+            "prediction_ids": scored["prediction_ids"],
             "topics": topic_stats,
             "predictions": preds_sorted[:MAX_PREDICTIONS_LIST],
-            "statement_ids": sorted(data["statement_ids"]),
+            "statement_ids": sorted(
+                [str(p.get("statement_id") or p.get("id") or "") for p in raw_preds if p.get("statement_id") or p.get("id")]
+            ),
+            "limitations_note": LIMITATIONS_NOTE,
+            "rules_version": RULES_VERSION,
         }
     return result
-
 
 # ---------------------------------------------------------------------------
 # HTML
@@ -266,28 +260,33 @@ def render_profile_page(
     pending = data["pending_count"]
     overall = data["overall"]
 
-    if resolved < MIN_RESOLVED_FOR_OVERALL:
+    if overall is None or resolved == 0:
         score_html = f"""
         <div class="mt-4">
           <p class="text-2xl md:text-3xl font-medium text-slate-700 leading-snug">
-            Insufficient resolved data (n = {resolved})
+            No resolved predictions yet
           </p>
           <p class="text-sm text-slate-500 mt-2">
-            A numeric overall score is shown only when at least {MIN_RESOLVED_FOR_OVERALL} resolved predictions exist (same threshold used on the homepage).
+            Scores appear once at least one prediction has been resolved.
           </p>
         </div>"""
-        og_score = f"Insufficient data (n={resolved})"
+        og_score = f"No resolved data (n={resolved})"
     else:
+        brier_str = format_brier(overall)
         score_html = f"""
         <div class="mt-4">
           <p class="text-sm text-slate-500 mb-0.5">Score</p>
           <div class="flex items-baseline gap-x-2">
-            <span class="text-5xl md:text-6xl font-medium text-slate-900 tabular-nums tracking-tight">{overall}</span>
-            <span class="text-2xl text-slate-500">/100</span>
+            <span class="text-5xl md:text-6xl font-medium text-slate-900 tabular-nums tracking-tight">{brier_str}</span>
           </div>
+          <p class="text-sm text-slate-500 mt-1">
+            Brier score · 0–1 scale · lower is better · n = {resolved}
+          </p>
+          <p class="text-xs text-slate-400 mt-2 max-w-md">
+            {LIMITATIONS_NOTE}
+          </p>
         </div>"""
-        og_score = f"{overall}/100 (n={resolved})"
-
+        og_score = f"{brier_str} (n={resolved})"
     initials, avatar_bg = initials_and_color(name)
     bio = "Public forecaster"
 
@@ -320,7 +319,7 @@ def render_profile_page(
           <div class="flex flex-wrap gap-2">
             {''.join(topic_pills)}
           </div>
-          <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numeric score shown only when ≥{MIN_RESOLVED_FOR_TOPIC} resolved.</p>
+	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Scores are mean Brier (lower is better).</p>
         </section>"""
     else:
         topics_html = ""

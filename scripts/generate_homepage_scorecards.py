@@ -5,52 +5,56 @@ generate_homepage_scorecards.py - Hybrid version with injection
 
 import json
 import argparse
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from scoring import score_forecaster, format_brier, LIMITATIONS_NOTE
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
 
 
 def calculate_forecaster_scores(jsonl_path=Path("predictions_v2.jsonl")):
-    if not jsonl_path.exists():
-        return {}
+    """Score every forecaster with the single canonical pure-Brier function."""
+    from collections import defaultdict
 
-    forecasters = defaultdict(lambda: {"overall_scores": [], "resolved_count": 0})
-
-    with open(jsonl_path, "r", encoding="utf-8") as f:
-        for line in f:
+    buckets = defaultdict(list)
+    with open(jsonl_path, "r", encoding="utf-8") as fh:
+        for line in fh:
             line = line.strip()
             if not line:
                 continue
             try:
-                record = json.loads(line)
-            except:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
                 continue
-
-            author = record.get("author", {})
-            name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip() or "Unknown"
-
-            outcome = record.get("outcome")
-            weighted = record.get("partial_accuracy", {}).get("weighted_score")
-
-            if outcome is not None:
-                if weighted is not None:
-                    score = weighted * 100
-                else:
-                    score = 100.0 if bool(outcome) else 0.0
-
-                forecasters[name]["overall_scores"].append(score)
-                forecasters[name]["resolved_count"] += 1
+            name = (rec.get("forecaster") or "").strip()
+            if not name:
+                author = rec.get("author") or {}
+                name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip()
+            if not name:
+                continue
+            buckets[name].append(rec)
 
     result = {}
-    for name, data in forecasters.items():
-        if data["overall_scores"]:
-            avg = sum(data["overall_scores"]) / len(data["overall_scores"])
-            result[name] = {
-                "overall": round(avg, 1),
-                "resolved_count": len(data["overall_scores"])
-            }
+    for name, raw_preds in buckets.items():
+        normalized = []
+        for raw in raw_preds:
+            normalized.append({
+                "id": raw.get("statement_id") or raw.get("id"),
+                "forecaster_id": name,
+                "topic": raw.get("statement_topic") or "untagged",
+                "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
+                "outcome": raw.get("outcome"),
+            })
+        scored = score_forecaster(normalized)
+        result[name] = {
+            "overall": scored["overall"],
+            "resolved_count": scored["resolved_count"],
+            "pending_count": scored["pending_count"],
+            "prediction_ids": scored["prediction_ids"],
+        }
     return result
-
 
 def get_top_forecasters(scores, n=3, min_resolved=10):
     qualified = [(name, data) for name, data in scores.items() 
@@ -86,7 +90,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
                 <div class="text-sm text-slate-500">Score</div>
                 <div class="flex items-baseline gap-x-2">
                     <span class="text-6xl font-semibold text-emerald-700">{data["overall"]}</span>
-                    <span class="text-3xl text-emerald-600">/100</span>
+		    <span class="text-3xl text-emerald-600">Brier score · 0–1 scale · lower is better</span>
                 </div>
                 <div class="text-sm text-slate-500 mt-1">(n={data["resolved_count"]})</div>
             </div>

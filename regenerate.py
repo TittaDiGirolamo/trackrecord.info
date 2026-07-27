@@ -359,7 +359,19 @@ def update_homepage_scorecards(scores: Dict[str, Any], generation_id: str) -> No
         parts = fid.replace(",", " ").split()
         initials = (parts[0][0] + parts[-1][0]).upper() if len(parts) >= 2 else fid[:2].upper()
 
-        profile_slug = fid.lower().replace(", ", "-").replace(" ", "-").replace("'", "")
+        # Turn "Last, First" into "First Last" so the slug matches the profile pages
+        if ", " in fid:
+            last, first = fid.split(", ", 1)
+            name_for_slug = f"{first.strip()} {last.strip()}"
+        else:
+            name_for_slug = fid
+
+        profile_slug = (
+            name_for_slug.lower()
+            .replace("'", "")
+            .replace(",", "")
+            .replace(" ", "-")
+        )
         profile_href = f"forecasters/{profile_slug}.html"
 
         card = f"""
@@ -472,8 +484,19 @@ def update_homepage_scorecards(scores: Dict[str, Any], generation_id: str) -> No
         parts = fid.replace(",", " ").split()
         initials = (parts[0][0] + parts[-1][0]).upper() if len(parts) >= 2 else fid[:2].upper()
 
-        # Link to the designed profile if it exists, otherwise to our Phase 1 profile
-        profile_slug = fid.lower().replace(", ", "-").replace(" ", "-").replace("'", "")
+        # Turn "Last, First" into "First Last" so the slug matches the profile pages
+        if ", " in fid:
+            last, first = fid.split(", ", 1)
+            name_for_slug = f"{first.strip()} {last.strip()}"
+        else:
+            name_for_slug = fid
+
+        profile_slug = (
+            name_for_slug.lower()
+            .replace("'", "")
+            .replace(",", "")
+            .replace(" ", "-")
+        )
         profile_href = f"forecasters/{profile_slug}.html"
 
         card = f"""

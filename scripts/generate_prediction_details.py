@@ -20,6 +20,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
+from pathlib import Path as _Path
+sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))
+from scoring import brier_to_index, format_brier, format_index
+from scoring.rules import score_one
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -163,6 +168,15 @@ def render_detail_page(
     topic = rec.get("statement_topic", "")
     probability = rec.get("statement_probability")
     outcome = rec.get("outcome")
+
+    brier_html = ""
+    if probability is not None and outcome is not None:
+        brier = score_one({"probability": probability, "outcome": outcome})
+        index = brier_to_index(brier)
+        brier_html = f"""
+            <p class="text-sm font-mono text-slate-500 mt-1">
+                Brier contribution: {format_brier(brier)} · Brier Index: {format_index(index)}
+            </p>"""
 
     label, pill_classes, card_bg = outcome_pill(outcome)
     topic_html = topic_pills(topic)
@@ -318,10 +332,18 @@ def render_detail_page(
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Resolved</td>
                         <td class="py-1.5 align-top">{res_date}</td>
                     </tr>""" if outcome is not None else ""}
-                    {f"""<tr>
+                                        {f"""<tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Stated probability</td>
                         <td class="py-1.5 align-top">{probability:.0%}</td>
                     </tr>""" if probability is not None else ""}
+                    {f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier contribution</td>
+                        <td class="py-1.5 align-top font-mono">{format_brier(score_one({"probability": probability, "outcome": outcome}))}</td>
+                    </tr>""" if probability is not None and outcome is not None else ""}
+                    {f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier Index</td>
+                        <td class="py-1.5 align-top font-mono">{format_index(brier_to_index(score_one({"probability": probability, "outcome": outcome})))}</td>
+                    </tr>""" if probability is not None and outcome is not None else ""}
                     <tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Status</td>
                         <td class="py-1.5 align-top">{label}</td>

@@ -30,7 +30,7 @@ def render_nav(active: str = "", relative_prefix: str = "") -> str:
           <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls('methodology')}">Methodology</a>
         </div>
         <div class="flex items-center gap-x-3">
-          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-normal text-slate-600 hover:text-slate-900 transition-colors">
+          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 font-normal text-slate-600 hover:text-slate-900 transition-colors">
             <i class="fa-brands fa-x-twitter"></i>
             <span>Follow</span>
           </a>

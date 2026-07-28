@@ -100,7 +100,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
         profile_url = f"forecasters/{slug}.html"
 
         cards_html += f"""
-        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 hover:bg-slate-50 transition-colors">
+        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">{initials}</div>
                 <div>
@@ -126,7 +126,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
         <h3 class="text-3xl font-medium tracking-tighter">Top {n} Forecasters</h3>
         <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum {min_resolved}). Higher Brier Index is better.</p>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
         {cards_html}
     </div>
 </div>"""

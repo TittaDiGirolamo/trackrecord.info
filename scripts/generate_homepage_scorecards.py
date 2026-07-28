@@ -94,7 +94,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
         profile_url = f"forecasters/{slug}.html"
 
         cards_html += f"""
-        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 border border-slate-200 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors">
+        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">{initials}</div>
                 <div>
@@ -136,7 +136,7 @@ def inject_into_index(index_path, scorecards_html):
     if "<!-- HOMEPAGE_SCORECARDS_END -->" not in rest:
         return False
     _, after = rest.split("<!-- HOMEPAGE_SCORECARDS_END -->", 1)
-    new_content = before + "<!-- HOMEPAGE_SCORECARDS_START -->\\n" + scorecards_html + "\\n<!-- HOMEPAGE_SCORECARDS_END -->" + after
+    new_content = before + "<!-- HOMEPAGE_SCORECARDS_START -->\n" + scorecards_html + "\n<!-- HOMEPAGE_SCORECARDS_END -->" + after
     index_path.write_text(new_content, encoding="utf-8")
     return True
 

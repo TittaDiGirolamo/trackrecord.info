@@ -16,7 +16,7 @@ from collections import defaultdict
 from datetime import date
 from typing import Any, Dict
 
-from scoring import score_forecaster, format_index
+from scoring import score_forecaster, format_index, display_name, slugify_name, initials_from_name
 
 
 def load_and_score(jsonl_path: Path = Path("predictions_v2.jsonl")) -> Dict[str, Any]:
@@ -50,18 +50,11 @@ def load_and_score(jsonl_path: Path = Path("predictions_v2.jsonl")) -> Dict[str,
                 "outcome": raw.get("outcome"),
             })
         scored = score_forecaster(normalized)
-        # First-Last slug
-        parts = [p for p in name.replace(",", " ").split() if p]
-        if len(parts) >= 2:
-            slug = f"{parts[-1].lower()}-{parts[0].lower()}"
-            initials = (parts[-1][0] + parts[0][0]).upper()
-        else:
-            slug = name.lower().replace(" ", "-")
-            initials = (parts[0][:2] if parts else "??").upper()
-
+        # Canonical naming (shared helper)
         result[name] = {
-            "slug": slug,
-            "initials": initials,
+            "slug": slugify_name(name),
+            "initials": initials_from_name(name),
+            "display": display_name(name),
             "overall": scored["overall"],
             "overall_index": scored.get("overall_index"),
             "resolved_count": scored["resolved_count"],
@@ -98,7 +91,7 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
           <div class="flex items-center gap-x-3 mb-3">
             <div class="w-10 h-10 bg-{color}-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">{data["initials"]}</div>
             <div>
-              <div class="font-medium text-slate-900">{name}</div>
+              <div class="font-medium text-slate-900">{data["display"]}</div>
               <div class="text-sm text-slate-500">Public forecaster</div>
             </div>
           </div>

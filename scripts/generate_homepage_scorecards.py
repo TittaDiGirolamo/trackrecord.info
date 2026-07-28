@@ -17,7 +17,7 @@ from collections import defaultdict
 from datetime import date
 from typing import Any, Dict, List, Tuple
 
-from scoring import score_forecaster, format_index, LIMITATIONS_NOTE
+from scoring import score_forecaster, format_index, LIMITATIONS_NOTE, display_name, slugify_name, initials_from_name
 
 
 def calculate_forecaster_scores(jsonl_path: Path = Path("predictions_v2.jsonl")) -> Dict[str, Any]:
@@ -91,6 +91,12 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
 
         color = colors[idx % len(colors)]
         index_str = format_index(data.get("overall_index"))
+        # Canonical naming (shared helper)
+        shown_name = display_name(name)
+        slug = slugify_name(name)
+        initials = initials_from_name(name)
+        color = colors[idx % len(colors)]
+        index_str = format_index(data.get("overall_index"))
         profile_url = f"forecasters/{slug}.html"
 
         cards_html += f"""
@@ -98,7 +104,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">{initials}</div>
                 <div>
-                    <div class="font-medium text-xl text-slate-900">{name}</div>
+                    <div class="font-medium text-xl text-slate-900">{shown_name}</div>
                     <div class="text-sm text-slate-500">Public Forecaster</div>
                 </div>
             </div>

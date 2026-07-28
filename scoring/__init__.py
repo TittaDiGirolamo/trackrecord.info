@@ -6,6 +6,7 @@ from .rules import (
     format_index,
     brier_to_index,
 )
+from .names import display_name, slugify_name, initials_from_name, parse_name
 
 __all__ = [
     "score_forecaster",
@@ -14,4 +15,8 @@ __all__ = [
     "format_brier",
     "format_index",
     "brier_to_index",
+    "display_name",
+    "slugify_name",
+    "initials_from_name",
+    "parse_name",
 ]

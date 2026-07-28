@@ -80,15 +80,25 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
     cards_html = ""
     colors = ["emerald", "blue", "teal"]
     for idx, (name, data) in enumerate(top_forecasters):
-        initials = "".join([w[0].upper() for w in name.split()[:2]]) or "??"
+        # Build First-Last slug (matches existing profile pages)
+        parts = [p for p in name.replace(",", " ").split() if p]
+        if len(parts) >= 2:
+            slug = f"{parts[-1].lower()}-{parts[0].lower()}"
+            initials = (parts[-1][0] + parts[0][0]).upper()
+        else:
+            slug = name.lower().replace(" ", "-")
+            initials = (parts[0][:2] if parts else "??").upper()
+
         color = colors[idx % len(colors)]
         index_str = format_index(data.get("overall_index"))
+        profile_url = f"forecasters/{slug}.html"
+
         cards_html += f"""
-        <div class="bg-white rounded-3xl p-8 border border-slate-100 min-w-[280px] snap-center flex-shrink-0 md:min-w-0">
+        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 border border-slate-200 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors">
             <div class="flex items-center gap-x-4 mb-6">
-                <div class="w-12 h-12 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-semibold text-xl">{initials}</div>
+                <div class="w-12 h-12 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">{initials}</div>
                 <div>
-                    <div class="font-semibold text-xl">{name}</div>
+                    <div class="font-medium text-xl text-slate-900">{name}</div>
                     <div class="text-sm text-slate-500">Public Forecaster</div>
                 </div>
             </div>
@@ -100,14 +110,14 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
                 <div class="text-sm text-emerald-600 mt-1">Brier Index · 0–100 · higher is better</div>
                 <div class="text-sm text-slate-500 mt-1">n = {data["resolved_count"]}</div>
             </div>
-        </div>"""
+        </a>"""
 
     return f"""<div class="max-w-7xl mx-auto px-6 py-12">
     <div class="mb-8">
         <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 mb-3">
             LIVE
         </div>
-        <h3 class="text-3xl font-semibold tracking-tighter">Top {n} Forecasters</h3>
+        <h3 class="text-3xl font-medium tracking-tighter">Top {n} Forecasters</h3>
         <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum {min_resolved}). Higher Brier Index is better.</p>
     </div>
     <div class="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:overflow-visible md:pb-0">

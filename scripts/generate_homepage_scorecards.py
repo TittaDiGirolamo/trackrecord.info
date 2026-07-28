@@ -118,7 +118,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
             </div>
         </a>"""
 
-    return f"""<div class="max-w-7xl mx-auto px-6 py-12">
+    return f"""<div class="max-w-7xl mx-auto px-6 py-12 overflow-x-hidden">
     <div class="mb-8">
         <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 mb-3">
             Live
@@ -126,8 +126,10 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
         <h3 class="text-3xl font-medium tracking-tighter">Top {n} Forecasters</h3>
         <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum {min_resolved}). Higher Brier Index is better.</p>
     </div>
-    <div class="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
+    <div class="w-full max-w-full overflow-x-auto overscroll-x-contain pb-4 snap-x snap-mandatory md:overflow-visible md:pb-0">
+      <div class="flex gap-6 md:grid md:grid-cols-3">
         {cards_html}
+      </div>
     </div>
 </div>"""
 

@@ -1,245 +1,171 @@
 #!/usr/bin/env python3
 """
-Trackrecord Table Generator
-Final clean version - Generates predictions.html with forecaster scores
+generate_prediction_tables.py
+Rebuilds predictions.html — predictions only, visual system compliant.
+No forecaster score cards. Shared nav. Status-tinted cards.
 """
 
-from collections import defaultdict
-import json
-import argparse
+from __future__ import annotations
+
 import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from scoring import score_forecaster, format_brier, format_index, LIMITATIONS_NOTE
+
+import argparse
+import json
 from datetime import date
-from pathlib import Path
-import sys
+from typing import Any, Dict, List, Optional
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "schema"))
-from prediction_schema import PredictionRecord
+from scoring import display_name
+from templates.nav import render_nav, nav_script
 
 
-def calculate_forecaster_scores(jsonl_path: str = "predictions_v2.jsonl"):
-    """Score every forecaster with the single canonical pure-Brier function."""
-    from collections import defaultdict
-
-    buckets = defaultdict(list)
-    with open(jsonl_path, "r", encoding="utf-8") as fh:
-        for line in fh:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                rec = json.loads(line)
-            except json.JSONDecodeError:
-                continue
-            name = (rec.get("forecaster") or "").strip()
-            if not name:
-                author = rec.get("author") or {}
-                name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip()
-            if not name:
-                continue
-            buckets[name].append(rec)
-
-    result = {}
-    for name, raw_preds in buckets.items():
-        normalized = []
-        for raw in raw_preds:
-            normalized.append({
-                "id": raw.get("statement_id") or raw.get("id"),
-                "forecaster_id": name,
-                "topic": raw.get("statement_topic") or "untagged",
-                "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
-                "outcome": raw.get("outcome"),
-            })
-        scored = score_forecaster(normalized)
-        result[name] = {
-            "overall": scored["overall"],
-            "overall_index": scored.get("overall_index"),
-            "resolved_count": scored["resolved_count"],
-            "pending_count": scored["pending_count"],
-            "topics": {t: {"score": td["score"], "count": td["resolved_count"]} for t, td in scored["topics"].items()},
-            "prediction_ids": scored["prediction_ids"],
-        }
-    return result
-
-def load_records(path: Path):
+def load_records(path: Path) -> List[Dict[str, Any]]:
     records = []
-    skipped = 0
-    with open(path, "r", encoding="utf-8") as f:
+    if not path.exists():
+        print(f"[ERROR] {path} not found")
+        return records
+    with path.open(encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line:
                 continue
             try:
-                records.append(PredictionRecord.model_validate_json(line))
-            except Exception as e:
-                skipped += 1
-                if skipped <= 5:
-                    print(f"[WARNING] Skipped invalid record: {str(e)[:100]}")
-    print(f"  Loaded {len(records)} valid records, skipped {skipped} invalid records from {path}")
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
     return records
 
 
-def render_predictions_table(records, build_date):
-    if not records:
-        return '<tr><td colspan="5" class="px-6 py-8 text-center text-slate-500">No predictions currently tracked.</td></tr>'
-
-    sorted_records = sorted(
-        records,
-        key=lambda r: (r.resolution_date or "9999-99-99", r.statement_publication_date or "1900-01-01")
-    )
-    rows = []
-
-    for r in sorted_records:
-        name = f"{r.author.firstname} {r.author.lastname}".strip()
-        quote = r.original_statement.split("[")[0].strip()[:85]
-        if len(quote) > 80:
-            quote = quote[:80] + "..."
-
-        days_text = "–"
-        if r.resolution_date:
-            try:
-                days = max(0, (date.fromisoformat(r.resolution_date) - build_date).days)
-                days_text = f"{days} days"
-            except Exception:
-                pass
-
-        if getattr(r, 'outcome', None) is not None:
-            score = int(r.outcome * 100)
-            status = f'<span class="status-pill resolved">Resolved ({score})</span>'
-        else:
-            status = '<span class="status-pill">Pending – Resolution-ready</span>'
-
-        topic = (r.statement_topic or "General")[:35]
-        topic_html = f'<span class="topic-pill">{topic}</span>'
-
-        detail_href = f"predictions/{r.statement_id}.html"
-        row = f'''<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">{name}</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="{detail_href}" class="text-slate-900 hover:text-emerald-700 transition-colors">“{quote}”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">{days_text}</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status">{status}</td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic">{topic_html}</td>
-</tr>'''
-        rows.append(row)
-
-    return "\n".join(rows)
+def format_date(iso: Optional[str]) -> str:
+    if not iso:
+        return "—"
+    try:
+        d = date.fromisoformat(iso[:10])
+        return d.strftime("%-d %B %Y")
+    except Exception:
+        return iso
 
 
-def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_scores, dry_run: bool = False):
-    # Build forecaster cards
-    cards = ""
-    for name, data in forecaster_scores.items():
-        cards += f'''<div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">{name}</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">{format_index(data.get("overall_index"))}</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = {data["resolved_count"]}</div>
-        </div>'''
+def status_for(outcome) -> tuple[str, str, str]:
+    """Returns (label, pill_classes, card_bg)."""
+    base = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal"
+    if outcome is None:
+        return "Pending", f"{base} bg-amber-500 text-white", "bg-amber-50"
+    if float(outcome) >= 0.5:
+        return "True", f"{base} bg-emerald-600 text-white", "bg-emerald-50"
+    return "False", f"{base} bg-rose-600 text-white", "bg-rose-50"
 
-    html = f"""<!DOCTYPE html>
+
+def short_claim(text: str, limit: int = 120) -> str:
+    text = (text or "").split("[")[0].strip()
+    if len(text) > limit:
+        return text[: limit - 1] + "…"
+    return text
+
+
+def render_cards(records: List[Dict[str, Any]]) -> str:
+    # Newest resolution first, then newest publication
+    def sort_key(r):
+        return (
+            r.get("resolution_date") or "9999-99-99",
+            r.get("statement_publication_date") or "1900-01-01",
+        )
+
+    ordered = sorted(records, key=sort_key, reverse=True)
+    cards = []
+    for r in ordered:
+        name = display_name(r.get("forecaster") or "")
+        if not name or name == "Unknown":
+            author = r.get("author") or {}
+            name = display_name(
+                f"{author.get('lastname', '')}, {author.get('firstname', '')}".strip(", ")
+            )
+        claim = short_claim(r.get("original_statement", ""))
+        sid = r.get("statement_id") or ""
+        href = f"predictions/{sid}.html" if sid else "#"
+        pub = format_date(r.get("statement_publication_date"))
+        label, pill, card_bg = status_for(r.get("outcome"))
+        topic = (r.get("statement_topic") or "").split(" - ")[-1][:40]
+        topic_html = ""
+        if topic:
+            topic_html = f'<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">{topic}</span>'
+
+        cards.append(
+            f"""
+        <a href="{href}" class="block {card_bg} rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“{claim}”</p>
+            <span class="{pill} shrink-0">{label}</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">{name}</span>
+            <span class="font-mono">{pub}</span>
+            {topic_html}
+          </div>
+        </a>"""
+        )
+    return "\n".join(cards) if cards else '<p class="text-slate-500">No predictions tracked yet.</p>'
+
+
+def render_page(records: List[Dict[str, Any]], build_date: str) -> str:
+    cards_html = render_cards(records)
+    n = len(records)
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predictions • Trackrecord.info</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {{ font-family: 'Inter', system-ui, sans-serif; }}
-        .prediction-text {{ font-size: 1.02rem; line-height: 1.4; }}
-        .status-pill {{ display: inline-flex; align-items: center; padding: 2px 10px; background-color: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }}
-        .status-pill.resolved {{ background-color: #d1fae5; color: #065f46; }}
-        .topic-pill {{ display: inline-flex; align-items: center; padding: 2px 10px; background-color: #10b981; color: white; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }}
-        
-        @media (max-width: 1023px) {{
-            .mobile-table-row {{ display: flex; flex-direction: column; }}
-            .mobile-table-row td {{ display: block; padding-top: 0.5rem; padding-bottom: 0.5rem; }}
-        }}
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predictions | trackrecord.info</title>
+  <meta name="description" content="Concrete tracked predictions drawn from the public record. Status is determined solely by primary evidence against pre-defined resolution criteria." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>body {{ font-family: 'Inter', system-ui, sans-serif; }}</style>
 </head>
-<body class="bg-slate-50 text-slate-900">
-    <nav class="border-b border-slate-200 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-x-2">
-                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center"><span class="text-white font-bold">T</span></div>
-                    <a href="index.html" class="font-semibold">Trackrecord.info</a>
-                </div>
-                <div class="flex items-center gap-x-6 text-sm">
-                    <a href="index.html" class="text-slate-600 hover:text-slate-900">Home</a>
-                    <a href="predictions.html" class="text-emerald-600 font-medium">Predictions</a>
-                    <a href="forecasters.html" class="text-slate-600 hover:text-slate-900">Forecasters</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body class="bg-white text-slate-900 antialiased">
+  {render_nav(active="predictions")}
 
-    <main class="max-w-7xl mx-auto px-6 py-10">
-        <h1 class="text-3xl font-semibold tracking-tight mb-2">All Predictions Tracked</h1>
-        <p class="text-slate-600 mb-6">Unfiltered view • Data from predictions_v2.jsonl • Generated on {build_date}</p>
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+    <p class="text-sm font-normal text-emerald-600 mb-2">All tracked predictions</p>
+    <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900 mb-2">Predictions</h1>
+    <p class="mt-2 text-slate-600 max-w-2xl mb-8">
+      Concrete tracked predictions drawn from the public record. Status is determined solely by primary evidence against pre-defined resolution criteria.
+    </p>
+    <p class="text-sm text-slate-500 mb-6">{n} predictions</p>
 
-        <!-- Forecaster Summary -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Forecaster Accuracy Summary</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {cards}
-            </div>
-        </div>
+    <div class="space-y-3">
+      {cards_html}
+    </div>
 
-        <div class="bg-white border border-slate-200 rounded-3xl overflow-x-auto shadow-sm">
-            <table class="w-full min-w-[1100px] lg:min-w-0">
-                <thead class="hidden lg:table-header-group">
-                    <tr class="border-b border-slate-100 bg-slate-50/50">
-                        <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Forecaster</th>
-                        <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Prediction</th>
-                        <th class="text-center py-4 px-6 text-sm font-semibold text-slate-600">Days</th>
-                        <th class="text-center py-4 px-6 text-sm font-semibold text-slate-600">Status</th>
-                        <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Topic</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100 text-sm">
-                    {rows}
-                </tbody>
-            </table>
-        </div>
-    </main>
+    <p class="text-xs text-slate-400 mt-10">Generated {build_date}.</p>
+  </main>
+
+  {nav_script()}
 </body>
-</html>"""
-
-    if dry_run:
-        print(f"[DRY-RUN] Would have written {len(rows.splitlines())} prediction rows to {path}")
-        print(f"[DRY-RUN] Would have updated forecaster accuracy summary with {len(forecaster_scores)} forecasters")
-    else:
-        path.write_text(html, encoding="utf-8")
-        print(f"Action: updated {path}")
+</html>
+"""
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--predictions-jsonl", type=Path, default=Path("predictions_v2.jsonl"),
-                        help="Path to the canonical predictions JSONL file")
-    parser.add_argument("--predictions-html", type=Path, default=Path("predictions.html"))
-    parser.add_argument("--build-date", type=str, default=None)
-    parser.add_argument("--dry-run", action="store_true", help="Preview changes without writing files")
-    parser.add_argument("--verbose", action="store_true", help="Show more detailed output")
+    parser.add_argument("--predictions-jsonl", type=Path, default=Path("predictions_v2.jsonl"))
+    parser.add_argument("--output", type=Path, default=Path("predictions.html"))
+    parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
-    build_date = date.fromisoformat(args.build_date) if args.build_date else date.today()
-    print(f"Trackrecord Table Generator | {build_date}")
-
     records = load_records(args.predictions_jsonl)
-    print(f"Predictions table: {len(records)} rows will be generated from {args.predictions_jsonl}")
-
-    forecaster_scores = calculate_forecaster_scores(str(args.predictions_jsonl))
-    print("Calculated forecaster scores:", {k: v["overall"] for k, v in forecaster_scores.items()})
-
-    pred_rows = render_predictions_table(records, build_date)
-    write_predictions_html(args.predictions_html, pred_rows, build_date, forecaster_scores, dry_run=args.dry_run)
+    print(f"Loaded {len(records)} records from {args.predictions_jsonl}")
+    html = render_page(records, date.today().isoformat())
 
     if args.dry_run:
-        print("DRY RUN complete — no files were modified.")
+        print(html[:500])
     else:
-        print("Done.")
+        args.output.write_text(html, encoding="utf-8")
+        print(f"Wrote {args.output}")
 
 
 if __name__ == "__main__":

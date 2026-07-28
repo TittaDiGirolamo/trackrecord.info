@@ -1,678 +1,961 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predictions • Trackrecord.info</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: 'Inter', system-ui, sans-serif; }
-        .prediction-text { font-size: 1.02rem; line-height: 1.4; }
-        .status-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }
-        .status-pill.resolved { background-color: #d1fae5; color: #065f46; }
-        .topic-pill { display: inline-flex; align-items: center; padding: 2px 10px; background-color: #10b981; color: white; font-size: 0.75rem; font-weight: 600; border-radius: 9999px; }
-        
-        @media (max-width: 1023px) {
-            .mobile-table-row { display: flex; flex-direction: column; }
-            .mobile-table-row td { display: block; padding-top: 0.5rem; padding-bottom: 0.5rem; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Predictions | trackrecord.info</title>
+  <meta name="description" content="Concrete tracked predictions drawn from the public record. Status is determined solely by primary evidence against pre-defined resolution criteria." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>body { font-family: 'Inter', system-ui, sans-serif; }</style>
 </head>
-<body class="bg-slate-50 text-slate-900">
-    <nav class="border-b border-slate-200 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-x-2">
-                    <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center"><span class="text-white font-bold">T</span></div>
-                    <a href="index.html" class="font-semibold">Trackrecord.info</a>
-                </div>
-                <div class="flex items-center gap-x-6 text-sm">
-                    <a href="index.html" class="text-slate-600 hover:text-slate-900">Home</a>
-                    <a href="predictions.html" class="text-emerald-600 font-medium">Predictions</a>
-                    <a href="forecasters.html" class="text-slate-600 hover:text-slate-900">Forecasters</a>
-                </div>
-            </div>
+<body class="bg-white text-slate-900 antialiased">
+  
+  <nav id="main-nav" class="bg-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <div class="flex items-center gap-x-2.5">
+          <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
+            <span class="text-white text-sm font-normal tracking-tight">T</span>
+          </div>
+          <a href="index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
         </div>
-    </nav>
+        <div class="hidden md:flex items-center gap-x-8">
+          <a href="predictions.html" class="font-normal text-slate-900">Predictions</a>
+          <a href="forecasters.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Forecasters</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
+        </div>
+        <div class="flex items-center gap-x-3">
+          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 font-normal text-slate-700 hover:text-slate-900 transition-colors">
+            <i class="fa-brands fa-x-twitter"></i>
+            <span>Follow</span>
+          </a>
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+            <i class="fa-solid fa-bars text-2xl"></i>
+          </button>
+        </div>
+      </div>
+      <div id="mobile-menu" class="hidden md:hidden py-4">
+        <div class="flex flex-col gap-y-4">
+          <a href="predictions.html" class="font-normal text-slate-900 px-2 py-1">Predictions</a>
+          <a href="forecasters.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors px-2 py-1">Forecasters</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors px-2 py-1">Methodology</a>
+          <div class="pt-4 flex flex-col gap-y-3">
+            <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
+              <i class="fa-brands fa-x-twitter"></i> Follow on X
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 
-    <main class="max-w-7xl mx-auto px-6 py-10">
-        <h1 class="text-3xl font-semibold tracking-tight mb-2">All Predictions Tracked</h1>
-        <p class="text-slate-600 mb-6">Unfiltered view • Data from predictions_v2.jsonl • Generated on 2026-07-28</p>
 
-        <!-- Forecaster Summary -->
-        <div class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Forecaster Accuracy Summary</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Sneijder, Wesley</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">40.5</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Öztürk, Süleyman</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">79.9</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">van den Hoven, Bas</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">35.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Klement, Joachim</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">69.2</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 7</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Crebolder, Finley</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">48.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Statham, Michael</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">32.8</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Shearer, Alan</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">57.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Rooney, Wayne</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">82.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Richards, Micah</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">22.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Frank, Thomas</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">80.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Didonato, Damian</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">83.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Marcotti, Gab</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">37.3</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 3</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Connelly, Bill</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">79.4</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Hernandez, Cesar</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">54.5</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Mewis, Joe</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">30.7</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 4</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Kirkland, Alex</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">47.4</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">O'Halloran, Connor</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">80.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Dawson, Rob</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">82.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Sutton, Chris</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">60.3</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 29</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Becherano, Lizzy</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">74.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Ogden, Mark</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">76.3</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Olley, James</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">75.8</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 2</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Hamilton, Tom</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">80.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Lindop, Beth</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">82.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div><div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <div class="font-semibold">Laurens, Julien</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">74.0</div>
-            <div class="text-sm text-slate-500">Brier Index · higher is better · n = 1</div>
-        </div>
-            </div>
-        </div>
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+    <p class="text-sm font-normal text-emerald-600 mb-2">All tracked predictions</p>
+    <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900 mb-2">Predictions</h1>
+    <p class="mt-2 text-slate-600 max-w-2xl mb-8">
+      Concrete tracked predictions drawn from the public record. Status is determined solely by primary evidence against pre-defined resolution criteria.
+    </p>
+    <p class="text-sm text-slate-500 mb-6">73 predictions</p>
 
-        <div class="bg-white border border-slate-200 rounded-3xl overflow-x-auto shadow-sm">
-            <table class="w-full min-w-[1100px] lg:min-w-0">
-                <thead class="hidden lg:table-header-group">
-                    <tr class="border-b border-slate-100 bg-slate-50/50">
-                        <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Forecaster</th>
-                        <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Prediction</th>
-                        <th class="text-center py-4 px-6 text-sm font-semibold text-slate-600">Days</th>
-                        <th class="text-center py-4 px-6 text-sm font-semibold text-slate-600">Status</th>
-                        <th class="text-left py-4 px-6 text-sm font-semibold text-slate-600">Topic</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100 text-sm">
-                    <tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Finley Crebolder</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-05-21-crebolder-nl-groupf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands has strong chances in Group F but faces tough knockout path”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-mex-sa-1-0.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Mexico will beat South Africa 1-0 in their opening World Cup 2026 Group A match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-kor-cze-1-1.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“South Korea will draw with Czechia 1-1 in their World Cup 2026 Group A match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-can-bih-1-1.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Canada will draw with Bosnia and Herzegovina 1-1 in their World Cup 2026 Group B...”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-usa-par-1-1.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“USA will draw with Paraguay 1-1 in their World Cup 2026 Group D match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-qat-sui-0-2.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Qatar will lose to Switzerland 0-2 in their World Cup 2026 Group B match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-bra-mar-2-1.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Brazil will beat Morocco 2-1 in their World Cup 2026 Group C match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-hai-sco-1-2.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Haiti will lose to Scotland 1-2 in their World Cup 2026 Group C match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-aus-tur-2-2.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Australia will draw with Turkey 2-2 in their World Cup 2026 Group D match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-ger-cuw-3-0.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Germany will beat Curacao 3-0 in their World Cup 2026 Group E match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-civ-ecu-0-0.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Ivory Coast will draw with Ecuador 0-0 in their World Cup 2026 Group E match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-ned-jpn-1-2.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands will lose to Japan 1-2 in their World Cup 2026 Group F match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-swe-tun-1-1.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Sweden will draw with Tunisia 1-1 in their World Cup 2026 Group F match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-eng-cro-2-0.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“England will beat Croatia 2-0 in their World Cup 2026 Group L match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-gha-pan-2-1.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Ghana will beat Panama 2-1 in their World Cup 2026 Group L match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-por-cod-2-1.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Portugal will beat DR Congo 2-1 in their World Cup 2026 Group K match”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Group Stage -</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Michael Statham</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-04-18-statham-nl-qf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands aims for quarter-finals or better at 2026 World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joachim Klement</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-05-25-klement-nl-group-qf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands tops Group F and reaches at least quarter-finals”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Bas van den Hoven</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-01-vandenhoven-nl-qf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands reaches quarter-finals or better”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joe Mewis</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-08-mewis-norway-deep.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Norway reaches the knockout stages of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Norway Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joe Mewis</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-08-mewis-sweden-surge.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Sweden has the chance to surge into the final stages of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Sweden Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joe Mewis</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-08-mewis-ecuador-2006.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Ecuador is more than capable of getting out of its group and matching its 2006 r...”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Ecuador Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joe Mewis</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-08-mewis-mexico-trouble.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Mexico will trouble teams in the second half of the 2026 FIFA World Cup tourname...”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Mexico Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Cesar Hernandez</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-hernandez-japan-qf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Japan reaches at least the quarterfinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Japan Perform</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Alex Kirkland</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-kirkland-ecuador-qf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Ecuador reaches the quarterfinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Ecuador Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Connor O'Halloran</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-ohalloran-senegal-deep.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Senegal makes a deep run at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Senegal Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Rob Dawson</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-dawson-nl-no-advance.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands does not advance from the group stage at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-japan-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Japan finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Japan Perform</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-brazil-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Brazil finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Brazil Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Cesar Hernandez</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-hernandez-usmnt-r16.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“United States reaches the round of 16 at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - United States</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Lizzy Becherano</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-becherano-mexico-qf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Mexico reaches the quarterfinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Mexico Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Alex Kirkland</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-kirkland-canada-last16.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Canada reaches the last 16 of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Canada Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Mark Ogden</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-ogden-usmnt-group-exit.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“United States exits in the group stage at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - United States</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-germany-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Germany finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Germany Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-senegal-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Senegal finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Senegal Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Bill Connelly</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-connelly-colombia-deep.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Colombia reaches the quarterfinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Colombia Perf</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Mark Ogden</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-ogden-portugal-underdog.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Portugal reaches at least the quarterfinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Portugal Perf</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">James Olley</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-olley-mexico-altitude.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Mexico benefits from altitude as host nation and reaches the quarterfinals of th...”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Mexico Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Tom Hamilton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-hamilton-paraguay-no-advance.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Paraguay does not advance from the group stage at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Paraguay Perf</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Gab Marcotti</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-marcotti-uruguay-no-advance.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Uruguay does not advance from the group stage at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Uruguay Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Beth Lindop</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-lindop-usmnt-qf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“United States potentially reaches the quarterfinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - United States</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-argentina-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Argentina finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Argentina Per</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-england-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“England finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - England Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-spain-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Spain finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Spain Perform</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-colombia-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Colombia finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Colombia Perf</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Julien Laurens</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-laurens-japan-deeper.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Japan makes a deep run at the 2026 FIFA World Cup, stronger than its performance...”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Japan Perform</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">James Olley</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-olley-australia-no-advance.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Australia is the most surprising team not to advance from the group stage at the...”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Australia Per</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-turkey-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Turkey finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Turkey Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-southkorea-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“South Korea finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - South Korea P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-switzerland-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Switzerland finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Switzerland P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-belgium-group.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Belgium finishes first in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Belgium Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Gab Marcotti</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-marcotti-ecuador-knockout.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Ecuador will grind its way into the knockout phase of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Ecuador Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-paraguay-2nd.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Paraguay finishes second in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Paraguay Perf</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Chris Sutton</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-sutton-canada-2nd.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Canada finishes second in its group at the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Canada Perfor</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Wesley Sneijder</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2025-12-06-sneijder-nl-no-semifinal.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands does not reach semi-finals (semifinalists: Portugal, Spain, France, ...”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joachim Klement</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-04-klement-portugal-england-sf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Portugal defeats England in the semifinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - England Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joachim Klement</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-04-klement-nl-spain-sf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands defeats Spain in the semifinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Spain Perform</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joachim Klement</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-04-klement-semifinalists.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“The semifinalists at the 2026 FIFA World Cup are Netherlands, Spain, Portugal an...”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Alan Shearer</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-shearer-england-sf.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“England can make the semifinals of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - England Perfo</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Wesley Sneijder</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2025-12-06-sneijder-winner-restricted.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“World Cup 2026 winner is one of: Portugal, Spain, France, Brazil”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joachim Klement</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-05-25-klement-nl-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands wins 2026 World Cup, defeats Portugal in final”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Michael Statham</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-05-25-statham-nl-groupf-no-win.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands performs well in Group F but not expected to win tournament”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Süleyman Öztürk</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-01-ozturk-nl-final.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands reaches final / strong Oranje performance in Group F and beyond”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Süleyman Öztürk</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-01-ozturk-portugal-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Portugal wins World Cup 2026 (Netherlands in final)”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joachim Klement</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-04-klement-nl-final.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands reaches the final of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Netherlands P</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Joachim Klement</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-04-klement-nl-winner-path.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Netherlands will win the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Alan Shearer</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-shearer-france-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“France will win the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Wayne Rooney</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-rooney-england-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“England and Spain will make the final of the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Micah Richards</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-richards-spain-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Spain will win the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (100)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Thomas Frank</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-frank-england-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“England will win the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Damian Didonato</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-didonato-germany-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Germany will win the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Gab Marcotti</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-marcotti-brazil-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“Brazil will win the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-<tr class="prediction-row mobile-table-row">
-    <td class="px-6 py-4 font-medium text-slate-900 order-2 lg:order-1" data-label="Forecaster">Bill Connelly</td>
-    <td class="px-6 py-4 prediction-text order-1 lg:order-2" data-label="Prediction"><a href="predictions/pred-2026-06-10-connelly-england-winner.html" class="text-slate-900 hover:text-emerald-700 transition-colors">“England will win the 2026 FIFA World Cup”</a></td>
-    <td class="px-6 py-4 lg:text-center text-emerald-700 font-medium order-3 lg:order-3" data-label="Days to Resolution">0 days</td>
-    <td class="px-6 py-4 lg:text-center order-4 lg:order-4" data-label="Status"><span class="status-pill resolved">Resolved (0)</span></td>
-    <td class="px-6 py-4 order-5 lg:order-5" data-label="Topic"><span class="topic-pill">FIFA World Cup 2026 - Winner</span></td>
-</tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
+    <div class="space-y-3">
+      
+        <a href="predictions/pred-2026-06-10-shearer-france-winner.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“France will win the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Alan Shearer</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-rooney-england-winner.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“England and Spain will make the final of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Wayne Rooney</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-richards-spain-winner.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Spain will win the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Micah Richards</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-frank-england-winner.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“England will win the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Thomas Frank</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-didonato-germany-winner.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Germany will win the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Damian Didonato</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-marcotti-brazil-winner.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Brazil will win the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Gab Marcotti</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-connelly-england-winner.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“England will win the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Bill Connelly</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-04-klement-nl-final.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands reaches the final of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joachim Klement</span>
+            <span class="font-mono">4 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Final</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-04-klement-nl-winner-path.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands will win the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joachim Klement</span>
+            <span class="font-mono">4 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-01-ozturk-nl-final.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands reaches final / strong Oranje performance in Group F and beyond”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Süleyman Öztürk</span>
+            <span class="font-mono">1 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Final</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-01-ozturk-portugal-winner.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Portugal wins World Cup 2026 (Netherlands in final)”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Süleyman Öztürk</span>
+            <span class="font-mono">1 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-05-25-klement-nl-winner.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands wins 2026 World Cup, defeats Portugal in final”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joachim Klement</span>
+            <span class="font-mono">25 May 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-05-25-statham-nl-groupf-no-win.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands performs well in Group F but not expected to win tournament”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Michael Statham</span>
+            <span class="font-mono">25 May 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2025-12-06-sneijder-winner-restricted.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“World Cup 2026 winner is one of: Portugal, Spain, France, Brazil”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Wesley Sneijder</span>
+            <span class="font-mono">6 December 2025</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-shearer-england-sf.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“England can make the semifinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Alan Shearer</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Semifinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-04-klement-portugal-england-sf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Portugal defeats England in the semifinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joachim Klement</span>
+            <span class="font-mono">4 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Semifinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-04-klement-nl-spain-sf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands defeats Spain in the semifinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joachim Klement</span>
+            <span class="font-mono">4 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Semifinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-04-klement-semifinalists.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“The semifinalists at the 2026 FIFA World Cup are Netherlands, Spain, Portugal and England”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joachim Klement</span>
+            <span class="font-mono">4 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Winner</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2025-12-06-sneijder-nl-no-semifinal.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands does not reach semi-finals (semifinalists: Portugal, Spain, France, Brazil)”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Wesley Sneijder</span>
+            <span class="font-mono">6 December 2025</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Semifinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-hernandez-japan-qf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Japan reaches at least the quarterfinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Cesar Hernandez</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-kirkland-ecuador-qf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Ecuador reaches the quarterfinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Alex Kirkland</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-ohalloran-senegal-deep.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Senegal makes a deep run at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Connor O'Halloran</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Knockout Stages</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-dawson-nl-no-advance.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands does not advance from the group stage at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Rob Dawson</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-japan-group.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Japan finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-brazil-group.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Brazil finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-hernandez-usmnt-r16.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“United States reaches the round of 16 at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Cesar Hernandez</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Round of 16</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-becherano-mexico-qf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Mexico reaches the quarterfinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Lizzy Becherano</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-kirkland-canada-last16.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Canada reaches the last 16 of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Alex Kirkland</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Last 16</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-ogden-usmnt-group-exit.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“United States exits in the group stage at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Mark Ogden</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-germany-group.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Germany finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-senegal-group.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Senegal finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-connelly-colombia-deep.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Colombia reaches the quarterfinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Bill Connelly</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-ogden-portugal-underdog.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Portugal reaches at least the quarterfinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Mark Ogden</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-olley-mexico-altitude.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Mexico benefits from altitude as host nation and reaches the quarterfinals of the 2026 FIFA World Cup.”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">James Olley</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-hamilton-paraguay-no-advance.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Paraguay does not advance from the group stage at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Tom Hamilton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-marcotti-uruguay-no-advance.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Uruguay does not advance from the group stage at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Gab Marcotti</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-lindop-usmnt-qf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“United States potentially reaches the quarterfinals of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Beth Lindop</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-argentina-group.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Argentina finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-england-group.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“England finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-spain-group.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Spain finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-colombia-group.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Colombia finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-laurens-japan-deeper.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Japan makes a deep run at the 2026 FIFA World Cup, stronger than its performance in Qatar”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Julien Laurens</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-olley-australia-no-advance.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Australia is the most surprising team not to advance from the group stage at the 2026 FIFA World Cup.”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">James Olley</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-turkey-group.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Turkey finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-southkorea-group.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“South Korea finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-switzerland-group.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Switzerland finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-belgium-group.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Belgium finishes first in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-marcotti-ecuador-knockout.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Ecuador will grind its way into the knockout phase of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Gab Marcotti</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Last 16</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-paraguay-2nd.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Paraguay finishes second in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-canada-2nd.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Canada finishes second in its group at the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-08-mewis-norway-deep.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Norway reaches the knockout stages of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joe Mewis</span>
+            <span class="font-mono">8 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Knockout Stages</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-08-mewis-sweden-surge.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Sweden has the chance to surge into the final stages of the 2026 FIFA World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joe Mewis</span>
+            <span class="font-mono">8 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Knockout Stages</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-08-mewis-ecuador-2006.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Ecuador is more than capable of getting out of its group and matching its 2006 run to the last 16 at the 2026 FIFA Worl…”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joe Mewis</span>
+            <span class="font-mono">8 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Last 16</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-08-mewis-mexico-trouble.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Mexico will trouble teams in the second half of the 2026 FIFA World Cup tournament”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joe Mewis</span>
+            <span class="font-mono">8 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Knockout Stages</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-01-vandenhoven-nl-qf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands reaches quarter-finals or better”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Bas van den Hoven</span>
+            <span class="font-mono">1 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-05-25-klement-nl-group-qf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands tops Group F and reaches at least quarter-finals”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Joachim Klement</span>
+            <span class="font-mono">25 May 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-04-18-statham-nl-qf.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands aims for quarter-finals or better at 2026 World Cup”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Michael Statham</span>
+            <span class="font-mono">18 April 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Quarterfinals</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-mex-sa-1-0.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Mexico will beat South Africa 1-0 in their opening World Cup 2026 Group A match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Mexico vs South Africa]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-kor-cze-1-1.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“South Korea will draw with Czechia 1-1 in their World Cup 2026 Group A match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [South Korea vs Czechia]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-can-bih-1-1.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Canada will draw with Bosnia and Herzegovina 1-1 in their World Cup 2026 Group B match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Canada vs Bosnia and Herze</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-usa-par-1-1.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“USA will draw with Paraguay 1-1 in their World Cup 2026 Group D match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [USA vs Paraguay]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-qat-sui-0-2.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Qatar will lose to Switzerland 0-2 in their World Cup 2026 Group B match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Qatar vs Switzerland]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-bra-mar-2-1.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Brazil will beat Morocco 2-1 in their World Cup 2026 Group C match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Brazil vs Morocco]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-hai-sco-1-2.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Haiti will lose to Scotland 1-2 in their World Cup 2026 Group C match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Haiti vs Scotland]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-aus-tur-2-2.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Australia will draw with Turkey 2-2 in their World Cup 2026 Group D match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Australia vs Turkey]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-ger-cuw-3-0.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Germany will beat Curacao 3-0 in their World Cup 2026 Group E match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Germany vs Curacao]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-civ-ecu-0-0.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Ivory Coast will draw with Ecuador 0-0 in their World Cup 2026 Group E match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Ivory Coast vs Ecuador]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-ned-jpn-1-2.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands will lose to Japan 1-2 in their World Cup 2026 Group F match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Netherlands vs Japan]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-swe-tun-1-1.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Sweden will draw with Tunisia 1-1 in their World Cup 2026 Group F match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Sweden vs Tunisia]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-eng-cro-2-0.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“England will beat Croatia 2-0 in their World Cup 2026 Group L match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [England vs Croatia]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-gha-pan-2-1.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Ghana will beat Panama 2-1 in their World Cup 2026 Group L match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Ghana vs Panama]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-06-10-sutton-por-cod-2-1.html" class="block bg-rose-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Portugal will beat DR Congo 2-1 in their World Cup 2026 Group K match”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-rose-600 text-white shrink-0">False</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Chris Sutton</span>
+            <span class="font-mono">10 June 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Match Result [Portugal vs DR Congo]</span>
+          </div>
+        </a>
+
+        <a href="predictions/pred-2026-05-21-crebolder-nl-groupf.html" class="block bg-emerald-50 rounded-2xl p-5 hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
+            <p class="font-normal text-slate-900 leading-relaxed flex-1">“Netherlands has strong chances in Group F but faces tough knockout path”</p>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-600 text-white shrink-0">True</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
+            <span class="font-normal text-slate-600">Finley Crebolder</span>
+            <span class="font-mono">21 May 2026</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">Group Stage</span>
+          </div>
+        </a>
+    </div>
+
+    <p class="text-xs text-slate-400 mt-10">Generated 2026-07-28.</p>
+  </main>
+
+  
+  <script>
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {
+      const m = document.getElementById('mobile-menu');
+      const open = !m.classList.contains('hidden');
+      m.classList.toggle('hidden', open);
+      this.setAttribute('aria-expanded', String(!open));
+      this.querySelector('i').className = open
+        ? 'fa-solid fa-bars text-2xl'
+        : 'fa-solid fa-xmark text-2xl';
+    });
+  </script>
+
 </body>
 </html>

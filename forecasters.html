@@ -13,6 +13,7 @@
   <style>body { font-family: 'Inter', system-ui, sans-serif; }</style>
 </head>
 <body class="bg-white text-slate-900 antialiased">
+    
   <nav id="main-nav" class="bg-white sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6">
       <div class="flex items-center justify-between h-16 md:h-20">
@@ -22,29 +23,36 @@
           </div>
           <a href="index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
         </div>
-        <div class="hidden md:flex items-center gap-x-8 text-sm">
+        <div class="hidden md:flex items-center gap-x-8">
           <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
           <a href="forecasters.html" class="font-normal text-slate-900">Forecasters</a>
           <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
         </div>
         <div class="flex items-center gap-x-3">
-          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-normal text-slate-700 hover:text-slate-900 transition-colors">
-            <i class="fa-brands fa-x-twitter"></i><span>Follow</span>
+          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 font-normal text-slate-700 hover:text-slate-900 transition-colors">
+            <i class="fa-brands fa-x-twitter"></i>
+            <span>Follow</span>
           </a>
-          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700" aria-label="Toggle menu">
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
             <i class="fa-solid fa-bars text-2xl"></i>
           </button>
         </div>
       </div>
       <div id="mobile-menu" class="hidden md:hidden py-4">
-        <div class="flex flex-col gap-y-4 text-sm">
-          <a href="predictions.html" class="font-normal text-slate-600 px-2 py-1">Predictions</a>
+        <div class="flex flex-col gap-y-4">
+          <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors px-2 py-1">Predictions</a>
           <a href="forecasters.html" class="font-normal text-slate-900 px-2 py-1">Forecasters</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 px-2 py-1">Methodology</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors px-2 py-1">Methodology</a>
+          <div class="pt-4 flex flex-col gap-y-3">
+            <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
+              <i class="fa-brands fa-x-twitter"></i> Follow on X
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </nav>
+
 
   <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
     <p class="text-sm font-normal text-emerald-600 mb-2">All tracked forecasters</p>
@@ -407,11 +415,18 @@
     <p class="text-xs text-slate-400 mt-10">Generated 2026-07-28. Scores from the canonical pure-Brier function.</p>
   </main>
 
+    
   <script>
     document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {
       const m = document.getElementById('mobile-menu');
-      m.classList.toggle('hidden');
+      const open = !m.classList.contains('hidden');
+      m.classList.toggle('hidden', open);
+      this.setAttribute('aria-expanded', String(!open));
+      this.querySelector('i').className = open
+        ? 'fa-solid fa-bars text-2xl'
+        : 'fa-solid fa-xmark text-2xl';
     });
   </script>
+
 </body>
 </html>

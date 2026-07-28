@@ -17,6 +17,7 @@ from datetime import date
 from typing import Any, Dict
 
 from scoring import score_forecaster, format_index, display_name, slugify_name, initials_from_name
+from templates.nav import render_nav, nav_script
 
 
 def load_and_score(jsonl_path: Path = Path("predictions_v2.jsonl")) -> Dict[str, Any]:
@@ -115,38 +116,7 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
   <style>body {{ font-family: 'Inter', system-ui, sans-serif; }}</style>
 </head>
 <body class="bg-white text-slate-900 antialiased">
-  <nav id="main-nav" class="bg-white sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="flex items-center justify-between h-16 md:h-20">
-        <div class="flex items-center gap-x-2.5">
-          <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-            <span class="text-white text-sm font-normal tracking-tight">T</span>
-          </div>
-          <a href="index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
-        </div>
-        <div class="hidden md:flex items-center gap-x-8 text-sm">
-          <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
-          <a href="forecasters.html" class="font-normal text-slate-900">Forecasters</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
-        </div>
-        <div class="flex items-center gap-x-3">
-          <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-normal text-slate-700 hover:text-slate-900 transition-colors">
-            <i class="fa-brands fa-x-twitter"></i><span>Follow</span>
-          </a>
-          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700" aria-label="Toggle menu">
-            <i class="fa-solid fa-bars text-2xl"></i>
-          </button>
-        </div>
-      </div>
-      <div id="mobile-menu" class="hidden md:hidden py-4">
-        <div class="flex flex-col gap-y-4 text-sm">
-          <a href="predictions.html" class="font-normal text-slate-600 px-2 py-1">Predictions</a>
-          <a href="forecasters.html" class="font-normal text-slate-900 px-2 py-1">Forecasters</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 px-2 py-1">Methodology</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+    {render_nav(active="forecasters")}
 
   <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
     <p class="text-sm font-normal text-emerald-600 mb-2">All tracked forecasters</p>
@@ -160,12 +130,7 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
     <p class="text-xs text-slate-400 mt-10">Generated {build_date}. Scores from the canonical pure-Brier function.</p>
   </main>
 
-  <script>
-    document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {{
-      const m = document.getElementById('mobile-menu');
-      m.classList.toggle('hidden');
-    }});
-  </script>
+    {nav_script()}
 </body>
 </html>
 '''

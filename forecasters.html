@@ -3,467 +3,415 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forecasters — trackrecord.info</title>
-  <meta name="description" content="All tracked public forecasters and their accuracy records on trackrecord.info." />
-  <link rel="canonical" href="https://trackrecord.info/forecasters.html" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://trackrecord.info/forecasters.html" />
-  <meta property="og:title" content="Forecasters — trackrecord.info" />
-  <meta property="og:description" content="All tracked public forecasters and their accuracy records." />
-  <meta property="og:site_name" content="trackrecord.info" />
-
+  <title>Forecasters | trackrecord.info</title>
+  <meta name="description" content="Track record of public forecasters. Scores are Brier Index (higher is better)." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <style>
-    body, h1, h2, h3, h4, h5, h6, a, button, input, p, span, div {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
-  </style>
+  <style>body { font-family: 'Inter', system-ui, sans-serif; }</style>
 </head>
 <body class="bg-white text-slate-900 antialiased">
-
-  <!-- Navigation – identical to index.html -->
   <nav id="main-nav" class="bg-white sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6">
       <div class="flex items-center justify-between h-16 md:h-20">
-        <!-- Logo -->
         <div class="flex items-center gap-x-2.5">
           <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
             <span class="text-white text-sm font-normal tracking-tight">T</span>
           </div>
           <a href="index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
         </div>
-
-        <!-- Desktop links -->
         <div class="hidden md:flex items-center gap-x-8 text-sm">
           <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
-          <a href="forecasters.html" class="font-normal text-slate-900 transition-colors">Forecasters</a>
+          <a href="forecasters.html" class="font-normal text-slate-900">Forecasters</a>
           <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Methodology</a>
         </div>
-
-        <!-- Social & mobile-toggle -->
         <div class="flex items-center gap-x-3">
           <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 px-4 py-2 text-sm font-normal text-slate-700 hover:text-slate-900 transition-colors">
-            <i class="fa-brands fa-x-twitter"></i>
-            <span>Follow</span>
+            <i class="fa-brands fa-x-twitter"></i><span>Follow</span>
           </a>
-          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+          <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-700" aria-label="Toggle menu">
             <i class="fa-solid fa-bars text-2xl"></i>
           </button>
         </div>
       </div>
-
-      <!-- Mobile menu -->
       <div id="mobile-menu" class="hidden md:hidden py-4">
         <div class="flex flex-col gap-y-4 text-sm">
-          <a href="predictions.html" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Predictions</a>
+          <a href="predictions.html" class="font-normal text-slate-600 px-2 py-1">Predictions</a>
           <a href="forecasters.html" class="font-normal text-slate-900 px-2 py-1">Forecasters</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 hover:text-slate-900 px-2 py-1">Methodology</a>
-          <div class="pt-4 flex flex-col gap-y-3">
-            <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
-              <i class="fa-brands fa-x-twitter"></i> Follow on X
-            </a>
-          </div>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="font-normal text-slate-600 px-2 py-1">Methodology</a>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+    <p class="text-sm font-normal text-emerald-600 mb-2">All tracked forecasters</p>
+    <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900 mb-2">Forecasters</h1>
+    <p class="text-slate-600 mb-8">Primary score is the Brier Index (0–100, higher is better). Pure mean Brier remains the source of truth.</p>
 
-    <!-- Header -->
-    <header class="mb-8">
-      <p class="text-sm font-normal text-emerald-600 mb-1">Directory</p>
-      <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900">Forecasters</h1>
-      <p class="mt-2 text-slate-600 max-w-2xl leading-relaxed">
-        Every public figure with at least one tracked prediction. Open a profile for the full accuracy record, topic breakdown, and recent claims.
-      </p>
-    </header>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      
+        <a href="forecasters/damian-didonato.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">DD</div>
+            <div>
+              <div class="font-medium text-slate-900">Didonato, Damian</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">83.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
 
-    <!-- Search -->
-    <div class="mb-8">
-      <label for="forecaster-search" class="sr-only">Search forecasters</label>
-      <div class="relative max-w-md">
-        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-        <input
-          id="forecaster-search"
-          type="search"
-          placeholder="Search by name…"
-          autocomplete="off"
-          class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-100 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
-        />
-      </div>
-      <p class="mt-2 text-xs text-slate-400">
-        <span id="visible-count">25</span> of <span id="total-count">25</span> forecasters
-      </p>
+        <a href="forecasters/wayne-rooney.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">WR</div>
+            <div>
+              <div class="font-medium text-slate-900">Rooney, Wayne</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">82.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/rob-dawson.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">RD</div>
+            <div>
+              <div class="font-medium text-slate-900">Dawson, Rob</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">82.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/beth-lindop.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-rose-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">BL</div>
+            <div>
+              <div class="font-medium text-slate-900">Lindop, Beth</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">82.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/thomas-frank.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">TF</div>
+            <div>
+              <div class="font-medium text-slate-900">Frank, Thomas</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">80.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/connor-o'halloran.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">CO</div>
+            <div>
+              <div class="font-medium text-slate-900">O'Halloran, Connor</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">80.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/tom-hamilton.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-cyan-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">TH</div>
+            <div>
+              <div class="font-medium text-slate-900">Hamilton, Tom</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">80.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/süleyman-öztürk.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-fuchsia-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">SÖ</div>
+            <div>
+              <div class="font-medium text-slate-900">Öztürk, Süleyman</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">79.9</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/bill-connelly.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">BC</div>
+            <div>
+              <div class="font-medium text-slate-900">Connelly, Bill</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">79.4</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/mark-ogden.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-sky-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">MO</div>
+            <div>
+              <div class="font-medium text-slate-900">Ogden, Mark</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">76.3</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/james-olley.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">JO</div>
+            <div>
+              <div class="font-medium text-slate-900">Olley, James</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">75.8</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/lizzy-becherano.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">LB</div>
+            <div>
+              <div class="font-medium text-slate-900">Becherano, Lizzy</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">74.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/julien-laurens.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">JL</div>
+            <div>
+              <div class="font-medium text-slate-900">Laurens, Julien</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">74.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/joachim-klement.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-rose-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">JK</div>
+            <div>
+              <div class="font-medium text-slate-900">Klement, Joachim</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">69.2</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 7</div>
+        </a>
+
+        <a href="forecasters/chris-sutton.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">CS</div>
+            <div>
+              <div class="font-medium text-slate-900">Sutton, Chris</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">60.3</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 29</div>
+        </a>
+
+        <a href="forecasters/alan-shearer.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">AS</div>
+            <div>
+              <div class="font-medium text-slate-900">Shearer, Alan</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">57.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/cesar-hernandez.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-cyan-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">CH</div>
+            <div>
+              <div class="font-medium text-slate-900">Hernandez, Cesar</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">54.5</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/finley-crebolder.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-fuchsia-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">FC</div>
+            <div>
+              <div class="font-medium text-slate-900">Crebolder, Finley</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">48.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/alex-kirkland.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">AK</div>
+            <div>
+              <div class="font-medium text-slate-900">Kirkland, Alex</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">47.4</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/wesley-sneijder.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-sky-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">WS</div>
+            <div>
+              <div class="font-medium text-slate-900">Sneijder, Wesley</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">40.5</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/gab-marcotti.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">GM</div>
+            <div>
+              <div class="font-medium text-slate-900">Marcotti, Gab</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">37.3</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 3</div>
+        </a>
+
+        <a href="forecasters/bas-van.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">BV</div>
+            <div>
+              <div class="font-medium text-slate-900">van den Hoven, Bas</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">35.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
+
+        <a href="forecasters/michael-statham.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-violet-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">MS</div>
+            <div>
+              <div class="font-medium text-slate-900">Statham, Michael</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">32.8</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 2</div>
+        </a>
+
+        <a href="forecasters/joe-mewis.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-rose-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">JM</div>
+            <div>
+              <div class="font-medium text-slate-900">Mewis, Joe</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">30.7</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 4</div>
+        </a>
+
+        <a href="forecasters/micah-richards.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+          <div class="flex items-center gap-x-3 mb-3">
+            <div class="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">MR</div>
+            <div>
+              <div class="font-medium text-slate-900">Richards, Micah</div>
+              <div class="text-sm text-slate-500">Public forecaster</div>
+            </div>
+          </div>
+          
+            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">22.0</span></div>
+            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-slate-500">n = 1</div>
+        </a>
     </div>
 
-    <!-- Card grid – one card per live profile (from generate_forecaster_profiles.py) -->
-    <div id="forecaster-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-      <a href="forecasters/alan-shearer.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="alan shearer">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">AS</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Alan Shearer</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-      <a href="forecasters/alex-kirkland.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="alex kirkland">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-cyan-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">AK</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Alex Kirkland</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-      <a href="forecasters/bas-van-den-hoven.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="bas van den hoven">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-teal-700 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">BH</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Bas van den Hoven</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/beth-lindop.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="beth lindop">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-fuchsia-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">BL</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Beth Lindop</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/bill-connelly.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="bill connelly">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-slate-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">BC</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Bill Connelly</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-      <a href="forecasters/cesar-hernandez.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="cesar hernandez">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-amber-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">CH</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Cesar Hernandez</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-      <a href="forecasters/chris-sutton.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="chris sutton">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-rose-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">CS</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Chris Sutton</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="flex items-baseline gap-x-1.5 mb-1">
-          <span class="text-3xl font-medium text-slate-900 tabular-nums">39.3</span>
-          <span class="text-sm text-slate-500">/100</span>
-        </div>
-        <div class="text-xs text-slate-500">29 resolved</div>
-      </a>
-
-      <a href="forecasters/connor-o-halloran.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="connor o'halloran connor o halloran">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-violet-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">CO</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Connor O'Halloran</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/damian-didonato.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="damian didonato">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-pink-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">DD</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Damian Didonato</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/finley-crebolder.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="finley crebolder">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-sky-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">FC</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Finley Crebolder</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/gab-marcotti.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="gab marcotti">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">GM</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Gab Marcotti</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">3 resolved</div>
-      </a>
-
-      <a href="forecasters/james-olley.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="james olley">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-orange-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">JO</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">James Olley</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-      <a href="forecasters/joachim-klement.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="joachim klement">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-pink-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">JK</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Joachim Klement</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">7 resolved</div>
-      </a>
-
-      <a href="forecasters/joe-mewis.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="joe mewis">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-pink-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">JM</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Joe Mewis</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">4 resolved</div>
-      </a>
-
-      <a href="forecasters/julien-laurens.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="julien laurens">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">JL</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Julien Laurens</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/lizzy-becherano.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="lizzy becherano">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-violet-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">LB</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Lizzy Becherano</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/mark-ogden.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="mark ogden">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-amber-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">MO</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Mark Ogden</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-      <a href="forecasters/micah-richards.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="micah richards">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-sky-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">MR</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Micah Richards</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/michael-statham.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="michael statham">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">MS</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Michael Statham</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-      <a href="forecasters/rob-dawson.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="rob dawson">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-cyan-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">RD</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Rob Dawson</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/suleyman-ozturk.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="süleyman öztürk suleyman ozturk">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-rose-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">SÖ</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Süleyman Öztürk</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-      <a href="forecasters/thomas-frank.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="thomas frank">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-slate-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">TF</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Thomas Frank</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/tom-hamilton.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="tom hamilton">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-teal-700 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">TH</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Tom Hamilton</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/wayne-rooney.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="wayne rooney">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-orange-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">WR</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Wayne Rooney</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">1 resolved</div>
-      </a>
-
-      <a href="forecasters/wesley-sneijder.html" class="forecaster-card block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors" data-name="wesley sneijder">
-        <div class="flex items-center gap-x-3 mb-4">
-          <div class="w-11 h-11 bg-orange-600 rounded-2xl flex items-center justify-center text-white font-medium text-sm shrink-0">WS</div>
-          <div class="min-w-0">
-            <div class="font-medium text-slate-900 truncate">Wesley Sneijder</div>
-            <div class="text-xs text-slate-500">Public forecaster</div>
-          </div>
-        </div>
-        <div class="mb-1"><span class="text-base font-medium text-slate-600">Insufficient data</span></div>
-        <div class="text-xs text-slate-500">2 resolved</div>
-      </a>
-
-    </div>
-
-    <p id="empty-state" class="hidden text-center text-sm text-slate-500 py-12">
-      No forecasters match that search.
-    </p>
-
-    <p class="mt-12 text-xs text-slate-400 leading-relaxed max-w-2xl">
-      Numeric scores are shown only when a forecaster has at least 10 resolved predictions (same threshold as the homepage).
-      Scores calculated per METHODOLOGY.md. Each card links to a permanent Profile page under /forecasters/{slug}.html.
-    </p>
+    <p class="text-xs text-slate-400 mt-10">Generated 2026-07-28. Scores from the canonical pure-Brier function.</p>
   </main>
 
   <script>
-    // Mobile menu (same behaviour as index.html)
     document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {
       const m = document.getElementById('mobile-menu');
-      const open = !m.classList.contains('hidden');
-      m.classList.toggle('hidden', open);
-      this.setAttribute('aria-expanded', String(!open));
-      this.querySelector('i').className = open
-        ? 'fa-solid fa-bars text-2xl'
-        : 'fa-solid fa-xmark text-2xl';
+      m.classList.toggle('hidden');
     });
-
-    // Client-side search
-    const input = document.getElementById('forecaster-search');
-    const cards = Array.from(document.querySelectorAll('.forecaster-card'));
-    const visibleCount = document.getElementById('visible-count');
-    const totalCount = document.getElementById('total-count');
-    const emptyState = document.getElementById('empty-state');
-    const grid = document.getElementById('forecaster-grid');
-
-    if (totalCount) totalCount.textContent = cards.length;
-    if (visibleCount) visibleCount.textContent = cards.length;
-
-    function filterCards() {
-      const q = (input.value || '').toLowerCase().trim();
-      let shown = 0;
-      cards.forEach(card => {
-        const match = !q || (card.dataset.name || '').includes(q);
-        card.classList.toggle('hidden', !match);
-        if (match) shown++;
-      });
-      if (visibleCount) visibleCount.textContent = shown;
-      emptyState.classList.toggle('hidden', shown > 0);
-      grid.classList.toggle('hidden', shown === 0);
-    }
-
-    input?.addEventListener('input', filterCards);
-
-    // Support ?search= from URL
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('search')) {
-      input.value = params.get('search');
-      filterCards();
-    }
   </script>
 </body>
 </html>

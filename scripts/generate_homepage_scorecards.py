@@ -61,7 +61,7 @@ def calculate_forecaster_scores(jsonl_path: Path = Path("predictions_v2.jsonl"))
     return result
 
 
-def get_top_forecasters(scores: Dict[str, Any], n: int = 3, min_resolved: int = 5) -> List[Tuple[str, dict]]:
+def get_top_forecasters(scores: Dict[str, Any], n: int = 3, min_resolved: int = 2) -> List[Tuple[str, dict]]:
     qualified = [
         (name, data) for name, data in scores.items()
         if data["resolved_count"] >= min_resolved and data.get("overall_index") is not None
@@ -100,7 +100,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
         profile_url = f"forecasters/{slug}.html"
 
         cards_html += f"""
-        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors">
+        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 hover:bg-slate-50 transition-colors">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">{initials}</div>
                 <div>
@@ -121,12 +121,12 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
     return f"""<div class="max-w-7xl mx-auto px-6 py-12">
     <div class="mb-8">
         <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 mb-3">
-            LIVE
+            Live
         </div>
         <h3 class="text-3xl font-medium tracking-tighter">Top {n} Forecasters</h3>
         <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum {min_resolved}). Higher Brier Index is better.</p>
     </div>
-    <div class="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards_html}
     </div>
 </div>"""
@@ -149,7 +149,7 @@ def inject_into_index(index_path, scorecards_html):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--min-resolved", type=int, default=5)
+    parser.add_argument("--min-resolved", type=int, default=2)
     parser.add_argument("--n", type=int, default=3)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()

@@ -177,10 +177,10 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
         topic_stats = {}
         for t, tdata in scored["topics"].items():
             topic_stats[t] = {
-                "count": tdata["resolved_count"],
-                "avg": tdata["score"],          # pure Brier (lower = better)
-                "prediction_ids": tdata["prediction_ids"],
-            }
+            "count": tdata["resolved_count"],
+            "avg": tdata["score"],
+            "index": tdata.get("index"),
+        }
 
         result[name] = {
             "slug": slugify(name),
@@ -264,7 +264,7 @@ def render_profile_page(
                 pill = f"""
                 <div class="inline-flex items-center gap-x-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 text-sm">
                   <span class="font-medium">{short}</span>
-                  <span class="tabular-nums text-emerald-700">{stats["avg"]}</span>
+                  <span class="tabular-nums text-emerald-700">{format_index(stats.get("index"))}</span>
                   <span class="text-emerald-500 text-xs">({stats["count"]})</span>
                 </div>"""
             else:
@@ -280,7 +280,7 @@ def render_profile_page(
           <div class="flex flex-wrap gap-2">
             {''.join(topic_pills)}
           </div>
-	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are mean Brier scores (lower is better). The main score above is the Brier Index (higher is better).</p>
+	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are Brier Index (0–100, higher is better), same scale as the main score.</p>
         </section>"""
     else:
         topics_html = ""

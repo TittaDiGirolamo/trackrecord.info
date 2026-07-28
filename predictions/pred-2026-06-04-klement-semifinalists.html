@@ -164,38 +164,6 @@
         </footer>
     </main>
 
-    <script>
-    function initializeMobileMenu() {
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileBtn && mobileMenu) {
-            mobileBtn.addEventListener('click', () => {
-                const isHidden = mobileMenu.classList.contains('hidden');
-                mobileMenu.classList.toggle('hidden');
-                mobileBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-                const icon = mobileBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.toggle('fa-bars');
-                    icon.classList.toggle('fa-xmark');
-                }
-            });
-        }
-        document.addEventListener('keydown', (e) => {
-            const currentMenu = document.getElementById('mobile-menu');
-            const currentBtn = document.getElementById('mobile-menu-btn');
-            if (e.key === 'Escape' && currentMenu && !currentMenu.classList.contains('hidden')) {
-                currentMenu.classList.add('hidden');
-                if (currentBtn) currentBtn.setAttribute('aria-expanded', 'false');
-                const icon = currentBtn ? currentBtn.querySelector('i') : null;
-                if (icon) {
-                    icon.classList.remove('fa-xmark');
-                    icon.classList.add('fa-bars');
-                }
-            }
-        });
-    }
-    document.addEventListener('DOMContentLoaded', initializeMobileMenu);
-    </script>
     
   <script>
     document.getElementById('mobile-menu-btn')?.addEventListener('click', function () {

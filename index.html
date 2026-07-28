@@ -496,14 +496,30 @@
             if (banner) banner.style.display = 'none';
         }
 
-        const FORECASTERS = [
-            "Chris Sutton", "Joachim Klement", "Gab Marcotti", "Micah Richards",
-            "Alan Shearer", "Wayne Rooney", "Joe Mewis", "Mark Ogden",
-            "Michael Statham", "Süleyman Öztürk", "Wesley Sneijder", "Thomas Frank",
-            "Damian Didonato", "Bill Connelly", "Connor O'Halloran", "James Olley",
-            "Finley Crebolder", "Lizzy Becherano", "Julien Laurens", "Beth Lindop",
-            "Rob Dawson", "Alex Kirkland", "Cesar Hernandez", "Tom Hamilton"
-        ];
+        let FORECASTERS = []; // [{name, slug, url}]
+
+        async function loadForecastersIndex() {
+            try {
+                const res = await fetch('forecasters_index.json', { cache: 'no-cache' });
+                if (!res.ok) throw new Error('index fetch failed');
+                const data = await res.json();
+                FORECASTERS = (data.forecasters || []).map(f => ({
+                    name: f.name,
+                    slug: f.slug,
+                    url: f.url || ('forecasters/' + f.slug + '.html')
+                }));
+            } catch (err) {
+                console.warn('Could not load forecasters_index.json', err);
+                FORECASTERS = [];
+            }
+        }
+
+        function profileUrl(f) {
+            // Prefer relative path so it works on GitHub Pages and local file preview
+            if (f.slug) return 'forecasters/' + f.slug + '.html';
+            if (f.url) return f.url.replace(/^\//, '');
+            return 'forecasters.html';
+        }
 
         function debounce(fn, delay) {
             let timer = null;
@@ -524,18 +540,21 @@
                 if (filtered.length === 0) {
                     const noResult = document.createElement('div');
                     noResult.className = 'px-5 py-3 text-slate-500 text-sm';
-                    noResult.textContent = 'No direct matches. View all on the predictions page.';
+                    noResult.textContent = 'No matches. Browse all forecasters.';
+                    noResult.style.cursor = 'pointer';
+                    noResult.onclick = () => { window.location.href = 'forecasters.html'; };
                     suggestionsContainer.appendChild(noResult);
                 } else {
-                    filtered.forEach(name => {
+                    filtered.forEach(f => {
                         const item = document.createElement('div');
                         item.className = 'px-5 py-3 hover:bg-emerald-50 cursor-pointer text-sm flex items-center gap-x-2';
-                        item.innerHTML = `<i class="fa-solid fa-user text-emerald-600 w-4"></i> <span>${name}</span>`;
+                        item.innerHTML = '<i class="fa-solid fa-user text-emerald-600 w-4"></i> <span></span>';
+                        item.querySelector('span').textContent = f.name;
                         item.onclick = () => {
                             suggestionsContainer.classList.add('hidden');
-                            input.value = name;
-                            if (window.plausible) window.plausible('Search', { props: { query: name } });
-                            window.location.href = `predictions.html?search=${encodeURIComponent(name)}`;
+                            input.value = f.name;
+                            if (window.plausible) window.plausible('Search', { props: { query: f.name } });
+                            window.location.href = profileUrl(f);
                         };
                         suggestionsContainer.appendChild(item);
                     });
@@ -549,7 +568,7 @@
                     suggestionsContainer.classList.add('hidden');
                     return;
                 }
-                const filtered = FORECASTERS.filter(f => f.toLowerCase().includes(query));
+                const filtered = FORECASTERS.filter(f => f.name.toLowerCase().includes(query));
                 showSuggestions(filtered);
             }, 160);
 
@@ -565,14 +584,22 @@
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     suggestionsContainer.classList.add('hidden');
-                    const val = input.value.trim();
+                    const val = input.value.trim().toLowerCase();
                     if (window.plausible) window.plausible('Search', { props: { query: val || '(empty)' } });
-                    window.location.href = val ? `predictions.html?search=${encodeURIComponent(val)}` : 'predictions.html';
+                    if (!val) {
+                        window.location.href = 'forecasters.html';
+                        return;
+                    }
+                    // Exact match first, then first partial match
+                    const exact = FORECASTERS.find(f => f.name.toLowerCase() === val);
+                    const partial = FORECASTERS.find(f => f.name.toLowerCase().includes(val));
+                    const hit = exact || partial;
+                    window.location.href = hit ? profileUrl(hit) : 'forecasters.html';
                 }
             });
         }
 
-        window.onload = function() {
+        window.onload = async function() {
             initializeMobileMenu();
             const stayForm = document.getElementById('stay-updated-form');
             const stayBtn = document.getElementById('stay-submit-btn');
@@ -583,6 +610,7 @@
                     handleFormSubmit(stayForm, stayBtn, stayBtnText);
                 });
             }
+            await loadForecastersIndex();
             createSearchHandler('hero-prediction-search', 'hero-search-suggestions', 'hero-search-wrapper');
         };
     </script>

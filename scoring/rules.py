@@ -37,3 +37,21 @@ def format_brier(brier: float | None, decimals: int = 3) -> str:
     if brier is None:
         return "—"
     return f"{brier:.{decimals}f}"
+
+
+def brier_to_index(brier: float | None) -> float | None:
+    """
+    Brier Index = (1 - sqrt(Brier)) * 100
+    Higher is better, scale 0–100.
+    Applied only after the mean Brier is calculated (preserves rankings).
+    """
+    if brier is None:
+        return None
+    return (1.0 - (brier ** 0.5)) * 100.0
+
+
+def format_index(index: float | None, decimals: int = 1) -> str:
+    """String representation of the Brier Index for display."""
+    if index is None:
+        return "—"
+    return f"{index:.{decimals}f}"

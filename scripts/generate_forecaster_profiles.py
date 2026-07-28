@@ -22,7 +22,7 @@ import hashlib
 import json
 import re
 import unicodedata
-from scoring import score_forecaster, format_brier, LIMITATIONS_NOTE, RULES_VERSION
+from scoring import score_forecaster, format_brier, format_index, LIMITATIONS_NOTE, RULES_VERSION
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
@@ -38,7 +38,7 @@ MAX_PREDICTIONS_LIST = 8
 OUTPUT_DIR = Path("forecasters")
 SEARCH_INDEX_PATH = Path("forecasters_index.json")
 PREDICTIONS_JSONL = Path("predictions_v2.jsonl")
-METHODOLOGY_REF = "SCORING.md (pure mean Brier, lower is better)"
+METHODOLOGY_REF = "SCORING.md (pure mean Brier is the source of truth; Brier Index is shown as the primary display number)"
 
 
 # ---------------------------------------------------------------------------
@@ -186,7 +186,8 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
             "total": scored["resolved_count"] + scored["pending_count"],
             "resolved_count": scored["resolved_count"],
             "pending_count": scored["pending_count"],
-            "overall": scored["overall"],          # pure Brier or None
+            "overall": scored["overall"],
+            "overall_index": scored.get("overall_index"),
             "prediction_ids": scored["prediction_ids"],
             "topics": topic_stats,
             "predictions": preds_sorted[:MAX_PREDICTIONS_LIST],
@@ -259,6 +260,7 @@ def render_profile_page(
     total = data["total"]
     pending = data["pending_count"]
     overall = data["overall"]
+    overall_index = data.get("overall_index")
 
     if overall is None or resolved == 0:
         score_html = f"""
@@ -272,21 +274,25 @@ def render_profile_page(
         </div>"""
         og_score = f"No resolved data (n={resolved})"
     else:
+        index_str = format_index(overall_index)
         brier_str = format_brier(overall)
         score_html = f"""
         <div class="mt-4">
-          <p class="text-sm text-slate-500 mb-0.5">Score</p>
           <div class="flex items-baseline gap-x-2">
-            <span class="text-5xl md:text-6xl font-medium text-slate-900 tabular-nums tracking-tight">{brier_str}</span>
+            <span class="text-5xl md:text-6xl font-medium text-slate-900 tabular-nums tracking-tight">{index_str}</span>
           </div>
           <p class="text-sm text-slate-500 mt-1">
-            Brier score · 0–1 scale · lower is better · n = {resolved}
+            Brier Index · 0–100 · higher is better · n = {resolved}
+          </p>
+          <p class="text-xs text-slate-400 mt-1">
+            Raw Brier: {brier_str} (lower is better)
           </p>
           <p class="text-xs text-slate-400 mt-2 max-w-md">
             {LIMITATIONS_NOTE}
           </p>
         </div>"""
-        og_score = f"{brier_str} (n={resolved})"
+        og_score = f"{index_str} (n={resolved})"
+    
     initials, avatar_bg = initials_and_color(name)
     bio = "Public forecaster"
 
@@ -319,7 +325,7 @@ def render_profile_page(
           <div class="flex flex-wrap gap-2">
             {''.join(topic_pills)}
           </div>
-	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Scores are mean Brier (lower is better).</p>
+	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are mean Brier scores (lower is better). The main score above is the Brier Index (higher is better).</p>
         </section>"""
     else:
         topics_html = ""

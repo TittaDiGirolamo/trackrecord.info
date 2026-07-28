@@ -10,7 +10,7 @@ import argparse
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from scoring import score_forecaster, format_brier, LIMITATIONS_NOTE
+from scoring import score_forecaster, format_brier, format_index, LIMITATIONS_NOTE
 from datetime import date
 from pathlib import Path
 import sys
@@ -55,6 +55,7 @@ def calculate_forecaster_scores(jsonl_path: str = "predictions_v2.jsonl"):
         scored = score_forecaster(normalized)
         result[name] = {
             "overall": scored["overall"],
+            "overall_index": scored.get("overall_index"),
             "resolved_count": scored["resolved_count"],
             "pending_count": scored["pending_count"],
             "topics": {t: {"score": td["score"], "count": td["resolved_count"]} for t, td in scored["topics"].items()},
@@ -132,8 +133,8 @@ def write_predictions_html(path: Path, rows: str, build_date: date, forecaster_s
     for name, data in forecaster_scores.items():
         cards += f'''<div class="bg-white border border-slate-200 rounded-2xl p-6">
             <div class="font-semibold">{name}</div>
-            <div class="text-3xl font-bold text-emerald-600 mt-1">{data["overall"]}</div>
-            <div class="text-sm text-slate-500">Overall • {data["resolved_count"]} resolved</div>
+            <div class="text-3xl font-bold text-emerald-600 mt-1">{format_index(data.get("overall_index"))}</div>
+            <div class="text-sm text-slate-500">Brier Index · higher is better · n = {data["resolved_count"]}</div>
         </div>'''
 
     html = f"""<!DOCTYPE html>

@@ -35,7 +35,7 @@ from typing import Any, Dict, List, Optional, Tuple
 MIN_RESOLVED_FOR_OVERALL = 1
 MIN_RESOLVED_FOR_TOPIC = 1
 MAX_TOPICS_SHOWN = 7
-MAX_PREDICTIONS_LIST = 8
+MAX_PREDICTIONS_LIST = 10_000  # show all on profile
 OUTPUT_DIR = Path("forecasters")
 SEARCH_INDEX_PATH = Path("forecasters_index.json")
 PREDICTIONS_JSONL = Path("predictions_v2.jsonl")
@@ -319,9 +319,7 @@ def render_profile_page(
       </div>
       <p class="text-xs text-slate-400 mt-3">{selection_note}</p>
       <p class="mt-4">
-        <a href="../predictions.html?search={name.replace(' ', '%20')}" class="text-sm text-emerald-700 hover:text-emerald-800">
-          See all predictions by this person →
-        </a>
+
       </p>
     </section>"""
 
@@ -373,9 +371,6 @@ def render_profile_page(
   {render_nav(active="", relative_prefix="../")}
 
   <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
-    <a href="../forecasters.html" class="inline-flex items-center gap-x-1.5 text-sm text-slate-500 hover:text-slate-800 mb-6">
-      <i class="fa-solid fa-arrow-left text-xs"></i> All forecasters
-    </a>
 
     <p class="text-sm font-normal text-emerald-600 mb-3">Forecaster profile</p>
 

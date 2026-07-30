@@ -20,6 +20,8 @@ Prove the core **log → resolve (human-reviewed) → score → display** loop w
 - Clean, updated public table of predictions and accuracy scores
 - Clear foundation for advisory board outreach
 
+Operational North Star and initiative tracking: see [NORTH_STAR.md](NORTH_STAR.md).
+
 ---
 
 ## Phase 1: Days 1–30 — Foundation & Data Momentum

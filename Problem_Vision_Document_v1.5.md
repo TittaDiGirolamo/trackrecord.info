@@ -117,6 +117,8 @@ Trackrecord.info focuses on **predictions** — statements about future states t
 
 Any expansion beyond these boundaries will require a formal change-control process and an updated version of this document.
 
+Operational North Star and initiative tracking: see [NORTH_STAR.md](NORTH_STAR.md).
+
 ### Document Control
 
 - **Version history**: v1.0 (2026-05-28) → v1.1 (2026-06-08) → v1.2 (2026-06-08) → v1.3 (2026-06-08) → v1.4 (2026-06-08) → v1.5 (2026-06-08)

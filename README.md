@@ -68,5 +68,12 @@ data/predictions_v2.jsonl,Sole authoritative data
 File / directoryPurposeHuman-readable scoring rulesHow probabilities may enter the datasetscoring/Canonical Brier implementationAtomic full-site rebuildci/check_score_consistency.pyConsistency gateextractors/Upstream probability extractorsdata/predictions_v2.jsonlSole authoritative data
 Accuracy numbers
 Any “accuracy” / higher-is-better number is a frontend-only derivation from the Brier score. It is never computed or stored by the scoring pipeline.
-License
-Add your preferred license here.
+
+## Product Metrics
+
+**North Star:** Weekly completed accountability lookups  
+
+A completed lookup is a session in which a user selects a public figure, views their accuracy profile, and opens at least one resolved prediction detail page that shows the full evidence trail.
+
+Full definition, measurement method, and initiative tracking:  
+→ [NORTH_STAR.md](NORTH_STAR.md)

@@ -88,7 +88,9 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
             <div class="text-sm text-slate-500">n = {n}</div>'''
 
         cards.append(f'''
-        <a href="forecasters/{data["slug"]}.html" class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors">
+	<a href="forecasters/{data["slug"]}.html" 
+	   class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors"
+	   onclick="if(window.plausible) plausible('figure_selected', {{props: {{figure: '{data["slug"]}'}}}})">
           <div class="flex items-center gap-x-3 mb-3">
             <div class="w-10 h-10 bg-{color}-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">{data["initials"]}</div>
             <div>

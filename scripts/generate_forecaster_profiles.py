@@ -372,6 +372,13 @@ def render_profile_page(
     window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
     plausible.init()
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.plausible) {
+        plausible('profile_viewed', {props: {figure: '{slug}'}});
+      }
+    });
+  </script>
 </head>
 <body class="bg-white text-slate-900 antialiased">
   {render_nav(active="", relative_prefix="../")}

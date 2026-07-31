@@ -11,14 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
-      - name: Regenerate site
-        run: python3 regenerate.py
-
-      - name: Run consistency gate
+      - name: Atomic live regeneration
+        run: python3 regenerate_all.py
+      - name: Score consistency gate
         run: python3 ci/check_score_consistency.py

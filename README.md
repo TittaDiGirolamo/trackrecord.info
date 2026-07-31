@@ -75,5 +75,5 @@ Any “accuracy” / higher-is-better number is a frontend-only derivation from 
 
 A completed lookup is a session in which a user selects a public figure, views their accuracy profile, and opens at least one resolved prediction detail page that shows the full evidence trail.
 
-Full definition, measurement method, and initiative tracking:  
+Full definition, measurement method (currently using Plausible), and initiative tracking:  
 → [NORTH_STAR.md](NORTH_STAR.md)

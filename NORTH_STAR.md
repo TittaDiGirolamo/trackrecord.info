@@ -68,7 +68,7 @@ Only events where `status = "resolved"` count toward the North Star.
 
 ### Tooling
 
-Current implementation uses a lightweight analytics service compatible with a static GitHub Pages site (Plausible or Google Analytics 4 recommended).  
+Current implementation uses **Plausible Analytics**.
 
 The weekly number is the primary score reviewed by the project.
 

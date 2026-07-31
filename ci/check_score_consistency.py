@@ -20,9 +20,10 @@ sys.path.insert(0, str(ROOT))
 
 from scoring import score_forecaster, format_brier
 
-DATA = ROOT / "data" / "predictions_v2.jsonl"
-PUBLIC = ROOT / "public"
-COMPOSITION = PUBLIC / "score_composition.json"
+DATA = ROOT / "predictions_v2.jsonl"
+if not DATA.exists():
+    DATA = ROOT / "data" / "predictions_v2.jsonl"
+COMPOSITION = ROOT / "score_composition.json"
 
 def load_predictions() -> List[Dict[str, Any]]:
     """Same normalization as regenerate.py so CI and regeneration stay identical."""
@@ -65,7 +66,7 @@ def nearly_equal(a: float | None, b: float | None, tol: float = 1e-9) -> bool:
 
 def main() -> int:
     if not COMPOSITION.exists():
-        print("FAIL: public/score_composition.json does not exist. Run regenerate first.")
+        print("FAIL: score_composition.json does not exist. Run: python3 regenerate_all.py")
         return 1
 
     with COMPOSITION.open() as f:

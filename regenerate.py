@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Atomic full regeneration (REQ-2.1 – 2.3).
+LEGACY / dual-path generator (writes profiles/, not the live forecasters/ tree).
 
-Single entry point. Reads only data/predictions_v2.jsonl.
-Calls the canonical scoring function for every forecaster.
-Writes every public page + audit artefacts in one run.
+For the public site use:
+    python3 regenerate_all.py
+
+This file is kept temporarily for audit artefacts and migration reference.
 """
 
 from __future__ import annotations

@@ -77,3 +77,16 @@ A completed lookup is a session in which a user selects a public figure, views t
 
 Full definition, measurement method (currently using Plausible), and initiative tracking:  
 → [NORTH_STAR.md](NORTH_STAR.md)
+
+
+## Regenerate the public site (Phase 1)
+
+```bash
+python3 regenerate_all.py
+python3 ci/check_score_consistency.py   # must pass before deploy
+```
+
+- Sole data source: `predictions_v2.jsonl`
+- Canonical math: `scoring/` + `SCORING.md` (pure mean Brier; Brier Index is display-only)
+- Do **not** use legacy `regenerate.py` for the live `forecasters/` tree
+

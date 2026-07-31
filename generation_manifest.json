@@ -1,11 +1,15 @@
 {
-  "commit": "f9ca58c718c4cb69d805f1a4327ef3d1db9cc62b",
-  "generation_id": "20260727T180745Z",
-  "limitations_note": "Scores are mean Brier scores (lower is better). Only resolved predictions are included. Sample sizes remain modest for many topics; treat rankings as provisional.",
-  "probability_methods_used": {
-    "manual-curation-v1": 73
-  },
+  "generation_id": "20260731T181632Z",
+  "commit": "7e6e74e880d7e24aeac1c0401f1371e1f06e812c",
   "rules_version": "brier-1.0.0",
-  "source": "data/predictions_v2.jsonl",
-  "timestamp_utc": "20260727T180745Z"
+  "source": "predictions_v2.jsonl",
+  "record_count": 73,
+  "generators": [
+    "scripts/generate_homepage_scorecards.py",
+    "scripts/generate_forecaster_profiles.py",
+    "scripts/generate_forecasters_list.py",
+    "scripts/generate_prediction_tables.py",
+    "scripts/generate_prediction_details.py"
+  ],
+  "note": "Live pipeline only (forecasters/, index.html, predictions/). Legacy regenerate.py \u2192 profiles/ is not used."
 }

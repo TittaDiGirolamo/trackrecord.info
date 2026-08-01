@@ -113,8 +113,9 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
                 <div class="flex items-baseline gap-x-2">
                     <span class="text-6xl font-medium text-slate-900">{index_str}</span>
                 </div>
-                <div class="text-sm text-emerald-600 mt-1">Brier Index · 0–100 · higher is better</div>
+                <div class="text-sm text-emerald-600 mt-1">Brier Index · 0–100 · Higher is better</div>
                 <div class="text-sm text-slate-500 mt-1">n = {data["resolved_count"]}</div>
+                <div class="text-xs text-slate-400 mt-1">as of {build_date}</div>
             </div>
         </a>"""
 
@@ -125,6 +126,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
         </div>
         <h3 class="text-3xl font-medium tracking-tighter">Top {n} Forecasters</h3>
         <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum {min_resolved}). Higher Brier Index is better.</p>
+        <p class="mt-1 text-xs text-slate-400">As of {build_date} · Pure mean Brier backend</p>
     </div>
     <div class="w-full max-w-full overflow-x-auto overscroll-x-contain pb-4 snap-x snap-mandatory md:overflow-visible md:pb-0">
       <div class="flex gap-6 md:grid md:grid-cols-3">

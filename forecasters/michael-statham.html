@@ -25,7 +25,7 @@
   <style>
     body { font-family: 'Inter', system-ui, sans-serif; }
   </style>
-  <!-- PROFILE_AUDIT generated=2026-07-31 data_hash=c9fb7625c964fca02ada93c3b27a472f9d134fc1285bbe83e7ec4560112e7196 statement_ids=pred-2026-04-18-statham-nl-qf,pred-2026-05-25-statham-nl-groupf-no-win threshold_overall=1 threshold_topic=1 scoring=SCORING.md (pure mean Brier is the source of truth; Brier Index is shown as the primary display number) -->
+  <!-- PROFILE_AUDIT generated=2026-08-01 data_hash=c9fb7625c964fca02ada93c3b27a472f9d134fc1285bbe83e7ec4560112e7196 statement_ids=pred-2026-04-18-statham-nl-qf,pred-2026-05-25-statham-nl-groupf-no-win threshold_overall=1 threshold_topic=1 scoring=SCORING.md (pure mean Brier is the source of truth; Brier Index is shown as the primary display number) -->
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-MQu87Y2WzO-sB_YzB2L-N.js"></script>
   <script>
@@ -105,6 +105,9 @@
           <p class="text-xs text-slate-400 mt-1">
             Raw Brier: 0.451 (lower is better)
           </p>
+          <p class="text-xs text-slate-400 mt-1">
+            as of 20260801T070734Z · brier-1.0.0
+          </p>
           <p class="text-xs text-slate-400 mt-2 max-w-md">
             Scores are mean Brier scores (lower is better). Only resolved predictions are included. Sample sizes remain modest for many topics; treat rankings as provisional.
           </p>
@@ -136,6 +139,28 @@
 	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are Brier Index (0–100, higher is better), same scale as the main score.</p>
         </section>
     
+    
+    <section class="mt-10">
+      <h2 class="text-sm font-normal text-emerald-600 mb-3">Score composition</h2>
+      <p class="text-xs text-slate-500 mb-3">
+        Individual Brier contribution of every resolved prediction in the overall mean
+        (as of 20260801T070734Z · brier-1.0.0). Lower is better.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-left">
+          <thead>
+            <tr class="text-xs text-slate-400 border-b border-slate-200">
+              <th class="py-1 pr-4 font-normal">Prediction ID</th>
+              <th class="py-1 font-normal">Brier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="py-1 pr-4 font-mono text-xs text-slate-600"><a class="underline underline-offset-2 hover:text-slate-900" href="../predictions/pred-2026-04-18-statham-nl-qf.html">pred-2026-04-18-statham-nl-qf</a></td><td class="py-1 tabular-nums text-sm text-slate-800">0.384</td></tr><tr><td class="py-1 pr-4 font-mono text-xs text-slate-600"><a class="underline underline-offset-2 hover:text-slate-900" href="../predictions/pred-2026-05-25-statham-nl-groupf-no-win.html">pred-2026-05-25-statham-nl-groupf-no-win</a></td><td class="py-1 tabular-nums text-sm text-slate-800">0.518</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-400 mt-3">IDs that make up this score: pred-2026-04-18-statham-nl-qf, pred-2026-05-25-statham-nl-groupf-no-win</p>
+    </section>
     <section class="mt-10">
       <h2 class="text-sm font-normal text-emerald-600 mb-3">Recent predictions</h2>
       <div class="space-y-3">
@@ -161,7 +186,6 @@
       </div>
       <p class="text-xs text-slate-400 mt-3">Ordered by resolution date (most recent first), then publication date. Limit 8. No editorial ranking applied.</p>
       <p class="mt-4">
-
       </p>
     </section>
 
@@ -169,7 +193,7 @@
       <p class="text-xs text-slate-400 leading-relaxed">
         Score calculated per SCORING.md (pure mean Brier is the source of truth; Brier Index is shown as the primary display number). Pending predictions are excluded from accuracy.
         No relative ranking, percentile, or editorial framing is applied.
-        Generated 2026-07-31. Data hash: <code class="font-mono">c9fb7625c964…</code>.
+        Generated 2026-08-01. Data hash: <code class="font-mono">c9fb7625c964…</code>.
         Permanent URL: <a href="https://trackrecord.info/forecasters/michael-statham.html" class="text-emerald-700 hover:underline">https://trackrecord.info/forecasters/michael-statham.html</a>
       </p>
       <p class="text-xs text-slate-400 mt-3">

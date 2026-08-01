@@ -190,6 +190,7 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
             "overall": scored["overall"],
             "overall_index": scored.get("overall_index"),
             "prediction_ids": scored["prediction_ids"],
+            "contributions": scored.get("contributions") or {},
             "topics": topic_stats,
             "predictions": preds_sorted[:MAX_PREDICTIONS_LIST],
             "statement_ids": sorted(
@@ -209,6 +210,7 @@ def render_profile_page(
     data: dict,
     build_date: str,
     data_hash: str,
+    generation_id: str = "",
 ) -> str:
     slug = data["slug"]
     resolved = data["resolved_count"]
@@ -241,6 +243,9 @@ def render_profile_page(
           </p>
           <p class="text-xs text-slate-400 mt-1">
             Raw Brier: {brier_str} (lower is better)
+          </p>
+          <p class="text-xs text-slate-400 mt-1">
+            as of {generation_id or build_date} · {RULES_VERSION}
           </p>
           <p class="text-xs text-slate-400 mt-2 max-w-md">
             {LIMITATIONS_NOTE}
@@ -311,18 +316,6 @@ def render_profile_page(
         "Limit 8. No editorial ranking applied."
     )
 
-    predictions_html = f"""
-    <section class="mt-10">
-      <h2 class="text-sm font-normal text-emerald-600 mb-3">Recent predictions</h2>
-      <div class="space-y-3">
-        {''.join(pred_items) if pred_items else '<p class="py-6 text-sm text-slate-500">No predictions recorded.</p>'}
-      </div>
-      <p class="text-xs text-slate-400 mt-3">{selection_note}</p>
-      <p class="mt-4">
-
-      </p>
-    </section>"""
-
     og_title = f"{name} — Forecaster Profile | trackrecord.info"
     og_desc = f"Accuracy {og_score}. {resolved} resolved of {total} tracked predictions."
     permanent_url = f"https://trackrecord.info/forecasters/{slug}.html"
@@ -337,6 +330,61 @@ def render_profile_page(
         f"scoring={METHODOLOGY_REF} "
         f"-->"
     )
+
+    # Score composition (inspectability)
+    contrib = data.get("contributions") or {}
+    ids = list(data.get("prediction_ids") or sorted(contrib.keys()))
+    if contrib:
+        rows = []
+        for pid in sorted(ids, key=lambda x: (contrib.get(x) is None, contrib.get(x, 0))):
+            b = contrib.get(pid)
+            if b is None:
+                continue
+            rows.append(
+                f'<tr><td class="py-1 pr-4 font-mono text-xs text-slate-600">'
+                f'<a class="underline underline-offset-2 hover:text-slate-900" href="../predictions/{pid}.html">{pid}</a></td>'
+                f'<td class="py-1 tabular-nums text-sm text-slate-800">{format_brier(b)}</td></tr>'
+            )
+        composition_html = f"""
+    <section class="mt-10">
+      <h2 class="text-sm font-normal text-emerald-600 mb-3">Score composition</h2>
+      <p class="text-xs text-slate-500 mb-3">
+        Individual Brier contribution of every resolved prediction in the overall mean
+        (as of {generation_id or build_date} · {RULES_VERSION}). Lower is better.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-left">
+          <thead>
+            <tr class="text-xs text-slate-400 border-b border-slate-200">
+              <th class="py-1 pr-4 font-normal">Prediction ID</th>
+              <th class="py-1 font-normal">Brier</th>
+            </tr>
+          </thead>
+          <tbody>
+            {''.join(rows)}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-400 mt-3">IDs that make up this score: {', '.join(ids)}</p>
+    </section>"""
+    else:
+        composition_html = ""
+
+    selection_note = (
+        "Ordered by resolution date (most recent first), then publication date. "
+        "Limit 8. No editorial ranking applied."
+    )
+    predictions_html = f"""
+    {composition_html}
+    <section class="mt-10">
+      <h2 class="text-sm font-normal text-emerald-600 mb-3">Recent predictions</h2>
+      <div class="space-y-3">
+        {''.join(pred_items) if pred_items else '<p class="py-6 text-sm text-slate-500">No predictions recorded.</p>'}
+      </div>
+      <p class="text-xs text-slate-400 mt-3">{selection_note}</p>
+      <p class="mt-4">
+      </p>
+    </section>"""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -458,12 +506,14 @@ def main() -> None:
     index: Dict[str, str] = {}
     written = 0
 
+    from datetime import datetime, timezone
+    generation_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     for name in sorted(aggregates.keys()):
         data = aggregates[name]
         slug = data["slug"]
         index[name] = slug
 
-        html = render_profile_page(name, data, args.build_date, data_hash)
+        html = render_profile_page(name, data, args.build_date, data_hash, generation_id=generation_id)
         out_path = args.output_dir / f"{slug}.html"
 
         if args.verbose or args.dry_run:

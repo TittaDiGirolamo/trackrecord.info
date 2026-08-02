@@ -22,18 +22,17 @@ Provenance: every probability carries a probability_method_id so extraction is r
 
 ## Key files
 
-File / directory,Purpose
-SCORING.md,Human-readable scoring rules
-PROVENANCE.md,How probabilities may enter the dataset
-scoring/,Canonical Brier implementation
-regenerate.py,Atomic full-site rebuild
-ci/check_score_consistency.py,Consistency gate
-extractors/,Upstream probability extractors
-data/predictions_v2.jsonl,Sole authoritative data
-
-File / directoryPurposeHuman-readable scoring rulesHow probabilities may enter the datasetscoring/Canonical Brier implementationAtomic full-site rebuildci/check_score_consistency.pyConsistency gateextractors/Upstream probability extractorsdata/predictions_v2.jsonlSole authoritative data
-Accuracy numbers
-Any “accuracy” / higher-is-better number is a frontend-only derivation from the Brier score. It is never computed or stored by the scoring pipeline.
+| File / directory                  | Purpose                                      |
+|-----------------------------------|----------------------------------------------|
+| SCORING.md                        | Human-readable scoring rules                 |
+| PROVENANCE.md                     | How probabilities may enter the dataset      |
+| CAPTURE.md                        | Capture + promote workflow                   |
+| scoring/                          | Canonical Brier implementation               |
+| regenerate_all.py                 | Atomic full-site rebuild                     |
+| ci/check_score_consistency.py     | Consistency gate                             |
+| extractors/                       | Upstream probability extractors              |
+| tools/archive_url.py              | Wayback Machine helper – creates `statement_original_url_archive` |
+| data/predictions_v2.jsonl         | Sole authoritative data                      |
 
 ## Product Metrics
 

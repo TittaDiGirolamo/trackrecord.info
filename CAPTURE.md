@@ -34,3 +34,16 @@ Scratch log (data/capture_log.jsonl) never affects scores
 Only rows with status=queued can be promoted
 Promoted rows always get outcome: null (pending)
 Never skip the dry-run
+
+## New mandatory field (since 2026-08)
+
+Every newly promoted prediction **must** contain the field:
+
+`statement_original_url_archive`
+
+This field is generated **automatically** during the promote step by `tools/archive_url.py` (Wayback Machine).  
+It stores a permanent archive link of the original source URL.
+
+- Manual pasting of archive links is not allowed.
+- The promote tooling is responsible for creating this field.
+- Existing records are not retroactively updated.

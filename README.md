@@ -20,25 +20,7 @@ CI gate: recomputes every score and fails the build on any mismatch.
 Inspectable: every score shows “as of”, sample size, limitations note, and the exact prediction IDs that produced it.
 Provenance: every probability carries a probability_method_id so extraction is reproducible.
 
-Key files
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Key files
 
 File / directory,Purpose
 SCORING.md,Human-readable scoring rules
@@ -49,35 +31,20 @@ ci/check_score_consistency.py,Consistency gate
 extractors/,Upstream probability extractors
 data/predictions_v2.jsonl,Sole authoritative data
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 File / directoryPurposeHuman-readable scoring rulesHow probabilities may enter the datasetscoring/Canonical Brier implementationAtomic full-site rebuildci/check_score_consistency.pyConsistency gateextractors/Upstream probability extractorsdata/predictions_v2.jsonlSole authoritative data
 Accuracy numbers
 Any “accuracy” / higher-is-better number is a frontend-only derivation from the Brier score. It is never computed or stored by the scoring pipeline.
 
 ## Product Metrics
 
-**North Star:** Weekly completed accountability lookups  
+**North Star:** Weekly completed accountability lookups
 
 A completed lookup is a session in which a user selects a public figure, views their accuracy profile, and opens at least one resolved prediction detail page that shows the full evidence trail.
 
-Full definition, measurement method (currently using Plausible), and initiative tracking:  
-→ [NORTH_STAR.md](NORTH_STAR.md)
+We optimize for **sustained** growth of this metric over the long run. Every significant initiative must document its expected impact on the North Star *before* work begins. The required depth of the hypothesis scales with the size of the initiative.
 
+Full definition, measurement method, size-based requirements, and initiative tracking:  
+→ [NORTH_STAR.md](NORTH_STAR.md)
 
 ## Regenerate the public site (Phase 1)
 

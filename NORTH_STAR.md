@@ -13,6 +13,8 @@ This document defines the single primary metric that measures whether Trackrecor
 
 The goal is clarity and focus: one outcome metric that reflects real user value, plus a lightweight system for linking product work to that outcome.
 
+We optimize for **sustained** weekly completed accountability lookups over the long run. Short-term spikes that come at the expense of long-term credibility, data integrity, or user trust are considered negative.
+
 ---
 
 ## 2. North Star Metric
@@ -76,25 +78,49 @@ The weekly number is the primary score reviewed by the project.
 
 ## 4. Tracking initiatives that move the North Star
 
-Every product or content initiative that aims to improve the user experience must state an explicit hypothesis about how it will increase completed accountability lookups.
+Every product, content, or process initiative must state an explicit hypothesis about how it will affect completed accountability lookups **before work begins**.
+
+We care about sustained impact. The larger and more structural an initiative is, the more carefully its long-term effect on the North Star must be articulated.
+
+### Size-based requirements
+
+| Initiative size | Examples | Required documentation |
+|-----------------|----------|------------------------|
+| **Tiny / tactical** | Copy tweaks, small UI fixes, single extractor improvement | One-sentence rationale linking it to the North Star (or a funnel step) is enough. |
+| **Medium** | New profile features, improved resolution workflow, topic expansion within current scope | Clear hypothesis + expected near-term effect + target funnel step. |
+| **Large / structural** | New domains, major methodology changes, automation of core processes, significant UX redesigns | Explicit long-run hypothesis (6–18 months), including second-order effects, risks to data quality or trust, and how the initiative compounds over time. |
 
 ### Initiative tracking table
 
 The table below is the single source of truth for active and recently completed initiatives. Update it in place.
 
-| Initiative | Hypothesis | Target funnel step | Expected impact | Ship date | Result (1–2 weeks later) | Status |
-|------------|------------|--------------------|-----------------|-----------|---------------------------|--------|
-|            |            |                    |                 |           |                           |        |
-|            |            |                    |                 |           |                           |        |
-|            |            |                    |                 |           |                           |        |
+| Initiative | Size | Hypothesis (incl. long-run view for Medium+) | Target funnel step | Expected impact | Ship date | Result (1–2 weeks later) | Status |
+|------------|------|---------------------------------------------|--------------------|-----------------|-----------|---------------------------|--------|
+|            |      |                                             |                    |                 |           |                           |        |
+|            |      |                                             |                    |                 |           |                           |        |
 
 **Status values:** `Planned` · `In progress` · `Shipped` · `Moved the needle` · `No clear impact` · `Negative` · `Abandoned`
 
 ### Rules
 
-- An initiative without a clear hypothesis linking it to completed lookups should not be started.
-- After shipping, measure the North Star (and the relevant funnel step) for 1–2 weeks.
-- Record the observed result in the table. Archive completed rows after review (keep the learning visible in git history).
+- No initiative may be started without a hypothesis that matches its size (see table above).
+- Tiny changes need only a short rationale. Medium and Large initiatives require a written hypothesis *before* work begins.
+- Large / structural initiatives must explicitly address long-run effects (6–18 months) and any risks to data quality, resolution integrity, or user trust.
+- After shipping, measure the North Star and the relevant funnel step for 1–2 weeks and record the result in the table.
+- Completed rows should be archived after review so the learning remains visible in git history.
+- When in doubt about size classification, treat the initiative as one level larger.
+
+### Operating rule (current stage)
+
+This project is still small. Formal automated enforcement is deliberately kept light.
+
+The real standard is personal and documentary:
+
+- Before starting any Medium or Large initiative, update the tracking table with a hypothesis appropriate to its size.
+- Treat the written hypothesis as a public commitment (even if only to your future self).
+- Review progress against the hypothesis during the regular weekly North Star check.
+
+The goal is better decisions and clearer learning, not process theatre.
 
 ### Supporting funnel metrics
 

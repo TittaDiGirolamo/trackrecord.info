@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-01",
-  "data_hash": "c9fb7625c964fca02ada93c3b27a472f9d134fc1285bbe83e7ec4560112e7196",
+  "generated": "2026-08-03",
+  "data_hash": "685532311d5ec6df01707bb9b9cf1b545a2cd78c84e7e982c18ae5bd4534cbb1",
   "forecasters": [
     {
       "name": "Alan Shearer",
@@ -96,6 +96,11 @@
       "name": "Michael Statham",
       "slug": "michael-statham",
       "url": "/forecasters/michael-statham.html"
+    },
+    {
+      "name": "Person Test",
+      "slug": "person-test",
+      "url": "/forecasters/person-test.html"
     },
     {
       "name": "Rob Dawson",

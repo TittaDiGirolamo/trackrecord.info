@@ -1,5 +1,5 @@
 {
-  "commit": "fd6ffbdad75cbd0e626318f05ca8c215539f23dd",
+  "commit": "608dc969f9aff880730fbc7aa5c72bcb94eecfd9",
   "forecasters": {
     "Becherano, Lizzy": {
       "overall_score": 0.06760000000000001,
@@ -398,7 +398,7 @@
     },
     "Sutton, Chris": {
       "overall_score": 0.15760689655172416,
-      "pending_count": 0,
+      "pending_count": 1,
       "prediction_ids": [
         "pred-2026-06-10-sutton-japan-group",
         "pred-2026-06-10-sutton-brazil-group",
@@ -550,6 +550,13 @@
         }
       }
     },
+    "Test, Person": {
+      "overall_score": null,
+      "pending_count": 1,
+      "prediction_ids": [],
+      "resolved_count": 0,
+      "topics": {}
+    },
     "van den Hoven, Bas": {
       "overall_score": 0.42250000000000004,
       "pending_count": 0,
@@ -584,7 +591,7 @@
       }
     }
   },
-  "generation_id": "20260801T070734Z",
+  "generation_id": "20260803T180519Z",
   "rules_version": "brier-1.0.0",
   "source": "predictions_v2.jsonl"
 }

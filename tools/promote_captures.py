@@ -13,6 +13,18 @@ import json
 import re
 import sys
 import uuid
+from pathlib import Path
+from typing import Any, Optional
+import sys
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "tools"))
+from archive_url import get_archive_url
+
+CAPTURE_LOG = ROOT / "data" / "capture_log.jsonl"
+PREDICTIONS = ROOT / "predictions_v2.jsonl"
+if not PREDICTIONS.exists():
+    PREDICTIONS = ROOT / "data" / "predictions_v2.jsonl"
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
@@ -135,10 +147,18 @@ def build_prediction_row(
     captured = cap.get("captured_at") or ""
     pub_date = captured[:10] if len(captured) >= 10 else datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
+    # Mandatory archive via Wayback (CAPTURE.md since 2026-08)
+    try:
+        statement_original_url_archive = get_archive_url(source_url, prefer_fresh=True)
+    except Exception as e:
+        raise ValueError(f"Failed to create statement_original_url_archive for {source_url}: {e}")
+
     probability_method_id = None
+    probability_rationale = cap.get("probability_rationale") or ""
+
     if stated_p is not None:
         statement_probability = float(stated_p)
-        probability_method_id = "human-elicited-v1"
+        probability_method_id = "human-elicited-v2"
     else:
         if interactive:
             print(f"\n  Capture {cap['capture_id']} has no stated_probability.")
@@ -148,12 +168,24 @@ def build_prediction_row(
             statement_probability = float(ans)
             if not (0.0 <= statement_probability <= 1.0):
                 raise ValueError("probability must be in [0, 1]")
-            probability_method_id = "human-elicited-v1"
+            probability_method_id = "human-elicited-v2"
         else:
             raise ValueError(
                 "stated_probability is null and non-interactive; "
                 "cannot promote without a probability"
             )
+
+    # Force a short rationale for accountability
+    if not probability_rationale.strip():
+        if interactive:
+            print(f"\n  Probability rationale is required for accountability.")
+            print(f"  Claim: {rough[:120]}...")
+            print(f"  Chosen probability: {statement_probability}")
+            probability_rationale = prompt_nonempty(
+                "  Enter a short paragraph (2-4 sentences) explaining why this probability was chosen:"
+            )
+        else:
+            raise ValueError("probability_rationale missing and non-interactive mode")
 
     criteria = cap.get("resolution_criteria") or ""
     if not criteria.strip():
@@ -192,6 +224,8 @@ def build_prediction_row(
         "statement_topic": topic,
         "statement_publication_date": pub_date,
         "statement_original_url": source_url,
+        "statement_original_url_archive": statement_original_url_archive,
+        "statement_probability": statement_probability,
         "statement_probability": statement_probability,
         "statement_context": context,
         "resolution_criteria": criteria.strip(),
@@ -200,6 +234,7 @@ def build_prediction_row(
         "extraction_timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "source_text_snippet": raw_quote[:300] if raw_quote else None,
         "probability_method_id": probability_method_id,
+        "probability_rationale": probability_rationale.strip(),
     }
 
     updated_cap = {
@@ -249,7 +284,10 @@ def main() -> int:
             capture_updates[cid] = upd
             print(f"  → statement_id = {pred['statement_id']}")
             print(f"  → probability  = {pred['statement_probability']} ({pred.get('probability_method_id')})")
+            print(f"  → rationale    = {pred.get('probability_rationale', '')[:80]}…")
             print(f"  → outcome      = null (pending)")
+            print(f"  → archive      = {pred.get('statement_original_url_archive', 'MISSING')[:80]}…")
+            print(f"  → criteria     = {pred['resolution_criteria'][:80]}…")
             print(f"  → criteria     = {pred['resolution_criteria'][:80]}…")
         except ValueError as e:
             print(f"  REFUSED: {e}")

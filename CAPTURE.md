@@ -47,3 +47,8 @@ It stores a permanent archive link of the original source URL.
 - Manual pasting of archive links is not allowed.
 - The promote tooling is responsible for creating this field.
 - Existing records are not retroactively updated.
+
+## Probability rationale (mandatory for all new records)
+
+When promoting, every record must receive a short `probability_rationale` paragraph that explains why the probability was chosen.  
+The promote tool will prompt for it interactively if it is missing.

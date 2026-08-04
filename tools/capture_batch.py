@@ -20,6 +20,8 @@ import csv
 import json
 import sys
 import uuid
+import os
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -217,6 +219,21 @@ def main() -> int:
         print("DRY-RUN — nothing written. Re-run without --dry-run to append.")
     else:
         print(f"Log: {CAPTURE_LOG.relative_to(ROOT)}")
+
+    # Auto-open the capture log so the human can immediately review
+    if not args.dry_run and counts.get("ok", 0) > 0:
+        log_path = str(CAPTURE_LOG)
+        editor = os.environ.get("EDITOR") or os.environ.get("VISUAL") or "nano"
+        print(f"\nOpening {CAPTURE_LOG.relative_to(ROOT)} in {editor} for review...")
+        try:
+            # +999999 jumps near the end of the file in most editors
+            if editor in ("nano", "vim", "vi", "nvim"):
+                subprocess.call([editor, f"+999999", log_path])
+            else:
+                subprocess.call([editor, log_path])
+        except FileNotFoundError:
+            print(f"(Could not launch editor '{editor}'. Open the file manually.)")
+            
     return 0 if counts["error"] == 0 else 1
 
 

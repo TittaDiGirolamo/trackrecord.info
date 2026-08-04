@@ -113,6 +113,20 @@ def review_one(cap: dict) -> dict | None:
         topic = t
     cap["statement_topic"] = topic
 
+    # Resolution criteria (suggested, human confirms)
+    current_criteria = (cap.get("resolution_criteria") or "").strip()
+    suggested_criteria = mod.suggest_resolution_criteria(claim)
+    if current_criteria:
+        print(f"\n  Current resolution_criteria:\n    {current_criteria}")
+    print(f"\n  Suggested resolution_criteria:\n    {suggested_criteria}")
+    ans = input("  Accept suggestion / edit / keep current? [a]ccept  [e]dit  [k]eep  [a]: ").strip().lower() or "a"
+    if ans == "a":
+        cap["resolution_criteria"] = suggested_criteria
+    elif ans == "e":
+        from promote_captures import prompt_nonempty
+        cap["resolution_criteria"] = prompt_nonempty("  Enter resolution_criteria: ")
+    # else keep whatever is already there
+
     cap["status"] = "queued"  # ensure it stays queued for promote
     print("  → approved for promote")
     return cap

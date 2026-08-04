@@ -164,6 +164,9 @@ def render_detail_page(
     pub_date = format_date(rec.get("statement_publication_date"))
     res_date = format_date(rec.get("resolution_date"))
     criteria = rec.get("resolution_criteria", "").strip()
+    context = (rec.get("statement_context") or "").strip()
+    probability_rationale = (rec.get("probability_rationale") or "").strip()
+    proof = rec.get("outcome_proof", "").strip() or "—"
     proof = rec.get("outcome_proof", "").strip() or "—"
     verify_url = rec.get("outcome_verification_url") or ""
     topic = rec.get("statement_topic", "")
@@ -324,8 +327,16 @@ def render_detail_page(
                     </tr>""" if topic_html else ""}
                 </tbody>
             </table>
+            {f'''
+                <div class="{section_h}">Statement context</div>
+                <p class="font-normal text-slate-800 leading-relaxed mb-6">{context}</p>
+                ''' if context else ""}
+            {f'''
+                <div class="{section_h}">Probability accountability</div>
+                <p class="font-normal text-slate-800 leading-relaxed mb-6">{probability_rationale}</p>
+                ''' if probability_rationale else ""}
             <div class="{section_h}">Resolution criteria</div>
-            <p class="font-normal text-slate-800 leading-relaxed whitespace-pre-line mb-6">{criteria}</p>
+                <p class="font-normal text-slate-800 leading-relaxed whitespace-pre-line mb-6">{criteria}</p>
         </section>
 
                 <!-- Verification -->

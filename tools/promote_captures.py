@@ -114,6 +114,59 @@ def parse_forecaster_to_author(forecaster: str) -> dict:
         return {"lastname": parts[-1], "firstname": " ".join(parts[:-1])}
     return {"lastname": forecaster or "[anonymous]", "firstname": ""}
 
+def normalize_topic(claim: str) -> str:
+    """Deterministic topic suggestion from claim text. Fully reproducible."""
+    c = (claim or "").lower()
+    if any(w in c for w in (
+        "win the world cup", "wins the world cup", "to win the world cup",
+        "world cup winner", "will win the tournament"
+    )) or ("win" in c and "world cup" in c) or ("wins" in c and "world cup" in c):
+        return "FIFA World Cup 2026 - Winner"
+    if "semi" in c or "semifinal" in c:
+        return "FIFA World Cup 2026 - Semifinals"
+    if "quarter" in c or "quarterfinal" in c or "last eight" in c:
+        return "FIFA World Cup 2026 - Quarterfinals"
+    if "round of 16" in c or "last 16" in c or "round-of-16" in c:
+        return "FIFA World Cup 2026 - Round of 16"
+    if "group" in c and ("first" in c or "win" in c or "top" in c):
+        return "FIFA World Cup 2026 - Group Stage"
+    if "final" in c and "semi" not in c:
+        return "FIFA World Cup 2026 - Final"
+    return "FIFA World Cup 2026"
+
+
+def validate_prediction(pred: dict) -> None:
+    """Raise ValueError if a newly promoted row is missing mandatory accountability fields."""
+    required = [
+        "statement_id",
+        "forecaster",
+        "statement_probability",
+        "probability_method_id",
+        "probability_rationale",
+        "statement_original_url",
+        "statement_original_url_archive",
+        "resolution_criteria",
+        "outcome",
+    ]
+    missing = [k for k in required if k not in pred or pred[k] is None or pred[k] == ""]
+    if missing:
+        raise ValueError(f"Missing mandatory fields: {missing}")
+
+    rationale = pred.get("probability_rationale") or ""
+    if len(rationale.strip()) < 40:
+        raise ValueError("probability_rationale is too short (need a real explanatory paragraph)")
+
+    if pred.get("outcome") is not None:
+        raise ValueError("Newly promoted rows must have outcome: null")
+
+    method = pred.get("probability_method_id") or ""
+    if not (
+        method.startswith("human-elicited")
+        or method.startswith("rule-extract")
+        or method.startswith("llm-extract")
+    ):
+        raise ValueError(f"Unrecognised probability_method_id: {method}")
+
 
 def prompt_nonempty(prompt: str, default: str = "") -> str:
     while True:
@@ -196,8 +249,8 @@ def build_prediction_row(
         else:
             raise ValueError("resolution_criteria missing and non-interactive mode")
 
-    topic = cap.get("statement_topic") or "FIFA World Cup 2026"
-    if interactive and not cap.get("statement_topic"):
+    topic = cap.get("statement_topic") or normalize_topic(rough)
+    if interactive:
         t = input(f"  statement_topic [{topic}]: ").strip()
         if t:
             topic = t
@@ -226,7 +279,6 @@ def build_prediction_row(
         "statement_original_url": source_url,
         "statement_original_url_archive": statement_original_url_archive,
         "statement_probability": statement_probability,
-        "statement_probability": statement_probability,
         "statement_context": context,
         "resolution_criteria": criteria.strip(),
         "forecaster": forecaster,
@@ -242,6 +294,9 @@ def build_prediction_row(
         "promoted_statement_id": statement_id,
         "promoted_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
+
+    validate_prediction(pred)
+
     return pred, updated_cap
 
 

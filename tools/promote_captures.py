@@ -16,6 +16,7 @@ import uuid
 from pathlib import Path
 from typing import Any, Optional
 import sys
+from tools.topics import get_topic_module
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
@@ -114,27 +115,6 @@ def parse_forecaster_to_author(forecaster: str) -> dict:
         return {"lastname": parts[-1], "firstname": " ".join(parts[:-1])}
     return {"lastname": forecaster or "[anonymous]", "firstname": ""}
 
-def normalize_topic(claim: str) -> str:
-    """Deterministic topic suggestion from claim text. Fully reproducible."""
-    c = (claim or "").lower()
-    if any(w in c for w in (
-        "win the world cup", "wins the world cup", "to win the world cup",
-        "world cup winner", "will win the tournament"
-    )) or ("win" in c and "world cup" in c) or ("wins" in c and "world cup" in c):
-        return "FIFA World Cup 2026 - Winner"
-    if "semi" in c or "semifinal" in c:
-        return "FIFA World Cup 2026 - Semifinals"
-    if "quarter" in c or "quarterfinal" in c or "last eight" in c:
-        return "FIFA World Cup 2026 - Quarterfinals"
-    if "round of 16" in c or "last 16" in c or "round-of-16" in c:
-        return "FIFA World Cup 2026 - Round of 16"
-    if "group" in c and ("first" in c or "win" in c or "top" in c):
-        return "FIFA World Cup 2026 - Group Stage"
-    if "final" in c and "semi" not in c:
-        return "FIFA World Cup 2026 - Final"
-    return "FIFA World Cup 2026"
-
-
 def validate_prediction(pred: dict) -> None:
     """Raise ValueError if a newly promoted row is missing mandatory accountability fields."""
     required = [
@@ -177,41 +157,6 @@ def prompt_nonempty(prompt: str, default: str = "") -> str:
             return default
         print("  (required, cannot be empty)")
 
-def suggest_probability(claim: str) -> float:
-    """Very lightweight, deterministic suggestion. Human must still confirm."""
-    c = (claim or "").lower()
-    if "win the world cup" in c or "wins the world cup" in c or ("win" in c and "world cup" in c):
-        return 0.22          # typical qualitative winner pick
-    if "semi" in c:
-        return 0.35
-    if "quarter" in c:
-        return 0.40
-    if "group" in c and ("first" in c or "win" in c or "top" in c):
-        return 0.45
-    return 0.30              # safe default
-
-
-def rationale_templates(claim: str, probability: float) -> list[str]:
-    """Return 3 short, ready-to-use rationale templates."""
-    base = (
-        f"The claim is a clear directional statement. "
-        f"No numerical odds were given by the forecaster. "
-        f"A probability of {probability:.2f} reflects moderate confidence "
-        f"consistent with similar qualitative predictions in the dataset."
-    )
-    winner = (
-        f"This is a repeated, directional winner pick. "
-        f"No explicit probability was stated. "
-        f"Pre-tournament market odds for strong contenders were typically 15–25 %. "
-        f"{probability:.2f} sits in that range while remaining conservative."
-    )
-    cautious = (
-        f"Language is directional but not emphatic. "
-        f"No numerical probability was provided. "
-        f"{probability:.2f} is a cautious human-elicited value that avoids over-confidence."
-    )
-    return [base, winner, cautious]
-
 def build_prediction_row(
     cap: dict,
     existing_preds: list[dict],
@@ -220,6 +165,12 @@ def build_prediction_row(
 ) -> tuple[dict, dict]:
     source_url = cap["source_url"]
     rough = cap.get("rough_claim") or cap.get("raw_quote") or ""
+    raw_quote = cap.get("raw_quote") or ""
+    forecaster = cap["forecaster"]
+    stated_p = cap.get("stated_probability")
+    topic = cap.get("statement_topic") or mod.normalize_topic(rough)
+
+    mod = get_topic_module(rough)
     raw_quote = cap.get("raw_quote") or ""
     forecaster = cap["forecaster"]
     stated_p = cap.get("stated_probability")
@@ -248,7 +199,7 @@ def build_prediction_row(
         probability_method_id = "human-elicited-v2"
     else:
         if interactive:
-            suggested = suggest_probability(rough)
+            suggested = mod.suggest_probability(rough)
             print(f"\n  Capture {cap['capture_id']} has no stated_probability.")
             print(f"  Suggested starting probability: {suggested:.2f}")
             ans = input(f"  Enter probability 0-1 [{suggested:.2f}] (or blank to accept suggestion): ").strip()
@@ -293,9 +244,20 @@ def build_prediction_row(
             print(f"\n  Probability rationale is required for accountability.")
             print(f"  Claim: {rough[:120]}...")
             print(f"  Chosen probability: {statement_probability}")
-            probability_rationale = prompt_nonempty(
-                "  Enter a short paragraph (2-4 sentences) explaining why this probability was chosen:"
-            )
+
+            templates = mod.rationale_templates(rough, statement_probability)
+
+            print("\n  Available templates:")
+            for i, t in enumerate(templates, 1):
+                print(f"    [{i}] {t[:90]}...")
+            print("    [4] Write my own")
+            choice = input("  Choose template 1-4 [1]: ").strip() or "1"
+            if choice in ("1", "2", "3"):
+                probability_rationale = templates[int(choice) - 1]
+            else:
+                probability_rationale = prompt_nonempty(
+                    "  Enter a short paragraph (2-4 sentences) explaining why this probability was chosen:"
+                )
         else:
             raise ValueError("probability_rationale missing and non-interactive mode")
 
@@ -313,51 +275,6 @@ def build_prediction_row(
         t = input(f"  statement_topic [{topic}]: ").strip()
         if t:
             topic = t
-
-    context = cap.get("statement_context") or (
-        f"Captured from public source. Raw quote: {raw_quote[:200]}"
-    )
-
-    statement_id = make_statement_id(forecaster, pub_date, rough, existing_ids)
-    existing_ids.add(statement_id)
-
-    author = parse_forecaster_to_author(forecaster)
-
-    orig = rough.strip()
-    if len(orig) < 20:
-        orig = f"{orig} [{forecaster}, {pub_date}]"
-    elif "[" not in orig:
-        orig = f"{orig} [{forecaster}, {pub_date}]"
-
-    pred = {
-        "original_statement": orig,
-        "author": author,
-        "statement_id": statement_id,
-        "statement_topic": topic,
-        "statement_publication_date": pub_date,
-        "statement_original_url": source_url,
-        "statement_original_url_archive": statement_original_url_archive,
-        "statement_probability": statement_probability,
-        "statement_context": context,
-        "resolution_criteria": criteria.strip(),
-        "forecaster": forecaster,
-        "outcome": None,
-        "extraction_timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-        "source_text_snippet": raw_quote[:300] if raw_quote else None,
-        "probability_method_id": probability_method_id,
-        "probability_rationale": probability_rationale.strip(),
-    }
-
-    updated_cap = {
-        "status": "promoted",
-        "promoted_statement_id": statement_id,
-        "promoted_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-    }
-
-    validate_prediction(pred)
-
-    return pred, updated_cap
-
 
 def main() -> int:
     parser = argparse.ArgumentParser(

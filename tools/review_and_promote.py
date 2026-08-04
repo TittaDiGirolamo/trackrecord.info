@@ -23,12 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CAPTURE_LOG = ROOT / "data" / "capture_log.jsonl"
 sys.path.insert(0, str(ROOT / "tools"))
 
-from promote_captures import (  # noqa: E402
-    suggest_probability,
-    rationale_templates,
-    normalize_topic,
-)
-
+from tools.topics import get_topic_module
 
 def load_captures() -> list[dict]:
     if not CAPTURE_LOG.exists():
@@ -65,14 +60,13 @@ def print_table(queued: list[dict]) -> None:
 
 
 def review_one(cap: dict) -> dict | None:
-    """Interactive review of a single capture. Returns updated cap or None to skip."""
-    print("\n" + "=" * 70)
-    print(f"Capture : {cap.get('capture_id')}")
-    print(f"Forecaster: {cap.get('forecaster')}")
-    print(f"URL     : {cap.get('source_url')}")
-    print(f"Claim   : {cap.get('rough_claim') or cap.get('raw_quote')}")
-    print(f"Criteria: {cap.get('resolution_criteria') or '(none)'}")
-    print("=" * 70)
+    claim = cap.get("rough_claim") or cap.get("raw_quote") or ""
+    mod = get_topic_module(cap.get("rough_claim") or cap.get("raw_quote") or "")
+    suggested = mod.suggest_probability(cap.get("rough_claim") or cap.get("raw_quote") or "")
+    ...
+    templates = mod.rationale_templates(cap.get("rough_claim") or "", p)
+    ...
+    topic = mod.normalize_topic(cap.get("rough_claim") or "")
 
     action = input("Action: [a]pprove  [s]kip  [e]dit probability/rationale  [q]uit  [a]: ").strip().lower() or "a"
     if action == "q":
@@ -83,7 +77,6 @@ def review_one(cap: dict) -> dict | None:
         return cap
 
     # Probability
-    suggested = suggest_probability(cap.get("rough_claim") or cap.get("raw_quote") or "")
     current = cap.get("stated_probability")
     default = current if current is not None else suggested
     ans = input(f"  Probability 0-1 [{default:.2f}]: ").strip()

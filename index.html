@@ -316,13 +316,24 @@
             <div class="text-sm font-normal text-emerald-600 mb-4">How it works</div>
             <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-6 text-slate-900">A transparent, human-reviewed process</h2>
 
-            <div class="grid gap-4">
+            <!-- Tabs -->
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button id="tab-logging" class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-normal bg-emerald-600 text-white transition-colors">
+                    Logging a prediction
+                </button>
+                <button id="tab-resolving" class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-normal bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">
+                    Resolving a prediction
+                </button>
+            </div>
+
+            <!-- Panel: Logging -->
+            <div id="panel-logging" class="grid gap-4">
                 <div class="bg-slate-100 rounded-3xl p-6">
                     <div class="flex items-start gap-x-4">
                         <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-medium text-xl tabular-nums">1</div>
                         <div class="flex-1">
-                            <div class="font-medium text-lg text-slate-900">Public prediction is made</div>
-                            <div class="text-sm text-slate-600 mt-1">A forecaster shares a clear, falsifiable prediction publicly (on X, in media, podcasts, or official forecasts) with a verifiable source and time horizon.</div>
+                            <div class="font-medium text-lg text-slate-900">Public prediction is logged and prepared</div>
+                            <div class="text-sm text-slate-600 mt-1">A clear, falsifiable public prediction is recorded with its source, timestamp and resolution criteria. It enters the dataset as pending.</div>
                         </div>
                     </div>
                 </div>
@@ -330,8 +341,8 @@
                     <div class="flex items-start gap-x-4">
                         <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-medium text-xl tabular-nums">2</div>
                         <div class="flex-1">
-                            <div class="font-medium text-lg text-slate-900">Logged and prepared</div>
-                            <div class="text-sm text-slate-600 mt-1">Trackrecord.info records the prediction with source, timestamp, and resolution criteria. It is added to the public dataset as “Pending – Resolution-ready”.</div>
+                            <div class="font-medium text-lg text-slate-900">Human review</div>
+                            <div class="text-sm text-slate-600 mt-1">A human checks that the prediction is unambiguous, has a clear time horizon and can be resolved against primary evidence.</div>
                         </div>
                     </div>
                 </div>
@@ -339,24 +350,76 @@
                     <div class="flex items-start gap-x-4">
                         <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-medium text-xl tabular-nums">3</div>
                         <div class="flex-1">
-                            <div class="font-medium text-lg text-slate-900">Outcome resolved</div>
-                            <div class="text-sm text-slate-600 mt-1">On or after the expected date, a human reviewer confirms the actual result from primary/official sources and records it with rationale.</div>
+                            <div class="font-medium text-lg text-slate-900">Published</div>
+                            <div class="text-sm text-slate-600 mt-1">The prediction becomes part of the permanent public record and is visible on the site while it awaits resolution.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: Resolving (hidden by default) -->
+            <div id="panel-resolving" class="grid gap-4 hidden">
+                <div class="bg-slate-100 rounded-3xl p-6">
+                    <div class="flex items-start gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-medium text-xl tabular-nums">1</div>
+                        <div class="flex-1">
+                            <div class="font-medium text-lg text-slate-900">Actual result</div>
+                            <div class="text-sm text-slate-600 mt-1">When the time horizon is reached, the real-world outcome is established from primary or official sources.</div>
                         </div>
                     </div>
                 </div>
                 <div class="bg-slate-100 rounded-3xl p-6">
                     <div class="flex items-start gap-x-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-medium text-xl tabular-nums">4</div>
+                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-medium text-xl tabular-nums">2</div>
                         <div class="flex-1">
-                            <div class="font-medium text-lg text-slate-900">Scored and published</div>
-                            <div class="text-sm text-slate-600 mt-1">A transparent 0–100 accuracy score is calculated. Reports and forecaster metrics update automatically and remain permanently public.</div>
+                            <div class="font-medium text-lg text-slate-900">Human review</div>
+                            <div class="text-sm text-slate-600 mt-1">A human verifies the outcome against the original resolution criteria and records the rationale.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-100 rounded-3xl p-6">
+                    <div class="flex items-start gap-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center font-medium text-xl tabular-nums">3</div>
+                        <div class="flex-1">
+                            <div class="font-medium text-lg text-slate-900">Published</div>
+                            <div class="text-sm text-slate-600 mt-1">The resolved prediction and its score become permanent public record. Forecaster metrics update automatically.</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <p class="mt-6 text-sm text-slate-500">Full details in <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-emerald-600">METHODOLOGY.md</a>. Everything is designed for transparency and repeatability.</p>
+
+            <p class="mt-6 text-sm text-slate-500">
+                Full details in
+                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="underline hover:text-emerald-600">METHODOLOGY.md</a>.
+                Everything is designed for transparency and repeatability.
+            </p>
         </div>
     </div>
+
+    <script>
+      (function () {
+        const tabLogging = document.getElementById('tab-logging');
+        const tabResolving = document.getElementById('tab-resolving');
+        const panelLogging = document.getElementById('panel-logging');
+        const panelResolving = document.getElementById('panel-resolving');
+
+        function activate(activeTab, activePanel) {
+          // Reset both tabs to inactive style
+          [tabLogging, tabResolving].forEach(function (tab) {
+            tab.className = 'inline-flex items-center px-3 py-1.5 rounded-full text-sm font-normal bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors';
+          });
+          // Activate chosen tab (emerald, matching site accent)
+          activeTab.className = 'inline-flex items-center px-3 py-1.5 rounded-full text-sm font-normal bg-emerald-600 text-white transition-colors';
+          // Show the right panel
+          panelLogging.classList.add('hidden');
+          panelResolving.classList.add('hidden');
+          activePanel.classList.remove('hidden');
+        }
+
+        tabLogging.addEventListener('click', function () { activate(tabLogging, panelLogging); });
+        tabResolving.addEventListener('click', function () { activate(tabResolving, panelResolving); });
+      })();
+    </script>
 
     <!-- Stay updated – softer button -->
     <div class="bg-slate-100">

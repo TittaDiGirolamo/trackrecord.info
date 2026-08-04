@@ -1,5 +1,5 @@
 {
-  "commit": "608dc969f9aff880730fbc7aa5c72bcb94eecfd9",
+  "commit": "9a37164a46305c563d83b19d264f0060196e61e9",
   "forecasters": {
     "Becherano, Lizzy": {
       "overall_score": 0.06760000000000001,
@@ -591,7 +591,7 @@
       }
     }
   },
-  "generation_id": "20260803T180519Z",
+  "generation_id": "20260804T142558Z",
   "rules_version": "brier-1.0.0",
   "source": "predictions_v2.jsonl"
 }

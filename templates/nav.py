@@ -22,7 +22,7 @@ def render_nav(active: str = "", relative_prefix: str = "") -> str:
           <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
             <span class="text-white text-sm font-normal tracking-tight">T</span>
           </div>
-          <a href="{p}index.html" class="text-sm font-normal text-slate-900">Trackrecord.info</a>
+          <a href="{p}index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
         </div>
         <div class="hidden md:flex items-center gap-x-8">
           <a href="{p}predictions.html" class="{link_cls('predictions')}">Predictions</a>

@@ -2,7 +2,7 @@
 """
 generate_homepage_scorecards.py
 Uses the single canonical pure-Brier function.
-Primary display number = Brier Index (higher is better).
+Primary display number = Brier Index (Higher is better).
 """
 
 from __future__ import annotations
@@ -78,24 +78,15 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
 </div>"""
 
     cards_html = ""
-    colors = ["emerald", "blue", "teal"]
+    # Palette matches profile pages (excludes site primary emerald)
+    palette = ["blue", "violet", "rose", "amber", "indigo", "cyan", "fuchsia", "orange", "sky", "pink", "teal", "slate"]
+    import hashlib
     for idx, (name, data) in enumerate(top_forecasters):
-        # Build First-Last slug (matches existing profile pages)
-        parts = [p for p in name.replace(",", " ").split() if p]
-        if len(parts) >= 2:
-            slug = f"{parts[-1].lower()}-{parts[0].lower()}"
-            initials = (parts[-1][0] + parts[0][0]).upper()
-        else:
-            slug = name.lower().replace(" ", "-")
-            initials = (parts[0][:2] if parts else "??").upper()
-
-        color = colors[idx % len(colors)]
-        index_str = format_index(data.get("overall_index"))
-        # Canonical naming (shared helper)
         shown_name = display_name(name)
         slug = slugify_name(name)
         initials = initials_from_name(name)
-        color = colors[idx % len(colors)]
+        h = hashlib.md5(name.encode("utf-8")).hexdigest()
+        color = palette[int(h[:8], 16) % len(palette)]
         index_str = format_index(data.get("overall_index"))
         profile_url = f"forecasters/{slug}.html"
 

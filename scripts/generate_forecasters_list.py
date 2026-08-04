@@ -65,16 +65,19 @@ def load_and_score(jsonl_path: Path = Path("predictions_v2.jsonl")) -> Dict[str,
 
 
 def render_page(scores: Dict[str, Any], build_date: str) -> str:
-    # Sort by Index descending (higher is better)
+    # Sort by Index descending (Higher is better)
     ordered = sorted(
         scores.items(),
         key=lambda x: (-(x[1].get("overall_index") or 0), -x[1]["resolved_count"]),
     )
 
     cards = []
-    colors = ["emerald", "blue", "violet", "rose", "amber", "indigo", "cyan", "fuchsia", "orange", "sky"]
+    # Palette matches profile pages (excludes site primary emerald)
+    palette = ["blue", "violet", "rose", "amber", "indigo", "cyan", "fuchsia", "orange", "sky", "pink", "teal", "slate"]
+    import hashlib
     for idx, (name, data) in enumerate(ordered):
-        color = colors[idx % len(colors)]
+        h = hashlib.md5(name.encode("utf-8")).hexdigest()
+        color = palette[int(h[:8], 16) % len(palette)]
         index_str = format_index(data.get("overall_index"))
         n = data["resolved_count"]
         if data.get("overall_index") is None or n == 0:
@@ -84,7 +87,7 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
         else:
             score_block = f'''
             <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">{index_str}</span></div>
-            <div class="text-sm text-emerald-600">Brier Index · higher is better</div>
+            <div class="text-sm text-emerald-600">Brier Index · Higher is better</div>
             <div class="text-sm text-slate-500">n = {n}</div>'''
 
         cards.append(f'''
@@ -109,7 +112,7 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Forecasters | trackrecord.info</title>
-  <meta name="description" content="Track record of public forecasters. Scores are Brier Index (higher is better)." />
+  <meta name="description" content="Track record of public forecasters. Scores are Brier Index (Higher is better)." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
@@ -129,7 +132,7 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
   <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
     <p class="text-sm font-normal text-emerald-600 mb-2">All tracked forecasters</p>
     <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900 mb-2">Forecasters</h1>
-    <p class="text-slate-600 mb-8">Primary score is the Brier Index (0–100, higher is better). Pure mean Brier remains the source of truth.</p>
+    <p class="text-slate-600 mb-8">Primary score is the Brier Index (0–100, Higher is better). Pure mean Brier remains the source of truth.</p>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {cards_html}

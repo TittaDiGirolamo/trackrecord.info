@@ -25,7 +25,7 @@
   <style>
     body { font-family: 'Inter', system-ui, sans-serif; }
   </style>
-  <!-- PROFILE_AUDIT generated=2026-08-03 data_hash=685532311d5ec6df01707bb9b9cf1b545a2cd78c84e7e982c18ae5bd4534cbb1 statement_ids=pred-2026-06-10-hernandez-japan-qf,pred-2026-06-10-hernandez-usmnt-r16 threshold_overall=1 threshold_topic=1 scoring=SCORING.md (pure mean Brier is the source of truth; Brier Index is shown as the primary display number) -->
+  <!-- PROFILE_AUDIT generated=2026-08-04 data_hash=685532311d5ec6df01707bb9b9cf1b545a2cd78c84e7e982c18ae5bd4534cbb1 statement_ids=pred-2026-06-10-hernandez-japan-qf,pred-2026-06-10-hernandez-usmnt-r16 threshold_overall=1 threshold_topic=1 scoring=SCORING.md (pure mean Brier is the source of truth; Brier Index is shown as the primary display number) -->
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-MQu87Y2WzO-sB_YzB2L-N.js"></script>
   <script>
@@ -49,7 +49,7 @@
           <div class="w-7 h-7 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
             <span class="text-white text-sm font-normal tracking-tight">T</span>
           </div>
-          <a href="../index.html" class="text-sm font-normal text-slate-900">Trackrecord.info</a>
+          <a href="../index.html" class="text-lg font-normal tracking-tight text-slate-900">Trackrecord.info</a>
         </div>
         <div class="hidden md:flex items-center gap-x-8">
           <a href="../predictions.html" class="font-normal text-slate-600 hover:text-slate-900 transition-colors">Predictions</a>
@@ -100,16 +100,7 @@
             <span class="text-5xl md:text-6xl font-medium text-slate-900 tabular-nums tracking-tight">54.5</span>
           </div>
           <p class="text-sm text-slate-500 mt-1">
-            Brier Index · 0–100 · higher is better · n = 2
-          </p>
-          <p class="text-xs text-slate-400 mt-1">
-            Raw Brier: 0.207 (lower is better)
-          </p>
-          <p class="text-xs text-slate-400 mt-1">
-            as of 20260803T180519Z · brier-1.0.0
-          </p>
-          <p class="text-xs text-slate-400 mt-2 max-w-md">
-            Scores are mean Brier scores (lower is better). Only resolved predictions are included. Sample sizes remain modest for many topics; treat rankings as provisional.
+            Brier Index · 0–100 · Higher is better
           </p>
         </div>
 
@@ -126,41 +117,19 @@
           <div class="flex flex-wrap gap-2">
             
                 <div class="inline-flex items-center gap-x-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 text-sm">
-                  <span class="font-medium">Quarters</span>
+                  <span class="font-medium">Quarter-finals</span>
                   <span class="tabular-nums text-emerald-700">72.0</span>
                   <span class="text-emerald-500 text-xs">(1)</span>
                 </div>
                 <div class="inline-flex items-center gap-x-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 text-sm">
-                  <span class="font-medium">R16</span>
+                  <span class="font-medium">Round of 16</span>
                   <span class="tabular-nums text-emerald-700">42.0</span>
                   <span class="text-emerald-500 text-xs">(1)</span>
                 </div>
           </div>
-	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are Brier Index (0–100, higher is better), same scale as the main score.</p>
+	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are Brier Index (0–100, Higher is better), same scale as the main score.</p>
         </section>
     
-    
-    <section class="mt-10">
-      <h2 class="text-sm font-normal text-emerald-600 mb-3">Score composition</h2>
-      <p class="text-xs text-slate-500 mb-3">
-        Individual Brier contribution of every resolved prediction in the overall mean
-        (as of 20260803T180519Z · brier-1.0.0). Lower is better.
-      </p>
-      <div class="overflow-x-auto">
-        <table class="min-w-full text-left">
-          <thead>
-            <tr class="text-xs text-slate-400 border-b border-slate-200">
-              <th class="py-1 pr-4 font-normal">Prediction ID</th>
-              <th class="py-1 font-normal">Brier</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td class="py-1 pr-4 font-mono text-xs text-slate-600"><a class="underline underline-offset-2 hover:text-slate-900" href="../predictions/pred-2026-06-10-hernandez-japan-qf.html">pred-2026-06-10-hernandez-japan-qf</a></td><td class="py-1 tabular-nums text-sm text-slate-800">0.078</td></tr><tr><td class="py-1 pr-4 font-mono text-xs text-slate-600"><a class="underline underline-offset-2 hover:text-slate-900" href="../predictions/pred-2026-06-10-hernandez-usmnt-r16.html">pred-2026-06-10-hernandez-usmnt-r16</a></td><td class="py-1 tabular-nums text-sm text-slate-800">0.336</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-xs text-slate-400 mt-3">IDs that make up this score: pred-2026-06-10-hernandez-japan-qf, pred-2026-06-10-hernandez-usmnt-r16</p>
-    </section>
     <section class="mt-10">
       <h2 class="text-sm font-normal text-emerald-600 mb-3">Recent predictions</h2>
       <div class="space-y-3">
@@ -185,15 +154,35 @@
         </a>
       </div>
       <p class="text-xs text-slate-400 mt-3">Ordered by resolution date (most recent first), then publication date. Limit 8. No editorial ranking applied.</p>
-      <p class="mt-4">
+    </section>
+    
+    <section class="mt-10">
+      <h2 class="text-sm font-normal text-emerald-600 mb-3">Score composition</h2>
+      <p class="text-xs text-slate-500 mb-3">
+        Individual Brier contribution of every resolved prediction in the overall mean
+        (as of 20260804T142559Z · brier-1.0.0). Lower is better.
       </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-left">
+          <thead>
+            <tr class="text-xs text-slate-400">
+              <th class="py-1 pr-4 font-normal">Prediction</th>
+              <th class="py-1 font-normal">Brier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="py-1 pr-4 font-mono text-xs text-slate-600"><a class="underline underline-offset-2 hover:text-slate-900" href="../predictions/pred-2026-06-10-hernandez-japan-qf.html">pred-2026-06-10-hernandez-japan-qf</a></td><td class="py-1 tabular-nums text-sm text-slate-800">0.078</td></tr><tr><td class="py-1 pr-4 font-mono text-xs text-slate-600"><a class="underline underline-offset-2 hover:text-slate-900" href="../predictions/pred-2026-06-10-hernandez-usmnt-r16.html">pred-2026-06-10-hernandez-usmnt-r16</a></td><td class="py-1 tabular-nums text-sm text-slate-800">0.336</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-400 mt-3">Scores are mean Brier scores (lower is better). Only resolved predictions are included. Sample sizes remain modest for many topics; treat rankings as provisional.</p>
     </section>
 
     <footer class="mt-16 pt-8 border-t border-slate-200">
       <p class="text-xs text-slate-400 leading-relaxed">
         Score calculated per SCORING.md (pure mean Brier is the source of truth; Brier Index is shown as the primary display number). Pending predictions are excluded from accuracy.
         No relative ranking, percentile, or editorial framing is applied.
-        Generated 2026-08-03. Data hash: <code class="font-mono">685532311d5e…</code>.
+        Generated 2026-08-04. Data hash: <code class="font-mono">685532311d5e…</code>.
         Permanent URL: <a href="https://trackrecord.info/forecasters/cesar-hernandez.html" class="text-emerald-700 hover:underline">https://trackrecord.info/forecasters/cesar-hernandez.html</a>
       </p>
       <p class="text-xs text-slate-400 mt-3">

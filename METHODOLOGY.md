@@ -45,7 +45,7 @@ A prediction is eligible for tracking only if it satisfies all of the following:
 > **Operational source of truth:** [`SCORING.md`](SCORING.md) and the `scoring/` package (`RULES_VERSION = brier-1.0.0`).
 >
 > All backend scores are **mean Brier scores** on resolved predictions: \((p - o)^2\), lower is better.
-> Any **Brier Index** (0–100, higher is better) shown on the site is a **display-only** transform of that Brier value and is never stored as a separate authoritative metric.
+> Any **Brier Index** (0–100, Higher is better) shown on the site is a **display-only** transform of that Brier value and is never stored as a separate authoritative metric.
 >
 > The historical “0–100 Accuracy Score” text below is retained for archive only and is **not** used by generators or CI as of Phase 1 close.
 

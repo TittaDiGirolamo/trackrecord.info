@@ -251,14 +251,6 @@ def render_detail_page(
 
     <main class="max-w-3xl mx-auto px-6 py-10">
 
-        <!-- Back link -->
-        <div class="mb-8">
-            <a href="../predictions.html" class="text-sm font-normal text-slate-600 hover:text-slate-900 transition-colors underline underline-offset-2 inline-flex items-center gap-1.5">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                All predictions
-            </a>
-        </div>
-
         <!-- ========== SCORECARD ========== -->
         <section class="mb-10">
             <div class="{card_bg} rounded-3xl p-6 sm:p-8 shadow-sm">
@@ -306,22 +298,18 @@ def render_detail_page(
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Resolved</td>
                         <td class="py-1.5 align-top">{res_date}</td>
                     </tr>""" if outcome is not None else ""}
-                                        {f"""<tr>
+                    {f"""<tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Stated probability</td>
                         <td class="py-1.5 align-top">{probability:.0%}</td>
                     </tr>""" if probability is not None else ""}
                     {f"""<tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier contribution</td>
-                        <td class="py-1.5 align-top font-mono">{format_brier(score_one({"probability": probability, "outcome": outcome}))}</td>
+                        <td class="py-1.5 align-top">{format_brier(score_one({"probability": probability, "outcome": outcome}))}</td>
                     </tr>""" if probability is not None and outcome is not None else ""}
                     {f"""<tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier Index</td>
-                        <td class="py-1.5 align-top font-mono">{format_index(brier_to_index(score_one({"probability": probability, "outcome": outcome})))}</td>
+                        <td class="py-1.5 align-top">{format_index(brier_to_index(score_one({"probability": probability, "outcome": outcome})))}</td>
                     </tr>""" if probability is not None and outcome is not None else ""}
-                    <tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Status</td>
-                        <td class="py-1.5 align-top">{label}</td>
-                    </tr>
                     <tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Prediction id</td>
                         <td class="py-1.5 align-top">{sid}</td>
@@ -348,8 +336,6 @@ def render_detail_page(
                 The resolver ({resolver}) takes personal responsibility for the recorded outcome.
                 Full methodological rules are published in the project’s
                 <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls}">METHODOLOGY.md</a>.
-                An independent audit trail is retained under
-                <code class="text-xs text-slate-500">resolved_predictions/{sid}.md</code>.
             </p>
         </section>
 

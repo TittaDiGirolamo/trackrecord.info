@@ -83,16 +83,24 @@ def short_topic_label(topic: str) -> str:
         return "General"
     last = parts[-1]
     mapping = {
-        "Group Stage": "Group",
+        "Group Stage": "Group stage",
         "Knockout Stages": "Knockout",
-        "Last 16": "R16",
-        "Round of 16": "R16",
-        "Quarterfinals": "Quarters",
-        "Semifinals": "Semis",
+        "Last 16": "Round of 16",
+        "Round of 16": "Round of 16",
+        "Quarterfinals": "Quarter-finals",
+        "Semifinals": "Semi-finals",
         "Final": "Final",
         "Winner": "Winner",
     }
-    return mapping.get(last, last.split()[0] if " " in last and len(last) > 14 else last)
+    if last in mapping:
+        return mapping[last]
+    # Keep up to two words when that helps understanding and stays short
+    words = last.split()
+    if len(words) >= 2 and len(last) <= 22:
+        return " ".join(words[:2])
+    if " " in last and len(last) > 18:
+        return words[0]
+    return last
 
 
 _AVATAR_PALETTE = [
@@ -239,16 +247,7 @@ def render_profile_page(
             <span class="text-5xl md:text-6xl font-medium text-slate-900 tabular-nums tracking-tight">{index_str}</span>
           </div>
           <p class="text-sm text-slate-500 mt-1">
-            Brier Index · 0–100 · higher is better · n = {resolved}
-          </p>
-          <p class="text-xs text-slate-400 mt-1">
-            Raw Brier: {brier_str} (lower is better)
-          </p>
-          <p class="text-xs text-slate-400 mt-1">
-            as of {generation_id or build_date} · {RULES_VERSION}
-          </p>
-          <p class="text-xs text-slate-400 mt-2 max-w-md">
-            {LIMITATIONS_NOTE}
+            Brier Index · 0–100 · Higher is better
           </p>
         </div>"""
         og_score = f"{index_str} (n={resolved})"
@@ -285,7 +284,7 @@ def render_profile_page(
           <div class="flex flex-wrap gap-2">
             {''.join(topic_pills)}
           </div>
-	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are Brier Index (0–100, higher is better), same scale as the main score.</p>
+	    <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are Brier Index (0–100, Higher is better), same scale as the main score.</p>
         </section>"""
     else:
         topics_html = ""
@@ -355,8 +354,8 @@ def render_profile_page(
       <div class="overflow-x-auto">
         <table class="min-w-full text-left">
           <thead>
-            <tr class="text-xs text-slate-400 border-b border-slate-200">
-              <th class="py-1 pr-4 font-normal">Prediction ID</th>
+            <tr class="text-xs text-slate-400">
+              <th class="py-1 pr-4 font-normal">Prediction</th>
               <th class="py-1 font-normal">Brier</th>
             </tr>
           </thead>
@@ -365,7 +364,7 @@ def render_profile_page(
           </tbody>
         </table>
       </div>
-      <p class="text-xs text-slate-400 mt-3">IDs that make up this score: {', '.join(ids)}</p>
+      <p class="text-xs text-slate-400 mt-3">{LIMITATIONS_NOTE}</p>
     </section>"""
     else:
         composition_html = ""
@@ -375,16 +374,14 @@ def render_profile_page(
         "Limit 8. No editorial ranking applied."
     )
     predictions_html = f"""
-    {composition_html}
     <section class="mt-10">
       <h2 class="text-sm font-normal text-emerald-600 mb-3">Recent predictions</h2>
       <div class="space-y-3">
         {''.join(pred_items) if pred_items else '<p class="py-6 text-sm text-slate-500">No predictions recorded.</p>'}
       </div>
       <p class="text-xs text-slate-400 mt-3">{selection_note}</p>
-      <p class="mt-4">
-      </p>
-    </section>"""
+    </section>
+    {composition_html}"""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">

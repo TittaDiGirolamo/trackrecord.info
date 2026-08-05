@@ -105,7 +105,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
                     <span class="text-6xl font-medium text-slate-900">{index_str}</span>
                     <span class="text-xl font-normal text-slate-900">/100</span>
                 </div>
-                <div class="text-sm text-emerald-600 mt-1">n = {data["resolved_count"]} · As of {build_date}</div>
+                <div class="text-sm text-emerald-600 mt-1">As of {build_date} · n = {data["resolved_count"]}</div>
             </div>
         </a>"""
 

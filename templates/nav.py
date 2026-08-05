@@ -26,8 +26,8 @@ def render_nav(active: str = "", relative_prefix: str = "") -> str:
         </div>
         <div class="hidden md:flex items-center gap-x-8">
           <a href="{p}predictions.html" class="{link_cls('predictions')}">Predictions</a>
-          <a href="{p}forecasters.html" class="{link_cls('forecasters')}">Forecasters</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls('methodology')}">Methodology</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" target="_blank" rel="noopener noreferrer" class="{link_cls('methodology')} inline-flex items-center gap-1">Methodology <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i></a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" target="_blank" rel="noopener noreferrer" class="{link_cls('methodology')} inline-flex items-center gap-1">Methodology <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i></a>
         </div>
         <div class="flex items-center gap-x-3">
           <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 font-normal text-slate-600 hover:text-slate-900 transition-colors">
@@ -43,7 +43,7 @@ def render_nav(active: str = "", relative_prefix: str = "") -> str:
         <div class="flex flex-col gap-y-4">
           <a href="{p}predictions.html" class="{link_cls('predictions')} px-2 py-1">Predictions</a>
           <a href="{p}forecasters.html" class="{link_cls('forecasters')} px-2 py-1">Forecasters</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls('methodology')} px-2 py-1">Methodology</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" target="_blank" rel="noopener noreferrer" class="{link_cls('methodology')} px-2 py-1 inline-flex items-center gap-1">Methodology <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i></a>
           <div class="pt-4 flex flex-col gap-y-3">
             <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
               <i class="fa-brands fa-x-twitter"></i> Follow on X

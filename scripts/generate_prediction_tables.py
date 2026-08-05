@@ -92,16 +92,21 @@ def render_cards(records: List[Dict[str, Any]]) -> str:
         if topic:
             topic_html = f'<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">{topic}</span>'
 
+        res = format_date(r.get("resolution_date")) if r.get("outcome") is not None else ""
+        date_line = pub
+        if res:
+            date_line = f"{pub} · {res}"
+
         cards.append(
             f"""
         <a href="{href}" class="block {card_bg} rounded-2xl p-5 hover:opacity-90 transition-opacity">
           <div class="flex items-start justify-between gap-x-3 mb-2">
-            <p class="font-normal text-slate-900 leading-relaxed flex-1">“{claim}”</p>
+            <div class="text-sm font-normal text-slate-500">{name}</div>
             <span class="{pill} shrink-0">{label}</span>
           </div>
-          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
-            <span class="font-normal text-slate-600">{name}</span>
-            <span class="font-mono">{pub}</span>
+          <p class="font-normal text-slate-900 leading-relaxed mb-3">“{claim}”</p>
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-emerald-600">
+            <span>{date_line}</span>
             {topic_html}
           </div>
         </a>"""

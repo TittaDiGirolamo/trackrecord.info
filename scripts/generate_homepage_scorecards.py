@@ -100,13 +100,12 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
                 </div>
             </div>
             <div>
-                <div class="text-sm text-slate-500">Score</div>
-                <div class="flex items-baseline gap-x-2">
+                <div class="text-sm text-slate-500">Brier Index</div>
+                <div class="flex items-baseline gap-x-1">
                     <span class="text-6xl font-medium text-slate-900">{index_str}</span>
+                    <span class="text-xl font-normal text-slate-900">/100</span>
                 </div>
-                <div class="text-sm text-emerald-600 mt-1">Brier Index · 0–100 · Higher is better</div>
-                <div class="text-sm text-slate-500 mt-1">n = {data["resolved_count"]}</div>
-                <div class="text-xs text-slate-400 mt-1">as of {build_date}</div>
+                <div class="text-sm text-emerald-600 mt-1">n = {data["resolved_count"]} · As of {build_date}</div>
             </div>
         </a>"""
 

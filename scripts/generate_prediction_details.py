@@ -158,8 +158,9 @@ def render_detail_page(
     build_date: Optional[date] = None,
 ) -> str:
     sid = rec["statement_id"]
+predictor = get_predictor_display_name    claim = clean_claim(rec.get("original_statement", "").strip())
     predictor = get_predictor_display_name(rec)
-    claim = clean_claim(rec.get("original_statement", "").strip())
+    slug = "-".join(predictor.lower().replace(",", "").split())
     source_url = rec.get("statement_original_url", "#")
     pub_date = format_date(rec.get("statement_publication_date"))
     res_date = format_date(rec.get("resolution_date"))
@@ -258,7 +259,9 @@ def render_detail_page(
         <section class="mb-10">
             <div class="{card_bg} rounded-3xl p-6 sm:p-8 shadow-sm">
                 <div class="flex items-start justify-between gap-4 mb-4">
-                    <div class="text-sm font-normal text-slate-500">{predictor}</div>
+                    <div class="text-sm font-normal text-slate-500">
+                        <a href="../forecasters/{slug}.html" class="hover:text-slate-900 transition-colors">{predictor}</a>
+                    </div>
                     <span class="{pill_classes}">{label}</span>
                 </div>
                 <p class="text-slate-900 font-normal text-xl sm:text-2xl leading-snug">
@@ -383,8 +386,9 @@ def main() -> None:
     enrichment = load_resolved_details(args.resolved_details)
     print(f"Loaded {len(enrichment)} enrichment records from {args.resolved_details}")
 
-    resolved = [r for r in records if r.get("outcome") is not None]
-    print(f"Resolved predictions eligible for detail pages: {len(resolved)}")
+    # Generate detail pages for both resolved and pending predictions
+    all_predictions = [r for r in records if r.get("statement_id")]
+    print(f"Predictions eligible for detail pages (resolved + pending): {len(all_predictions)}")
 
     if args.limit > 0:
         resolved = resolved[: args.limit]
@@ -394,7 +398,7 @@ def main() -> None:
         args.out_dir.mkdir(parents=True, exist_ok=True)
 
     generated = 0
-    for rec in resolved:
+    for rec in all_predictions:
         sid = rec.get("statement_id")
         if not sid:
             print("[WARNING] Skipping record without statement_id")

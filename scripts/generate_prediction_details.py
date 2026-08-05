@@ -157,10 +157,11 @@ def render_detail_page(
     enrichment: Optional[Dict[str, Any]] = None,
     build_date: Optional[date] = None,
 ) -> str:
+
     sid = rec["statement_id"]
-predictor = get_predictor_display_name    claim = clean_claim(rec.get("original_statement", "").strip())
     predictor = get_predictor_display_name(rec)
     slug = "-".join(predictor.lower().replace(",", "").split())
+    claim = clean_claim(rec.get("original_statement", "").strip())
     source_url = rec.get("statement_original_url", "#")
     pub_date = format_date(rec.get("statement_publication_date"))
     res_date = format_date(rec.get("resolution_date"))
@@ -168,13 +169,11 @@ predictor = get_predictor_display_name    claim = clean_claim(rec.get("original_
     context = (rec.get("statement_context") or "").strip()
     probability_rationale = (rec.get("probability_rationale") or "").strip()
     proof = rec.get("outcome_proof", "").strip() or "—"
-    proof = rec.get("outcome_proof", "").strip() or "—"
     verify_url = rec.get("outcome_verification_url") or ""
     topic = rec.get("statement_topic", "")
     probability = rec.get("statement_probability")
     outcome = rec.get("outcome")
 
-    brier_html = ""
     if probability is not None and outcome is not None:
         brier = score_one({"probability": probability, "outcome": outcome})
         index = brier_to_index(brier)

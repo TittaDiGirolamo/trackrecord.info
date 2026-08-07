@@ -1,5 +1,5 @@
 {
-  "commit": "1c93c23e35401def789eeedf08ac547a595bbb97",
+  "commit": "004df325562ded1138d924915ccf143e8f62cc44",
   "forecasters": {
     "Anka, Carl": {
       "overall_score": null,
@@ -10,7 +10,7 @@
     },
     "Balague, Guillem": {
       "overall_score": null,
-      "pending_count": 2,
+      "pending_count": 3,
       "prediction_ids": [],
       "resolved_count": 0,
       "topics": {}
@@ -30,6 +30,13 @@
       }
     },
     "Burke, Adam": {
+      "overall_score": null,
+      "pending_count": 1,
+      "prediction_ids": [],
+      "resolved_count": 0,
+      "topics": {}
+    },
+    "Carragher, Jamie": {
       "overall_score": null,
       "pending_count": 1,
       "prediction_ids": [],
@@ -201,7 +208,7 @@
     },
     "Laurens, Julien": {
       "overall_score": 0.06760000000000001,
-      "pending_count": 1,
+      "pending_count": 2,
       "prediction_ids": [
         "pred-2026-06-10-laurens-japan-deeper"
       ],
@@ -260,7 +267,7 @@
     },
     "McNulty, Phil": {
       "overall_score": null,
-      "pending_count": 1,
+      "pending_count": 2,
       "prediction_ids": [],
       "resolved_count": 0,
       "topics": {}
@@ -373,6 +380,13 @@
           "score": 0.0324
         }
       }
+    },
+    "Sciola, Santi": {
+      "overall_score": null,
+      "pending_count": 1,
+      "prediction_ids": [],
+      "resolved_count": 0,
+      "topics": {}
     },
     "Shearer, Alan": {
       "overall_score": 0.18505000000000002,
@@ -585,13 +599,6 @@
         }
       }
     },
-    "Test, Person": {
-      "overall_score": null,
-      "pending_count": 1,
-      "prediction_ids": [],
-      "resolved_count": 0,
-      "topics": {}
-    },
     "van den Hoven, Bas": {
       "overall_score": 0.42250000000000004,
       "pending_count": 0,
@@ -626,7 +633,7 @@
       }
     }
   },
-  "generation_id": "20260807T174715Z",
+  "generation_id": "20260807T175115Z",
   "rules_version": "brier-1.0.0",
   "source": "predictions_v2.jsonl"
 }

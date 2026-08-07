@@ -1,9 +1,9 @@
 {
-  "generation_id": "20260807T174715Z",
-  "commit": "1c93c23e35401def789eeedf08ac547a595bbb97",
+  "generation_id": "20260807T175115Z",
+  "commit": "004df325562ded1138d924915ccf143e8f62cc44",
   "rules_version": "brier-1.0.0",
   "source": "predictions_v2.jsonl",
-  "record_count": 98,
+  "record_count": 102,
   "generators": [
     "scripts/generate_homepage_scorecards.py",
     "scripts/generate_forecaster_profiles.py",

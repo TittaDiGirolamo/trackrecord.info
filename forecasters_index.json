@@ -1,6 +1,6 @@
 {
   "generated": "2026-08-07",
-  "data_hash": "400c5037de870374b24ec705790d0dbcf8e1fad4e37904aa6aa34555fd5d350f",
+  "data_hash": "7e1b5d633f984db3b52487dd61fc494e890fcecafa698572d83747a51bb1cefd",
   "forecasters": [
     {
       "name": "Adam Burke",
@@ -83,6 +83,11 @@
       "url": "/forecasters/james-olley.html"
     },
     {
+      "name": "Jamie Carragher",
+      "slug": "jamie-carragher",
+      "url": "/forecasters/jamie-carragher.html"
+    },
+    {
       "name": "Joachim Klement",
       "slug": "joachim-klement",
       "url": "/forecasters/joachim-klement.html"
@@ -118,11 +123,6 @@
       "url": "/forecasters/michael-statham.html"
     },
     {
-      "name": "Person Test",
-      "slug": "person-test",
-      "url": "/forecasters/person-test.html"
-    },
-    {
       "name": "Phil McNulty",
       "slug": "phil-mcnulty",
       "url": "/forecasters/phil-mcnulty.html"
@@ -131,6 +131,11 @@
       "name": "Rob Dawson",
       "slug": "rob-dawson",
       "url": "/forecasters/rob-dawson.html"
+    },
+    {
+      "name": "Santi Sciola",
+      "slug": "santi-sciola",
+      "url": "/forecasters/santi-sciola.html"
     },
     {
       "name": "Süleyman Öztürk",

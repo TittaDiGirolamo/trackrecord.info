@@ -3,19 +3,12 @@
 Menu (all pages, desktop + mobile):
   Forecasters | Predictions | Methodology
 
-Every item:
-  - external-tab icon (fa-arrow-up-right-from-square)
-  - opens in a new tab (target="_blank" rel="noopener noreferrer")
-
-Active page uses text-slate-900; others text-slate-600.
+Only Methodology uses external-tab icon and target=_blank.
+Forecasters and Predictions are normal same-tab site links.
 """
 
 
 def render_nav(active: str = "", relative_prefix: str = "") -> str:
-    """
-    active: "predictions" | "forecasters" | "methodology" | ""
-    relative_prefix: "" for root pages, "../" for pages in subfolders
-    """
     def link_cls(key: str) -> str:
         if key == active:
             return "font-normal text-slate-900"
@@ -23,17 +16,16 @@ def render_nav(active: str = "", relative_prefix: str = "") -> str:
 
     p = relative_prefix
     icon = '<i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i>'
-    blank = 'target="_blank" rel="noopener noreferrer"'
 
     desktop_links = f"""
-          <a href="{p}forecasters.html" {blank} class="{link_cls('forecasters')} inline-flex items-center gap-1">Forecasters {icon}</a>
-          <a href="{p}predictions.html" {blank} class="{link_cls('predictions')} inline-flex items-center gap-1">Predictions {icon}</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" {blank} class="{link_cls('methodology')} inline-flex items-center gap-1">Methodology {icon}</a>"""
+          <a href="{p}forecasters.html" class="{link_cls('forecasters')}">Forecasters</a>
+          <a href="{p}predictions.html" class="{link_cls('predictions')}">Predictions</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" target="_blank" rel="noopener noreferrer" class="{link_cls('methodology')} inline-flex items-center gap-1">Methodology {icon}</a>"""
 
     mobile_links = f"""
-          <a href="{p}forecasters.html" {blank} class="{link_cls('forecasters')} px-2 py-1 inline-flex items-center gap-1">Forecasters {icon}</a>
-          <a href="{p}predictions.html" {blank} class="{link_cls('predictions')} px-2 py-1 inline-flex items-center gap-1">Predictions {icon}</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" {blank} class="{link_cls('methodology')} px-2 py-1 inline-flex items-center gap-1">Methodology {icon}</a>"""
+          <a href="{p}forecasters.html" class="{link_cls('forecasters')} px-2 py-1">Forecasters</a>
+          <a href="{p}predictions.html" class="{link_cls('predictions')} px-2 py-1">Predictions</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" target="_blank" rel="noopener noreferrer" class="{link_cls('methodology')} px-2 py-1 inline-flex items-center gap-1">Methodology {icon}</a>"""
 
     return f"""
   <nav id="main-nav" class="bg-white sticky top-0 z-50">

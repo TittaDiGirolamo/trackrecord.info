@@ -1,7 +1,15 @@
 """Shared navigation — single source of truth for the site menu.
-Menu links match homepage body text: font-normal text-slate-600 (base size).
-Active page uses text-slate-900.
+
+Menu (all pages, desktop + mobile):
+  Forecasters | Predictions | Methodology
+
+Every item:
+  - external-tab icon (fa-arrow-up-right-from-square)
+  - opens in a new tab (target="_blank" rel="noopener noreferrer")
+
+Active page uses text-slate-900; others text-slate-600.
 """
+
 
 def render_nav(active: str = "", relative_prefix: str = "") -> str:
     """
@@ -14,6 +22,19 @@ def render_nav(active: str = "", relative_prefix: str = "") -> str:
         return "font-normal text-slate-600 hover:text-slate-900 transition-colors"
 
     p = relative_prefix
+    icon = '<i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i>'
+    blank = 'target="_blank" rel="noopener noreferrer"'
+
+    desktop_links = f"""
+          <a href="{p}forecasters.html" {blank} class="{link_cls('forecasters')} inline-flex items-center gap-1">Forecasters {icon}</a>
+          <a href="{p}predictions.html" {blank} class="{link_cls('predictions')} inline-flex items-center gap-1">Predictions {icon}</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" {blank} class="{link_cls('methodology')} inline-flex items-center gap-1">Methodology {icon}</a>"""
+
+    mobile_links = f"""
+          <a href="{p}forecasters.html" {blank} class="{link_cls('forecasters')} px-2 py-1 inline-flex items-center gap-1">Forecasters {icon}</a>
+          <a href="{p}predictions.html" {blank} class="{link_cls('predictions')} px-2 py-1 inline-flex items-center gap-1">Predictions {icon}</a>
+          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" {blank} class="{link_cls('methodology')} px-2 py-1 inline-flex items-center gap-1">Methodology {icon}</a>"""
+
     return f"""
   <nav id="main-nav" class="bg-white sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6">
@@ -24,10 +45,7 @@ def render_nav(active: str = "", relative_prefix: str = "") -> str:
           </div>
           <a href="{p}index.html" class="font-normal text-slate-900">Trackrecord.info</a>
         </div>
-        <div class="hidden md:flex items-center gap-x-8">
-          <a href="{p}predictions.html" class="{link_cls('predictions')}">Predictions</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" target="_blank" rel="noopener noreferrer" class="{link_cls('methodology')} inline-flex items-center gap-1">Methodology <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i></a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" target="_blank" rel="noopener noreferrer" class="{link_cls('methodology')} inline-flex items-center gap-1">Methodology <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i></a>
+        <div class="hidden md:flex items-center gap-x-8">{desktop_links}
         </div>
         <div class="flex items-center gap-x-3">
           <a href="https://x.com/titta_girolamo" class="hidden sm:flex items-center gap-x-2 font-normal text-slate-600 hover:text-slate-900 transition-colors">
@@ -40,10 +58,7 @@ def render_nav(active: str = "", relative_prefix: str = "") -> str:
         </div>
       </div>
       <div id="mobile-menu" class="hidden md:hidden py-4">
-        <div class="flex flex-col gap-y-4">
-          <a href="{p}predictions.html" class="{link_cls('predictions')} px-2 py-1">Predictions</a>
-          <a href="{p}forecasters.html" class="{link_cls('forecasters')} px-2 py-1">Forecasters</a>
-          <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" target="_blank" rel="noopener noreferrer" class="{link_cls('methodology')} px-2 py-1 inline-flex items-center gap-1">Methodology <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70"></i></a>
+        <div class="flex flex-col gap-y-4">{mobile_links}
           <div class="pt-4 flex flex-col gap-y-3">
             <a href="https://x.com/titta_girolamo" class="flex items-center gap-x-2 px-2 py-1 text-slate-700 hover:text-slate-900">
               <i class="fa-brands fa-x-twitter"></i> Follow on X

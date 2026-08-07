@@ -1,7 +1,12 @@
 {
-  "generated": "2026-08-05",
-  "data_hash": "685532311d5ec6df01707bb9b9cf1b545a2cd78c84e7e982c18ae5bd4534cbb1",
+  "generated": "2026-08-07",
+  "data_hash": "400c5037de870374b24ec705790d0dbcf8e1fad4e37904aa6aa34555fd5d350f",
   "forecasters": [
+    {
+      "name": "Adam Burke",
+      "slug": "adam-burke",
+      "url": "/forecasters/adam-burke.html"
+    },
     {
       "name": "Alan Shearer",
       "slug": "alan-shearer",
@@ -26,6 +31,11 @@
       "name": "Bill Connelly",
       "slug": "bill-connelly",
       "url": "/forecasters/bill-connelly.html"
+    },
+    {
+      "name": "Carl Anka",
+      "slug": "carl-anka",
+      "url": "/forecasters/carl-anka.html"
     },
     {
       "name": "Cesar Hernandez",
@@ -56,6 +66,16 @@
       "name": "Gab Marcotti",
       "slug": "gab-marcotti",
       "url": "/forecasters/gab-marcotti.html"
+    },
+    {
+      "name": "Gary Lineker",
+      "slug": "gary-lineker",
+      "url": "/forecasters/gary-lineker.html"
+    },
+    {
+      "name": "Guillem Balague",
+      "slug": "guillem-balague",
+      "url": "/forecasters/guillem-balague.html"
     },
     {
       "name": "James Olley",
@@ -101,6 +121,11 @@
       "name": "Person Test",
       "slug": "person-test",
       "url": "/forecasters/person-test.html"
+    },
+    {
+      "name": "Phil McNulty",
+      "slug": "phil-mcnulty",
+      "url": "/forecasters/phil-mcnulty.html"
     },
     {
       "name": "Rob Dawson",

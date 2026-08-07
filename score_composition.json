@@ -1,9 +1,23 @@
 {
-  "commit": "9a37164a46305c563d83b19d264f0060196e61e9",
+  "commit": "1c93c23e35401def789eeedf08ac547a595bbb97",
   "forecasters": {
+    "Anka, Carl": {
+      "overall_score": null,
+      "pending_count": 1,
+      "prediction_ids": [],
+      "resolved_count": 0,
+      "topics": {}
+    },
+    "Balague, Guillem": {
+      "overall_score": null,
+      "pending_count": 2,
+      "prediction_ids": [],
+      "resolved_count": 0,
+      "topics": {}
+    },
     "Becherano, Lizzy": {
       "overall_score": 0.06760000000000001,
-      "pending_count": 0,
+      "pending_count": 1,
       "prediction_ids": [
         "pred-2026-06-10-becherano-mexico-qf"
       ],
@@ -14,6 +28,13 @@
           "score": 0.06760000000000001
         }
       }
+    },
+    "Burke, Adam": {
+      "overall_score": null,
+      "pending_count": 1,
+      "prediction_ids": [],
+      "resolved_count": 0,
+      "topics": {}
     },
     "Connelly, Bill": {
       "overall_score": 0.042249999999999996,
@@ -50,7 +71,7 @@
     },
     "Dawson, Rob": {
       "overall_score": 0.0324,
-      "pending_count": 0,
+      "pending_count": 2,
       "prediction_ids": [
         "pred-2026-06-10-dawson-nl-no-advance"
       ],
@@ -78,7 +99,7 @@
     },
     "Frank, Thomas": {
       "overall_score": 0.04000000000000001,
-      "pending_count": 0,
+      "pending_count": 1,
       "prediction_ids": [
         "pred-2026-06-10-frank-england-winner"
       ],
@@ -92,7 +113,7 @@
     },
     "Hamilton, Tom": {
       "overall_score": 0.04000000000000001,
-      "pending_count": 0,
+      "pending_count": 1,
       "prediction_ids": [
         "pred-2026-06-10-hamilton-paraguay-no-advance"
       ],
@@ -180,7 +201,7 @@
     },
     "Laurens, Julien": {
       "overall_score": 0.06760000000000001,
-      "pending_count": 0,
+      "pending_count": 1,
       "prediction_ids": [
         "pred-2026-06-10-laurens-japan-deeper"
       ],
@@ -194,7 +215,7 @@
     },
     "Lindop, Beth": {
       "overall_score": 0.0324,
-      "pending_count": 0,
+      "pending_count": 2,
       "prediction_ids": [
         "pred-2026-06-10-lindop-usmnt-qf"
       ],
@@ -205,6 +226,13 @@
           "score": 0.0324
         }
       }
+    },
+    "Lineker, Gary": {
+      "overall_score": null,
+      "pending_count": 2,
+      "prediction_ids": [],
+      "resolved_count": 0,
+      "topics": {}
     },
     "Marcotti, Gab": {
       "overall_score": 0.3932666666666667,
@@ -229,6 +257,13 @@
           "score": 0.019600000000000003
         }
       }
+    },
+    "McNulty, Phil": {
+      "overall_score": null,
+      "pending_count": 1,
+      "prediction_ids": [],
+      "resolved_count": 0,
+      "topics": {}
     },
     "Mewis, Joe": {
       "overall_score": 0.48042500000000005,
@@ -261,7 +296,7 @@
     },
     "O'Halloran, Connor": {
       "overall_score": 0.04000000000000001,
-      "pending_count": 0,
+      "pending_count": 1,
       "prediction_ids": [
         "pred-2026-06-10-ohalloran-senegal-deep"
       ],
@@ -313,7 +348,7 @@
     },
     "Richards, Micah": {
       "overall_score": 0.6084,
-      "pending_count": 0,
+      "pending_count": 1,
       "prediction_ids": [
         "pred-2026-06-10-richards-spain-winner"
       ],
@@ -327,7 +362,7 @@
     },
     "Rooney, Wayne": {
       "overall_score": 0.0324,
-      "pending_count": 0,
+      "pending_count": 1,
       "prediction_ids": [
         "pred-2026-06-10-rooney-england-winner"
       ],
@@ -398,7 +433,7 @@
     },
     "Sutton, Chris": {
       "overall_score": 0.15760689655172416,
-      "pending_count": 1,
+      "pending_count": 6,
       "prediction_ids": [
         "pred-2026-06-10-sutton-japan-group",
         "pred-2026-06-10-sutton-brazil-group",
@@ -591,7 +626,7 @@
       }
     }
   },
-  "generation_id": "20260804T142558Z",
+  "generation_id": "20260807T174715Z",
   "rules_version": "brier-1.0.0",
   "source": "predictions_v2.jsonl"
 }

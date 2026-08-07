@@ -80,29 +80,38 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
         color = palette[int(h[:8], 16) % len(palette)]
         index_str = format_index(data.get("overall_index"))
         n = data["resolved_count"]
+        # Same content model as homepage Top-3 cards, slightly smaller type/padding
         if data.get("overall_index") is None or n == 0:
-            score_block = f'''
-            <div class="mb-1"><span class="text-base font-medium text-slate-600">No resolved predictions</span></div>
-            <div class="text-sm text-slate-500">0 resolved</div>'''
+            score_block = (
+                f'<div>'
+                f'<div class="text-sm text-slate-500">Brier Index</div>'
+                f'<div class="text-base font-medium text-slate-600 mt-1">No resolved predictions</div>'
+                f'<div class="text-sm text-slate-500 mt-1">As of {build_date} · n = 0</div>'
+                f'</div>'
+            )
         else:
-            score_block = f'''
-            <div class="mb-1"><span class="text-3xl font-medium text-slate-900 tabular-nums">{index_str}</span></div>
-            <div class="text-sm text-emerald-600">Brier Index · Higher is better</div>
-            <div class="text-sm text-slate-500">n = {n}</div>'''
+            score_block = (
+                f'<div>'
+                f'<div class="text-sm text-slate-500">Brier Index</div>'
+                f'<div class="flex items-baseline gap-x-1">'
+                f'<span class="text-4xl font-medium text-slate-900 tabular-nums">{index_str}</span>'
+                f'<span class="text-lg font-normal text-slate-900">/100</span>'
+                f'</div>'
+                f'<div class="text-sm text-emerald-600 mt-1">As of {build_date} · n = {n}</div>'
+                f'</div>'
+            )
 
-        cards.append(f'''
-	<a href="forecasters/{data["slug"]}.html" 
-	   class="block bg-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-colors"
-	   onclick="if(window.plausible) plausible('figure_selected', {{props: {{figure: '{data["slug"]}'}}}})">
-          <div class="flex items-center gap-x-3 mb-3">
-            <div class="w-10 h-10 bg-{color}-600 rounded-xl flex items-center justify-center text-white font-normal text-sm">{data["initials"]}</div>
-            <div>
-              <div class="font-medium text-slate-900">{data["display"]}</div>
-              <div class="text-sm text-slate-500">Public forecaster</div>
-            </div>
-          </div>
-          {score_block}
-        </a>''')
+        cards.append(
+            f'<a href="forecasters/{data["slug"]}.html" '
+            f'class="block bg-slate-100 rounded-3xl p-6 hover:bg-slate-50 transition-colors" '
+            f'onclick="if(window.plausible) plausible(\'figure_selected\', {{props: {{figure: \'{data["slug"]}\'}}}})">'
+            f'<div class="flex items-center gap-x-4 mb-5">'
+            f'<div class="w-11 h-11 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-lg">{data["initials"]}</div>'
+            f'<div>'
+            f'<div class="font-medium text-lg text-slate-900">{data["display"]}</div>'
+            f'<div class="text-sm text-slate-500">Public Forecaster</div>'
+            f'</div></div>{score_block}</a>'
+        )
 
     cards_html = "\n".join(cards)
 
@@ -129,12 +138,12 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
 <body class="bg-white text-slate-900 antialiased">
     {render_nav(active="forecasters")}
 
-  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-10 md:py-14">
     <p class="text-sm font-normal text-emerald-600 mb-2">All tracked forecasters</p>
     <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900 mb-2">Forecasters</h1>
     <p class="text-slate-600 mb-8">Primary score is the Brier Index (0–100, Higher is better). Pure mean Brier remains the source of truth.</p>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {cards_html}
     </div>
 

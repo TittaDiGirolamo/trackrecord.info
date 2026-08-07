@@ -163,6 +163,7 @@ def render_detail_page(
     slug = "-".join(predictor.lower().replace(",", "").split())
     claim = clean_claim(rec.get("original_statement", "").strip())
     source_url = rec.get("statement_original_url", "#")
+    archive_url = (rec.get("statement_original_url_archive") or "").strip()
     pub_date = format_date(rec.get("statement_publication_date"))
     res_date = format_date(rec.get("resolution_date"))
     criteria = rec.get("resolution_criteria", "").strip()
@@ -241,7 +242,7 @@ def render_detail_page(
           plausible('prediction_detail_viewed', {{
             props: {{
               prediction_id: '{sid}',
-              status: 'resolved'
+              status: '{("resolved" if outcome is not None else "pending")}'
             }}
           }});
         }}
@@ -272,6 +273,14 @@ def render_detail_page(
                         <svg class="w-3.5 h-3.5 inline-block ml-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </a>
                 </p>
+                {f"""
+                <p class="mt-2">
+                    <a href="{archive_url}" target="_blank" rel="noopener noreferrer" class="{link_cls} inline-flex items-center">
+                        Archived copy
+                        <svg class="w-3.5 h-3.5 inline-block ml-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                </p>
+                """ if archive_url else ""}
                 {f"""
                 <p class="mt-5 font-normal text-slate-800 leading-relaxed">
                     {proof}
@@ -341,7 +350,8 @@ def render_detail_page(
                 <p class="font-normal text-slate-800 leading-relaxed whitespace-pre-line mb-6">{criteria}</p>
         </section>
 
-                <!-- Verification -->
+                {f'''
+        <!-- Verification (resolved only) -->
         <section class="mb-12">
             <div class="{section_h}">Verification</div>
             <p class="font-normal text-slate-800 leading-relaxed">
@@ -351,6 +361,7 @@ def render_detail_page(
                 <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls}">METHODOLOGY.md</a>.
             </p>
         </section>
+                ''' if outcome is not None else ""}
 
         <!-- Footer meta -->
         <footer class="pt-8 text-xs text-slate-400">

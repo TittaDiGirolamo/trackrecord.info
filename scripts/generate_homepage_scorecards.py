@@ -111,10 +111,8 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
 
     return f"""<div class="max-w-7xl mx-auto px-6 py-12 overflow-x-hidden">
     <div class="mb-8">
-        <div class="inline-flex items-center gap-x-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 mb-3">
-            Live
-        </div>
-        <h3 class="text-3xl font-medium tracking-tighter">Top {n} Forecasters</h3>
+        <div class="text-sm font-normal text-emerald-600 mb-2">Live rankings</div>
+        <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-6 text-slate-900">Top {n} Forecasters</h2>
         <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum {min_resolved}). Higher Brier Index is better.</p>
         <p class="mt-1 text-xs text-slate-400">As of {build_date} · Pure mean Brier backend</p>
     </div>

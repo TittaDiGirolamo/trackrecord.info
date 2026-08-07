@@ -48,14 +48,14 @@ def format_date(iso: Optional[str]) -> str:
         return iso
 
 
-def status_for(outcome) -> tuple[str, str, str]:
-    """Returns (label, pill_classes, card_bg)."""
+def status_for(outcome) -> tuple[str, str, str, str]:
+    """Returns (label, status_pill_classes, card_bg, meta_text_class)."""
     base = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal"
     if outcome is None:
-        return "Pending", f"{base} bg-amber-500 text-white", "bg-amber-50"
+        return ("Pending", f"{base} bg-amber-500 text-white", "bg-amber-50", "text-amber-800")
     if float(outcome) >= 0.5:
-        return "True", f"{base} bg-emerald-600 text-white", "bg-emerald-50"
-    return "False", f"{base} bg-rose-600 text-white", "bg-rose-50"
+        return ("True", f"{base} bg-emerald-600 text-white", "bg-emerald-50", "text-emerald-700")
+    return ("False", f"{base} bg-rose-600 text-white", "bg-rose-50", "text-rose-800")
 
 
 def short_claim(text: str, limit: int = 120) -> str:
@@ -86,16 +86,21 @@ def render_cards(records: List[Dict[str, Any]]) -> str:
         sid = r.get("statement_id") or ""
         href = f"predictions/{sid}.html" if sid else "#"
         pub = format_date(r.get("statement_publication_date"))
-        label, pill, card_bg = status_for(r.get("outcome"))
+        label, pill, card_bg, meta_cls = status_for(r.get("outcome"))
         topic = (r.get("statement_topic") or "").split(" - ")[-1][:40]
+        topic_pill = (
+            "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal "
+            "bg-slate-200/80 text-slate-700"
+        )
         topic_html = ""
         if topic:
-            topic_html = f'<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-emerald-50 text-emerald-700">{topic}</span>'
+            topic_html = f'<span class="{topic_pill}">{topic}</span>'
 
-        res = format_date(r.get("resolution_date")) if r.get("outcome") is not None else ""
-        date_line = pub
-        if res:
-            date_line = f"{pub} · {res}"
+        if r.get("outcome") is not None:
+            res = format_date(r.get("resolution_date"))
+            date_line = f"Published: {pub} · Resolved: {res}"
+        else:
+            date_line = f"Published: {pub}"
 
         cards.append(
             f"""
@@ -105,7 +110,7 @@ def render_cards(records: List[Dict[str, Any]]) -> str:
             <span class="{pill} shrink-0">{label}</span>
           </div>
           <p class="font-normal text-slate-900 leading-relaxed mb-3">“{claim}”</p>
-          <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-emerald-600">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm {meta_cls}">
             <span>{date_line}</span>
             {topic_html}
           </div>

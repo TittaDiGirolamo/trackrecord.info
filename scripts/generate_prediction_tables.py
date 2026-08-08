@@ -88,6 +88,8 @@ def render_cards(records: List[Dict[str, Any]]) -> str:
         href = f"predictions/{sid}.html" if sid else "#"
         pub = format_date(r.get("statement_publication_date"))
         label, pill, card_bg, meta_cls = status_for(r.get("outcome"))
+
+        # Scalable topic pills: phase + entities (no umbrella domain label)
         claim_full = r.get("original_statement") or ""
         topic_raw = r.get("statement_topic") or ""
         mod = get_topic_module(claim_full, topic_raw)
@@ -96,10 +98,9 @@ def render_cards(records: List[Dict[str, Any]]) -> str:
             "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal "
             "bg-slate-200/80 text-slate-700"
         )
-        topic_html = " ".join(f'<span class="{topic_pill}">{t}</span>' for t in tags)
-
-        if topic:
-            topic_html = f'<span class="{topic_pill}">{topic}</span>'
+        topic_html = " ".join(
+            f'<span class="{topic_pill}">{t}</span>' for t in tags
+        )
 
         if r.get("outcome") is not None:
             res = format_date(r.get("resolution_date"))
@@ -122,6 +123,7 @@ def render_cards(records: List[Dict[str, Any]]) -> str:
         </a>"""
         )
     return "\n".join(cards) if cards else '<p class="text-slate-500">No predictions tracked yet.</p>'
+
 
 
 def render_page(records: List[Dict[str, Any]], build_date: str) -> str:

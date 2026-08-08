@@ -88,12 +88,16 @@ def render_cards(records: List[Dict[str, Any]]) -> str:
         href = f"predictions/{sid}.html" if sid else "#"
         pub = format_date(r.get("statement_publication_date"))
         label, pill, card_bg, meta_cls = status_for(r.get("outcome"))
-        topic = (r.get("statement_topic") or "").split(" - ")[-1][:40]
+        claim_full = r.get("original_statement") or ""
+        topic_raw = r.get("statement_topic") or ""
+        mod = get_topic_module(claim_full, topic_raw)
+        tags = mod.display_tags(claim_full, topic_raw)
         topic_pill = (
             "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal "
             "bg-slate-200/80 text-slate-700"
         )
-        topic_html = ""
+        topic_html = " ".join(f'<span class="{topic_pill}">{t}</span>' for t in tags)
+
         if topic:
             topic_html = f'<span class="{topic_pill}">{topic}</span>'
 

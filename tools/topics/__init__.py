@@ -46,13 +46,30 @@ class GenericTopic:
             ),
         ]
 
+    def display_tags(self, claim: str, statement_topic: str = "") -> list[str]:
+        topic = (statement_topic or "").strip()
+        if not topic or topic.lower() in ("general", "untagged"):
+            return []
+        parts = [p.strip() for p in topic.split(" - ") if p.strip()]
+        umbrellas = ("fifa world cup 2026", "fifa world cup", "world cup 2026", "general")
+        if parts and parts[0].lower() in umbrellas:
+            parts = parts[1:]
+        out = []
+        for p in parts:
+            if p.lower().endswith(" performance"):
+                p = p[: -len(" Performance")]
+            out.append(p)
+        return out
+
+
 
 GENERIC = GenericTopic()
 
 
-def get_topic_module(claim: str) -> TopicModule:
+def get_topic_module(claim: str, statement_topic: str = "") -> TopicModule:
     """Return the first matching topic module, or the generic fallback."""
+    blob = f"{claim or ''} {statement_topic or ''}".strip()
     for mod in MODULES:
-        if mod.matches(claim):
+        if mod.matches(blob):
             return mod
     return GENERIC

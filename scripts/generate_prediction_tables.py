@@ -19,6 +19,7 @@ from typing import Any, Dict, List, Optional
 
 from scoring import display_name
 from templates.nav import render_nav, nav_script
+from tools.topics import get_topic_module
 
 
 def load_records(path: Path) -> List[Dict[str, Any]]:
@@ -52,7 +53,7 @@ def status_for(outcome) -> tuple[str, str, str, str]:
     """Returns (label, status_pill_classes, card_bg, meta_text_class)."""
     base = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal"
     if outcome is None:
-        return ("Pending", f"{base} bg-amber-500 text-white", "bg-amber-50", "text-amber-800")
+        return ("Pending", f"{base} bg-amber-500 text-white", "bg-amber-50", "text-amber-600")
     if float(outcome) >= 0.5:
         return ("True", f"{base} bg-emerald-600 text-white", "bg-emerald-50", "text-emerald-700")
     return ("False", f"{base} bg-rose-600 text-white", "bg-rose-50", "text-rose-800")

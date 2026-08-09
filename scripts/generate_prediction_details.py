@@ -332,14 +332,6 @@ def render_detail_page(
                     </a>
                 </p>
                 {f"""
-                <p class="mt-2">
-                    <a href="{archive_url}" target="_blank" rel="noopener noreferrer" class="{link_cls} inline-flex items-center">
-                        Archived copy
-                        <svg class="w-3.5 h-3.5 inline-block ml-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                    </a>
-                </p>
-                """ if archive_url else ""}
-                {f"""
                 <p class="mt-5 font-normal text-slate-800 leading-relaxed">
                     {proof}
                 </p>
@@ -362,8 +354,32 @@ def render_detail_page(
 
         <!-- ========== DETAILS (claim details + outcome status, no doublings) ========== -->
         <section class="mb-10">
+            {f'''
+                <div class="{section_h}">Statement context</div>
+                <p class="font-normal text-slate-800 leading-relaxed mb-6">{context}</p>
+                ''' if context else ""}
+            {f'''
+                <div class="{section_h}">Probability accountability</div>
+                <p class="font-normal text-slate-800 leading-relaxed mb-6">{probability_rationale}</p>
+                ''' if probability_rationale else ""}
+            <div class="{section_h}">Resolution criteria</div>
+                <p class="font-normal text-slate-800 leading-relaxed whitespace-pre-line mb-6">{criteria}</p>
+        </section>
+
+                {f'''
+        <!-- Verification (resolved only) -->
+        <section class="mb-12">
+            <div class="{section_h}">Verification</div>
+            <p class="font-normal text-slate-800 leading-relaxed">
+                This resolution was performed by human examination of primary sources against the exact wording of the resolution criteria.
+                The resolver ({resolver}) takes personal responsibility for the recorded outcome.
+                Full methodological rules are published in the project’s
+                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls}">METHODOLOGY.md</a>.
+            </p>
+        </section>
+                ''' if outcome is not None else ""}
+
             <div class="{section_h}">Claim details</div>
-            <p class="text-xs text-slate-400 mb-3">Published → Logged → Resolved</p>
             <table class="w-full text-left border-collapse mb-5">
                 <tbody class="font-normal text-slate-800">
                     <tr>
@@ -404,34 +420,10 @@ def render_detail_page(
                     </tr>""" if topic_html else ""}
                     {f"""<tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Archived source</td>
-                        <td class="py-1.5 align-top"><a href="{archive_url}" target="_blank" rel="noopener noreferrer" class="{link_cls}">View archive</a></td>
+                        <td class="py-1.5 align-top"><a href="{archive_url}" target="_blank" rel="noopener noreferrer" class="{link_cls}">View archive link</a></td>
                     </tr>""" if archive_url else ""}
                 </tbody>
             </table>
-            {f'''
-                <div class="{section_h}">Statement context</div>
-                <p class="font-normal text-slate-800 leading-relaxed mb-6">{context}</p>
-                ''' if context else ""}
-            {f'''
-                <div class="{section_h}">Probability accountability</div>
-                <p class="font-normal text-slate-800 leading-relaxed mb-6">{probability_rationale}</p>
-                ''' if probability_rationale else ""}
-            <div class="{section_h}">Resolution criteria</div>
-                <p class="font-normal text-slate-800 leading-relaxed whitespace-pre-line mb-6">{criteria}</p>
-        </section>
-
-                {f'''
-        <!-- Verification (resolved only) -->
-        <section class="mb-12">
-            <div class="{section_h}">Verification</div>
-            <p class="font-normal text-slate-800 leading-relaxed">
-                This resolution was performed by human examination of primary sources against the exact wording of the resolution criteria.
-                The resolver ({resolver}) takes personal responsibility for the recorded outcome.
-                Full methodological rules are published in the project’s
-                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls}">METHODOLOGY.md</a>.
-            </p>
-        </section>
-                ''' if outcome is not None else ""}
 
         <!-- Footer meta -->
         <footer class="pt-8 text-xs text-slate-400">

@@ -156,6 +156,7 @@ def render_detail_page(
     rec: Dict[str, Any],
     enrichment: Optional[Dict[str, Any]] = None,
     build_date: Optional[date] = None,
+    impact: Optional[Dict[str, Any]] = None,
 ) -> str:
 
     sid = rec["statement_id"]
@@ -166,6 +167,8 @@ def render_detail_page(
     archive_url = (rec.get("statement_original_url_archive") or "").strip()
     pub_date = format_date(rec.get("statement_publication_date"))
     res_date = format_date(rec.get("resolution_date"))
+    logged_raw = rec.get("extraction_timestamp") or rec.get("probability_generated_at")
+    logged_date = format_date(logged_raw[:10] if logged_raw and len(str(logged_raw)) >= 10 else None)
     criteria = rec.get("resolution_criteria", "").strip()
     context = (rec.get("statement_context") or "").strip()
     probability_rationale = (rec.get("probability_rationale") or "").strip()
@@ -215,7 +218,62 @@ def render_detail_page(
     # Section heading style = homepage "High-visibility predictions" eyebrow
     section_h = "text-sm font-normal text-emerald-600 mb-2"
 
-    html = f"""<!DOCTYPE html>
+    # Impact on track record block (only for resolved predictions that have impact data)
+    impact_html = ""
+    if impact and outcome is not None:
+        bi = impact.get("before_index")
+        ai = impact.get("after_index")
+        bb = impact.get("before_brier")
+        ab = impact.get("after_brier")
+        br = impact.get("before_rank")
+        ar = impact.get("after_rank")
+        delta = impact.get("delta_index")
+        status = impact.get("status", label)
+        slug = impact.get("forecaster_slug", slug)
+        bi_str = format_index(bi) if bi is not None else "—"
+        ai_str = format_index(ai) if ai is not None else "—"
+        bb_str = format_brier(bb) if bb is not None else "—"
+        ab_str = format_brier(ab) if ab is not None else "—"
+        if delta is not None:
+            sign = "+" if delta >= 0 else ""
+            delta_str = f"{sign}{format_index(delta)}"
+        else:
+            delta_str = "—"
+        br_str = str(br) if br is not None else "—"
+        ar_str = str(ar) if ar is not None else "—"
+        impact_html = f"""
+        <section class="mb-10">
+            <div class="{section_h}">Impact on track record</div>
+            <div class="rounded-2xl border border-slate-200 p-5 md:p-6">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <span class="{pill_classes}">{status}</span>
+                </div>
+                <div class="mb-3">
+                    <p class="text-xs text-slate-500 mb-0.5">Brier Index</p>
+                    <p class="text-2xl md:text-3xl font-medium text-slate-900 tabular-nums tracking-tight">
+                        {bi_str} → {ai_str}
+                        <span class="text-base font-normal text-slate-500">({delta_str})</span>
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-slate-500 text-xs mb-0.5">Raw Brier</p>
+                        <p class="tabular-nums text-slate-800">{bb_str} → {ab_str}</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-500 text-xs mb-0.5">Overall rank</p>
+                        <p class="tabular-nums text-slate-800">{br_str} → {ar_str}</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="../forecasters/{slug}.html" class="inline-flex items-center text-sm font-medium text-emerald-700 hover:text-emerald-800 transition-colors">
+                        View updated profile →
+                    </a>
+                </div>
+            </div>
+        </section>
+        """
+            html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -299,15 +357,23 @@ def render_detail_page(
             </div>
         </section>
 
+        <!-- ========== IMPACT ON TRACK RECORD ========== -->
+        {impact_html}
+
         <!-- ========== DETAILS (claim details + outcome status, no doublings) ========== -->
         <section class="mb-10">
             <div class="{section_h}">Claim details</div>
+            <p class="text-xs text-slate-400 mb-3">Published → Logged → Resolved</p>
             <table class="w-full text-left border-collapse mb-5">
                 <tbody class="font-normal text-slate-800">
                     <tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Published</td>
                         <td class="py-1.5 align-top">{pub_date}</td>
                     </tr>
+                    {f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Logged</td>
+                        <td class="py-1.5 align-top">{logged_date}</td>
+                    </tr>""" if logged_date and logged_date != "—" else ""}
                     {f"""<tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Resolved</td>
                         <td class="py-1.5 align-top">{res_date}</td>
@@ -321,7 +387,7 @@ def render_detail_page(
                         <td class="py-1.5 align-top">{format_brier(score_one({"probability": probability, "outcome": outcome}))}</td>
                     </tr>""" if probability is not None and outcome is not None else ""}
                     {f"""<tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier Index</td>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier Index (this prediction)</td>
                         <td class="py-1.5 align-top">{format_index(brier_to_index(score_one({"probability": probability, "outcome": outcome})))}</td>
                     </tr>""" if probability is not None and outcome is not None else ""}
                     <tr>
@@ -336,6 +402,10 @@ def render_detail_page(
                             </div>
                         </td>
                     </tr>""" if topic_html else ""}
+                    {f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Archived source</td>
+                        <td class="py-1.5 align-top"><a href="{archive_url}" target="_blank" rel="noopener noreferrer" class="{link_cls}">View archive</a></td>
+                    </tr>""" if archive_url else ""}
                 </tbody>
             </table>
             {f'''
@@ -377,6 +447,105 @@ def render_detail_page(
     return html
 
 
+def compute_impacts(records: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
+    """
+    For every resolved prediction, compute the effect on its forecaster's
+    overall Brier Index and rank (with vs without that prediction).
+    Rank is among forecasters meeting the min resolved threshold, sorted by
+    Brier Index descending (higher better).
+    """
+    from scoring import score_forecaster
+    from collections import defaultdict
+
+    buckets: Dict[str, List[Dict]] = defaultdict(list)
+    for rec in records:
+        name = get_predictor_display_name(rec)
+        if name and name != "Unknown":
+            buckets[name].append(rec)
+
+    full_scores: Dict[str, Any] = {}
+    for name, preds in buckets.items():
+        normalized = []
+        for raw in preds:
+            if raw.get("outcome") is None:
+                continue
+            normalized.append({
+                "id": raw.get("statement_id") or raw.get("id"),
+                "forecaster_id": name,
+                "topic": raw.get("statement_topic") or "untagged",
+                "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
+                "outcome": raw.get("outcome"),
+            })
+        full_scores[name] = score_forecaster(normalized)
+
+    MIN_R = 1
+    eligible = [
+        (n, s) for n, s in full_scores.items()
+        if s["resolved_count"] >= MIN_R and s.get("overall_index") is not None
+    ]
+    eligible.sort(key=lambda x: (-x[1]["overall_index"], x[0]))
+    current_ranks = {n: i for i, (n, _) in enumerate(eligible, 1)}
+
+    impacts: Dict[str, Dict[str, Any]] = {}
+    for name, preds in buckets.items():
+        resolved = [r for r in preds if r.get("outcome") is not None]
+        if not resolved:
+            continue
+        after = full_scores[name]
+        after_index = after.get("overall_index")
+        after_brier = after.get("overall")
+        after_rank = current_ranks.get(name)
+
+        for target in resolved:
+            tid = target.get("statement_id") or target.get("id")
+            if not tid:
+                continue
+            remaining = []
+            for raw in resolved:
+                rid = raw.get("statement_id") or raw.get("id")
+                if rid == tid:
+                    continue
+                remaining.append({
+                    "id": rid,
+                    "forecaster_id": name,
+                    "topic": raw.get("statement_topic") or "untagged",
+                    "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
+                    "outcome": raw.get("outcome"),
+                })
+            before = score_forecaster(remaining)
+            before_index = before.get("overall_index")
+            before_brier = before.get("overall")
+
+            before_rank = None
+            if before_index is not None and before["resolved_count"] >= MIN_R:
+                temp = []
+                for n2, s2 in full_scores.items():
+                    if n2 == name:
+                        temp.append((n2, before_index))
+                    elif s2.get("overall_index") is not None and s2["resolved_count"] >= MIN_R:
+                        temp.append((n2, s2["overall_index"]))
+                temp.sort(key=lambda x: (-x[1], x[0]))
+                for i, (n2, _) in enumerate(temp, 1):
+                    if n2 == name:
+                        before_rank = i
+                        break
+
+            slug = "-".join(name.lower().replace(",", "").split())
+            impacts[tid] = {
+                "forecaster_name": name,
+                "forecaster_slug": slug,
+                "status": "TRUE" if float(target.get("outcome", 0)) >= 0.5 else "FALSE",
+                "before_index": before_index,
+                "after_index": after_index,
+                "before_brier": before_brier,
+                "after_brier": after_brier,
+                "before_rank": before_rank,
+                "after_rank": after_rank,
+                "delta_index": (after_index - before_index) if (after_index is not None and before_index is not None) else None,
+            }
+    return impacts
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate permanent prediction detail pages")
     parser.add_argument("--jsonl", type=Path, default=DEFAULT_JSONL)
@@ -396,12 +565,15 @@ def main() -> None:
     enrichment = load_resolved_details(args.resolved_details)
     print(f"Loaded {len(enrichment)} enrichment records from {args.resolved_details}")
 
-    # Generate detail pages for both resolved and pending predictions
+    print("Computing impact-on-track-record deltas …")
+    impacts = compute_impacts(records)
+    print(f"  Computed impacts for {len(impacts)} resolved predictions")
+
     all_predictions = [r for r in records if r.get("statement_id")]
     print(f"Predictions eligible for detail pages (resolved + pending): {len(all_predictions)}")
 
     if args.limit > 0:
-        resolved = resolved[: args.limit]
+        all_predictions = all_predictions[: args.limit]
         print(f"Limited to first {args.limit}")
 
     if not args.dry_run:
@@ -415,7 +587,8 @@ def main() -> None:
             continue
 
         enr = enrichment.get(sid)
-        html = render_detail_page(rec, enr, build_date)
+        impact = impacts.get(sid)
+        html = render_detail_page(rec, enr, build_date, impact=impact)
         out_path = args.out_dir / f"{sid}.html"
 
         if args.dry_run:

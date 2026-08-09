@@ -273,7 +273,7 @@ def render_detail_page(
             </div>
         </section>
         """
-            html = f"""<!DOCTYPE html>
+    html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

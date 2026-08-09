@@ -62,6 +62,49 @@ def slugify(name: str) -> str:
     return slug or "unknown"
 
 
+HOST_TO_ORG = {
+    "bbc.com": "BBC",
+    "espn.com": "ESPN",
+    "vi.nl": "Voetbal International",
+    "nytimes.com": "The New York Times",
+    "express.co.uk": "Express",
+    "thesun.co.uk": "The Sun",
+    "metro.co.uk": "Metro",
+    "sports.yahoo.com": "Yahoo Sports",
+    "beinsports.com": "beIN Sports",
+    "clockworkoranje.com": "Clockwork Oranje",
+    "football-oranje.com": "Football Oranje",
+}
+
+def orgs_from_predictions(raw_preds: list) -> str:
+    """Return a short comma-separated list of publication outlets."""
+    from urllib.parse import urlparse
+    found = []
+    seen = set()
+    for raw in raw_preds:
+        url = (raw.get("statement_original_url") or "").strip()
+        if not url:
+            continue
+        try:
+            host = urlparse(url).netloc.lower().replace("www.", "")
+        except Exception:
+            continue
+        org = HOST_TO_ORG.get(host)
+        if not org:
+            parts = host.split(".")
+            if len(parts) >= 2:
+                host2 = ".".join(parts[-2:])
+                org = HOST_TO_ORG.get(host2)
+        if org and org not in seen:
+            seen.add(org)
+            found.append(org)
+        if len(found) >= 3:
+            break
+    if not found:
+        return ""
+    return " · " + ", ".join(found)
+
+
 # ---------------------------------------------------------------------------
 # Scoring
 # ---------------------------------------------------------------------------
@@ -82,6 +125,11 @@ def short_topic_label(topic: str) -> str:
     if not parts:
         return "General"
     last = parts[-1]
+    # Preserve group letter when present, e.g. "Group Stage A" / "Group A"
+    import re as _re
+    m = _re.search(r"(?i)group\s*(?:stage\s*)?([A-H])\b", last)
+    if m:
+        return f"Group stage {m.group(1).upper()}"
     mapping = {
         "Group Stage": "Group stage",
         "Knockout Stages": "Knockout",
@@ -94,7 +142,6 @@ def short_topic_label(topic: str) -> str:
     }
     if last in mapping:
         return mapping[last]
-    # Keep up to two words when that helps understanding and stays short
     words = last.split()
     if len(words) >= 2 and len(last) <= 22:
         return " ".join(words[:2])
@@ -206,6 +253,7 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
             ),
             "limitations_note": LIMITATIONS_NOTE,
             "rules_version": RULES_VERSION,
+            "orgs_str": orgs_from_predictions(raw_preds),
         }
     return result
 
@@ -228,6 +276,7 @@ def render_profile_page(
     overall_index = data.get("overall_index")
     rank = data.get("rank")
     impact = data.get("latest_impact")
+    orgs_str = data.get("orgs_str") or ""
 
     if overall is None or resolved == 0:
         score_html = f"""
@@ -247,25 +296,18 @@ def render_profile_page(
         rank_str = f" · Rank {rank}" if rank is not None else ""
         score_html = f"""
         <div class="mt-6">
-          <div class="flex items-baseline gap-x-2">
+          <div class="text-sm text-slate-500 mb-1">Brier Index</div>
+          <div class="flex items-baseline gap-x-1">
             <span class="text-5xl md:text-6xl font-medium text-slate-900 tabular-nums tracking-tight">{index_str}</span>
+            <span class="text-xl font-normal text-slate-900">/100</span>
           </div>
-          <p class="text-sm text-slate-500 mt-1">
-            Brier Index · 0–100 · Higher is better
-          </p>
-          <p class="text-sm text-slate-500 mt-0.5 tabular-nums">
-            n = {resolved} resolved{rank_str}
+          <p class="text-sm text-slate-500 mt-1 tabular-nums">
+            n = {resolved} resolved{rank_str} · Raw Brier: {brier_str}
           </p>
         </div>"""
         og_score = f"{index_str} (n={resolved})"
         n_caption = f"n = {resolved} resolved"
-
-    initials, avatar_bg = initials_and_color(name)
-    # Neutral short bio (no personal data beyond public role)
-    bio_sentences = (
-        f"{name} is a public forecaster whose predictions on the FIFA World Cup 2026 "
-        f"are systematically compared against real-world outcomes on trackrecord.info."
-    )
+		    initials, avatar_bg = initials_and_color(name)
 
     topics_sorted = sorted(
         data["topics"].items(),
@@ -309,7 +351,6 @@ def render_profile_page(
         stmt = rec.get("original_statement") or ""
         if len(stmt) > 160:
             stmt = stmt[:157] + "…"
-        # Strip trailing attribution if present
         import re as _re
         stmt = _re.sub(r"\s*\[[^\]]*\]\s*$", "", stmt).strip()
         sid = rec.get("statement_id") or ""
@@ -331,7 +372,7 @@ def render_profile_page(
         latest_html = f"""
     <section class="mt-10">
       <h2 class="text-sm font-normal text-emerald-600 mb-3">Latest resolution</h2>
-      <div class="rounded-2xl border border-slate-200 p-5 md:p-6">
+      <a href="{link}" class="block rounded-2xl border border-slate-200 p-5 md:p-6 hover:bg-slate-50 transition-colors">
         <div class="flex items-start justify-between gap-x-3">
           <p class="text-base font-normal text-slate-800 leading-relaxed flex-1">“{stmt}”</p>
           <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal shrink-0 {badge_cls}">{label.upper() if label in ("True","False") else label}</span>
@@ -351,52 +392,58 @@ def render_profile_page(
             </p>
           </div>
         </div>
-        <div class="mt-4">
-          <a href="{link}" class="inline-flex items-center text-sm font-medium text-emerald-700 hover:text-emerald-800 transition-colors">
-            View full evidence trail →
-          </a>
+        <div class="mt-4 text-sm font-normal text-emerald-700">
+          Full evidence trail →
         </div>
-      </div>
+      </a>
     </section>"""
-		    # Resolved predictions list — most recent primary
+
+    # Resolved predictions list — skip the one already shown in Latest resolution
     pred_items = []
-    is_first_resolved = True
+    latest_sid = None
+    if impact and impact.get("rec"):
+        latest_sid = impact["rec"].get("statement_id") or impact["rec"].get("id")
     for rec in data["predictions"]:
-        is_resolved = rec.get("outcome") is not None
+        sid = rec.get("statement_id") or rec.get("id") or ""
+        if latest_sid and sid == latest_sid:
+            continue
         label, badge_cls, card_bg = status_label(rec)
         stmt = rec.get("original_statement") or ""
         if len(stmt) > 140:
             stmt = stmt[:137] + "…"
+        import re as _re
+        stmt = _re.sub(r"\s*\[[^\]]*\]\s*$", "", stmt).strip()
         quoted = f"“{stmt}”"
-        pub = rec.get("statement_publication_date") or "—"
-        sid = rec.get("statement_id") or ""
+        pub_raw = rec.get("statement_publication_date") or ""
+        res_raw = rec.get("resolution_date") or ""
+        def _ym(d):
+            if not d or len(d) < 7:
+                return "—"
+            try:
+                from datetime import datetime
+                return datetime.strptime(d[:10], "%Y-%m-%d").strftime("%B %Y")
+            except Exception:
+                return d[:7]
+        pub = _ym(pub_raw)
+        res = _ym(res_raw)
+        date_line = f"Published: {pub}"
+        if rec.get("outcome") is not None and res != "—":
+            date_line += f" · Resolved: {res}"
+        topic = rec.get("statement_topic") or ""
+        topic_html = ""
+        if topic:
+            short = short_topic_label(topic)
+            topic_html = f'<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal bg-slate-200/80 text-slate-700">{short}</span>'
         link = f"../predictions/{sid}.html" if sid else "#"
-        if is_resolved and is_first_resolved:
-            # Primary / LATEST
-            pred_items.append(f"""
-        <div class="rounded-xl border-2 border-emerald-200 bg-emerald-50/50 p-4">
-          <div class="flex items-center gap-x-2 mb-2">
-            <span class="text-xs font-medium tracking-wide text-emerald-700 uppercase">Latest</span>
-          </div>
-          <div class="flex items-start justify-between gap-x-3">
+        pred_items.append(f"""
+        <a href="{link}" class="block p-5 rounded-2xl {card_bg} hover:opacity-90 transition-opacity">
+          <div class="flex items-start justify-between gap-x-3 mb-2">
             <p class="text-sm font-normal text-slate-800 leading-relaxed flex-1">{quoted}</p>
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal shrink-0 {badge_cls}">{label}</span>
           </div>
-          <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
-            <span class="text-xs text-slate-500">{pub}</span>
-            <a href="{link}" class="text-sm font-medium text-emerald-700 hover:text-emerald-800">Full evidence trail &amp; sources →</a>
-          </div>
-        </div>""")
-            is_first_resolved = False
-        else:
-            pred_items.append(f"""
-        <a href="{link}" class="block p-4 rounded-xl {card_bg} hover:opacity-90 transition-opacity">
-          <div class="flex items-start justify-between gap-x-3">
-            <p class="text-sm font-normal text-slate-800 leading-relaxed flex-1">{quoted}</p>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal shrink-0 {badge_cls}">{label}</span>
-          </div>
-          <div class="mt-1.5 text-xs text-slate-500">
-            <span>{pub}</span>
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-500">
+            <span>{date_line}</span>
+            {topic_html}
           </div>
         </a>""")
 
@@ -420,7 +467,7 @@ def render_profile_page(
         f"-->"
     )
 
-    # Score composition (inspectability)
+    # Score composition
     contrib = data.get("contributions") or {}
     ids = list(data.get("prediction_ids") or sorted(contrib.keys()))
     if contrib:
@@ -468,14 +515,6 @@ def render_profile_page(
       <p class="text-xs text-slate-400 mt-3">{selection_note}</p>
     </section>
     {composition_html}"""
-
-    # Counts line
-    counts_html = f"""
-      <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-600">
-        <div><span class="text-slate-400">Tracked</span> <span class="tabular-nums font-medium text-slate-800">{total}</span></div>
-        <div><span class="text-slate-400">Resolved</span> <span class="tabular-nums font-medium text-slate-800">{resolved}</span></div>
-        <div><span class="text-slate-400">Pending</span> <span class="tabular-nums font-medium text-slate-800">{pending}</span></div>
-      </div>"""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -530,15 +569,10 @@ def render_profile_page(
     <!-- 2. Overall Brier Index -->
     {score_html}
 
-    <!-- 3. Bio + meta -->
-    <div class="mt-6">
-      <p class="text-base text-slate-600 leading-relaxed">{bio_sentences}</p>
-      <p class="text-sm text-slate-500 mt-2">
-        Public forecaster · As of {build_date}
-      </p>
-    </div>
-
-    {counts_html}
+    <!-- 3. Meta -->
+    <p class="text-sm text-slate-500 mt-4">
+      Public forecaster{orgs_str} · As of {build_date}
+    </p>
 
     <!-- 4. Latest Resolution -->
     {latest_html}
@@ -592,7 +626,7 @@ def main() -> None:
     aggregates = load_and_aggregate(args.predictions_jsonl)
     print(f"  Found {len(aggregates)} distinct forecasters")
 
-    # Compute overall ranks (higher Brier Index = better, among those with >= MIN_RESOLVED)
+    # Compute overall ranks
     eligible = [
         (n, d) for n, d in aggregates.items()
         if d["resolved_count"] >= MIN_RESOLVED_FOR_OVERALL and d.get("overall_index") is not None
@@ -604,7 +638,7 @@ def main() -> None:
         if "rank" not in d:
             d["rank"] = None
 
-    # Compute latest-resolution impact (before/after Brier Index + rank) for each forecaster
+    # Compute latest-resolution impact
     for name, data in aggregates.items():
         data["latest_impact"] = None
         if data["resolved_count"] < 1:

@@ -307,7 +307,7 @@ def render_profile_page(
         </div>"""
         og_score = f"{index_str} (n={resolved})"
         n_caption = f"n = {resolved} resolved"
-		    initials, avatar_bg = initials_and_color(name)
+    initials, avatar_bg = initials_and_color(name)
 
     topics_sorted = sorted(
         data["topics"].items(),

@@ -125,7 +125,6 @@ def short_topic_label(topic: str) -> str:
     if not parts:
         return "General"
     last = parts[-1]
-    # Preserve group letter when present, e.g. "Group Stage A" / "Group A"
     import re as _re
     m = _re.search(r"(?i)group\s*(?:stage\s*)?([A-H])\b", last)
     if m:
@@ -151,18 +150,9 @@ def short_topic_label(topic: str) -> str:
 
 
 _AVATAR_PALETTE = [
-    "bg-blue-600",
-    "bg-violet-600",
-    "bg-rose-600",
-    "bg-amber-600",
-    "bg-indigo-600",
-    "bg-cyan-600",
-    "bg-fuchsia-600",
-    "bg-orange-600",
-    "bg-sky-600",
-    "bg-pink-600",
-    "bg-teal-700",
-    "bg-slate-600",
+    "bg-blue-600", "bg-violet-600", "bg-rose-600", "bg-amber-600",
+    "bg-indigo-600", "bg-cyan-600", "bg-fuchsia-600", "bg-orange-600",
+    "bg-sky-600", "bg-pink-600", "bg-teal-700", "bg-slate-600",
 ]
 
 
@@ -183,13 +173,7 @@ def initials_and_color(name: str) -> Tuple[str, str]:
 # Aggregation
 # ---------------------------------------------------------------------------
 def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
-    """
-    Load predictions_v2.jsonl and score every forecaster with the
-    single canonical pure-Brier function. No divergent logic allowed.
-    """
     from collections import defaultdict
-
-    # Group raw records by display name
     buckets: Dict[str, list] = defaultdict(list)
     with open(jsonl_path, "r", encoding="utf-8") as fh:
         for line in fh:
@@ -207,7 +191,6 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
 
     result = {}
     for name, raw_preds in buckets.items():
-        # Normalize to the shape expected by the canonical scorer
         normalized = []
         for raw in raw_preds:
             normalized.append({
@@ -217,26 +200,19 @@ def load_and_aggregate(jsonl_path: Path) -> Dict[str, Any]:
                 "probability": raw.get("statement_probability") if "statement_probability" in raw else raw.get("probability"),
                 "outcome": raw.get("outcome"),
             })
-
-        # THE only place scores are calculated
         scored = score_forecaster(normalized)
-
-        # Keep a short list of recent predictions for the profile page
         resolved_preds = [r for r in raw_preds if r.get("outcome") is not None]
         pending_preds = [r for r in raw_preds if r.get("outcome") is None]
         resolved_preds.sort(key=lambda r: r.get("resolution_date") or "", reverse=True)
         pending_preds.sort(key=lambda r: r.get("statement_publication_date") or "", reverse=True)
         preds_sorted = resolved_preds + pending_preds
-
-        # Topic stats in the shape the HTML expects
         topic_stats = {}
         for t, tdata in scored["topics"].items():
             topic_stats[t] = {
-            "count": tdata["resolved_count"],
-            "avg": tdata["score"],
-            "index": tdata.get("index"),
-        }
-
+                "count": tdata["resolved_count"],
+                "avg": tdata["score"],
+                "index": tdata.get("index"),
+            }
         result[name] = {
             "slug": slugify(name),
             "total": scored["resolved_count"] + scored["pending_count"],
@@ -280,65 +256,82 @@ def render_profile_page(
 
     if overall is None or resolved == 0:
         score_html = f"""
-        <div class="mt-6">
           <p class="text-2xl md:text-3xl font-medium text-slate-700 leading-snug">
             No resolved predictions yet
           </p>
           <p class="text-sm text-slate-500 mt-2">
             Scores appear once at least one prediction has been resolved.
           </p>
-        </div>"""
+"""
         og_score = f"No resolved data (n={resolved})"
         n_caption = ""
     else:
         index_str = format_index(overall_index)
         brier_str = format_brier(overall)
-        rank_str = f" · Rank {rank}" if rank is not None else ""
+        rank_link = f'<a href="../forecasters.html" class="text-emerald-700 hover:text-emerald-800">Rank {rank}</a>' if rank is not None else ""
+        rank_part = f" · {rank_link}" if rank is not None else ""
         score_html = f"""
-        <div class="mt-6">
           <div class="text-sm text-slate-500 mb-1">Brier Index</div>
           <div class="flex items-baseline gap-x-1">
             <span class="text-5xl md:text-6xl font-medium text-slate-900 tabular-nums tracking-tight">{index_str}</span>
             <span class="text-xl font-normal text-slate-900">/100</span>
           </div>
-          <p class="text-sm text-slate-500 mt-1 tabular-nums">
-            n = {resolved} resolved{rank_str} · Raw Brier: {brier_str}
+          <p class="text-sm text-slate-500 mt-2 tabular-nums">
+            n = {resolved} resolved{rank_part} · Raw Brier: {brier_str}
           </p>
-        </div>"""
+"""
         og_score = f"{index_str} (n={resolved})"
         n_caption = f"n = {resolved} resolved"
-    initials, avatar_bg = initials_and_color(name)
 
-    topics_sorted = sorted(
-        data["topics"].items(),
-        key=lambda kv: (-kv[1]["count"], kv[0]),
-    )[:MAX_TOPICS_SHOWN]
+    initials, avatar_bg = initials_and_color(name)    def category_for(topic: str) -> str:
+        t = (topic or "").lower()
+        if "winner" in t or "final" in t or "semi" in t or "quarter" in t or "knockout" in t or "round of 16" in t or "last 16" in t:
+            return "Knockout & winner"
+        if "group" in t and any(x in t for x in ["1st", "2nd", "first", "second", "place", "finish", "advance", "qualify"]):
+            return "Group-stage placing"
+        if "group" in t:
+            return "Group stage"
+        if any(x in t for x in ["score", "beats", "draw", "match", "vs", "v "]):
+            return "Match result / score"
+        return "Other"
 
-    if topics_sorted:
-        topic_pills = []
-        for t, stats in topics_sorted:
-            short = short_topic_label(t)
-            if stats["avg"] is not None:
-                pill = f"""
+    from collections import defaultdict
+    cat_buckets = defaultdict(lambda: {"count": 0, "briers": [], "indexes": []})
+    for t, stats in data["topics"].items():
+        cat = category_for(t)
+        cat_buckets[cat]["count"] += stats["count"]
+        if stats.get("avg") is not None:
+            cat_buckets[cat]["briers"].append((stats["avg"], stats["count"]))
+        if stats.get("index") is not None:
+            cat_buckets[cat]["indexes"].append((stats["index"], stats["count"]))
+
+    cat_rows = []
+    for cat, info in sorted(cat_buckets.items(), key=lambda kv: -kv[1]["count"]):
+        n = info["count"]
+        if not info["indexes"]:
+            continue
+        total_w = sum(c for _, c in info["indexes"])
+        if total_w <= 0:
+            continue
+        idx = sum(i * c for i, c in info["indexes"]) / total_w
+        cat_rows.append((cat, n, idx))
+
+    if cat_rows:
+        pills = []
+        for cat, n, idx in cat_rows[:6]:
+            pills.append(f"""
                 <div class="inline-flex items-center gap-x-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 text-sm">
-                  <span class="font-medium">{short}</span>
-                  <span class="tabular-nums text-emerald-700">{format_index(stats.get("index"))}</span>
-                  <span class="text-emerald-500 text-xs">({stats["count"]})</span>
-                </div>"""
-            else:
-                pill = f"""
-                <div class="inline-flex items-center gap-x-2 px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-sm">
-                  <span class="font-medium">{short}</span>
-                  <span class="text-slate-400 text-xs">{stats["count"]}</span>
-                </div>"""
-            topic_pills.append(pill)
+                  <span class="font-medium">{cat}</span>
+                  <span class="tabular-nums text-emerald-700">{format_index(idx)}</span>
+                  <span class="text-emerald-500 text-xs">({n})</span>
+                </div>""")
         topics_html = f"""
         <section class="mt-10">
           <h2 class="text-sm font-normal text-emerald-600 mb-3">Topic overview</h2>
           <div class="flex flex-wrap gap-2">
-            {''.join(topic_pills)}
+            {''.join(pills)}
           </div>
-          <p class="text-xs text-slate-400 mt-3">Topics ordered by resolved count. Numbers are Brier Index (0–100, higher is better), same scale as the main score.</p>
+          <p class="text-xs text-slate-400 mt-3">Grouped categories with Brier Index (0–100, higher is better) and resolved count. Sample sizes remain modest.</p>
         </section>"""
     else:
         topics_html = ""
@@ -347,7 +340,7 @@ def render_profile_page(
     latest_html = ""
     if impact and impact.get("rec"):
         rec = impact["rec"]
-        label, badge_cls, _ = status_label(rec)
+        label, badge_cls, card_bg = status_label(rec)
         stmt = rec.get("original_statement") or ""
         if len(stmt) > 160:
             stmt = stmt[:157] + "…"
@@ -372,10 +365,10 @@ def render_profile_page(
         latest_html = f"""
     <section class="mt-10">
       <h2 class="text-sm font-normal text-emerald-600 mb-3">Latest resolution</h2>
-      <a href="{link}" class="block rounded-2xl border border-slate-200 p-5 md:p-6 hover:bg-slate-50 transition-colors">
+      <a href="{link}" class="block rounded-2xl {card_bg} p-5 md:p-6 hover:opacity-90 transition-opacity">
         <div class="flex items-start justify-between gap-x-3">
           <p class="text-base font-normal text-slate-800 leading-relaxed flex-1">“{stmt}”</p>
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal shrink-0 {badge_cls}">{label.upper() if label in ("True","False") else label}</span>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal shrink-0 {badge_cls}">{label}</span>
         </div>
         <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <div>
@@ -467,7 +460,6 @@ def render_profile_page(
         f"-->"
     )
 
-    # Score composition
     contrib = data.get("contributions") or {}
     ids = list(data.get("prediction_ids") or sorted(contrib.keys()))
     if contrib:
@@ -486,7 +478,7 @@ def render_profile_page(
       <h2 class="text-sm font-normal text-emerald-600 mb-3">Score composition</h2>
       <p class="text-xs text-slate-500 mb-3">
         Individual Brier contribution of every resolved prediction in the overall mean
-        (as of {generation_id or build_date} · {RULES_VERSION}). Lower is better.
+        (as of {generation_id or build_date} · {RULES_VERSION}). Lower is better. Overall score is the pure mean of these values.
       </p>
       <div class="overflow-x-auto">
         <table class="min-w-full text-left">
@@ -506,12 +498,20 @@ def render_profile_page(
     else:
         composition_html = ""
 
+    PREVIEW_N = 8
+    hidden_n = max(0, len(pred_items) - PREVIEW_N)
+    show_all = ""
+    if hidden_n > 0:
+        show_all = f"""<p class="mt-4 text-sm text-slate-600">Showing first {PREVIEW_N} of {len(pred_items)} predictions. Scroll for the rest, or use the score composition table below.</p>"""
+    list_html = "".join(pred_items) if pred_items else '<p class="py-6 text-sm text-slate-500">No predictions recorded.</p>'
+
     predictions_html = f"""
     <section class="mt-10">
       <h2 class="text-sm font-normal text-emerald-600 mb-3">Resolved predictions</h2>
       <div class="space-y-3">
-        {''.join(pred_items) if pred_items else '<p class="py-6 text-sm text-slate-500">No predictions recorded.</p>'}
+        {list_html}
       </div>
+      {show_all}
       <p class="text-xs text-slate-400 mt-3">{selection_note}</p>
     </section>
     {composition_html}"""
@@ -524,17 +524,14 @@ def render_profile_page(
   <title>{name} — Forecaster Profile | trackrecord.info</title>
   <meta name="description" content="{og_desc}" />
   <link rel="canonical" href="{permanent_url}" />
-
   <meta property="og:type" content="profile" />
   <meta property="og:url" content="{permanent_url}" />
   <meta property="og:title" content="{og_title}" />
   <meta property="og:description" content="{og_desc}" />
   <meta property="og:site_name" content="trackrecord.info" />
-
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="{og_title}" />
   <meta name="twitter:description" content="{og_desc}" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
@@ -544,7 +541,6 @@ def render_profile_page(
     body {{ font-family: 'Inter', system-ui, sans-serif; }}
   </style>
   {audit_comment}
-  <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-MQu87Y2WzO-sB_YzB2L-N.js"></script>
   <script>
     window.plausible=window.plausible||function(){{(plausible.q=plausible.q||[]).push(arguments)}},plausible.init=plausible.init||function(i){{plausible.o=i||{{}}}};
@@ -563,24 +559,25 @@ def render_profile_page(
 
   <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
 
-    <!-- 1. Name (most prominent) -->
-    <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900">{name}</h1>
+    <div class="mb-10">
+      <div class="text-sm font-normal text-emerald-600 mb-2">Forecaster</div>
+      <div class="flex items-start gap-x-4">
+        <div class="w-12 h-12 {avatar_bg} rounded-2xl flex items-center justify-center text-white text-lg font-normal shrink-0">{initials}</div>
+        <div class="min-w-0">
+          <h1 class="text-3xl md:text-4xl font-medium tracking-tight text-slate-900">{name}</h1>
+          <p class="text-sm text-slate-500 mt-1">
+            Public forecaster{orgs_str} · As of {build_date}
+          </p>
+        </div>
+      </div>
 
-    <!-- 2. Overall Brier Index -->
-    {score_html}
+      <div class="mt-6 rounded-3xl bg-slate-100 p-6 md:p-8">
+        {score_html}
+      </div>
+    </div>
 
-    <!-- 3. Meta -->
-    <p class="text-sm text-slate-500 mt-4">
-      Public forecaster{orgs_str} · As of {build_date}
-    </p>
-
-    <!-- 4. Latest Resolution -->
     {latest_html}
-
-    <!-- 5. Topic overview -->
     {topics_html}
-
-    <!-- 6. Resolved predictions list -->
     {predictions_html}
 
     <footer class="mt-16 pt-8 border-t border-slate-200">
@@ -606,9 +603,6 @@ def render_profile_page(
     return html
 
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate static Forecaster Profile pages")
     parser.add_argument("--predictions-jsonl", type=Path, default=PREDICTIONS_JSONL)
@@ -626,7 +620,6 @@ def main() -> None:
     aggregates = load_and_aggregate(args.predictions_jsonl)
     print(f"  Found {len(aggregates)} distinct forecasters")
 
-    # Compute overall ranks
     eligible = [
         (n, d) for n, d in aggregates.items()
         if d["resolved_count"] >= MIN_RESOLVED_FOR_OVERALL and d.get("overall_index") is not None
@@ -638,7 +631,6 @@ def main() -> None:
         if "rank" not in d:
             d["rank"] = None
 
-    # Compute latest-resolution impact
     for name, data in aggregates.items():
         data["latest_impact"] = None
         if data["resolved_count"] < 1:
@@ -691,22 +683,17 @@ def main() -> None:
 
     all_ids = sorted(sid for d in aggregates.values() for sid in d["statement_ids"])
     data_hash = hashlib.sha256("|".join(all_ids).encode()).hexdigest()
-
     args.output_dir.mkdir(parents=True, exist_ok=True)
-
     index: Dict[str, str] = {}
     written = 0
-
     from datetime import datetime, timezone
     generation_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     for name in sorted(aggregates.keys()):
         data = aggregates[name]
         slug = data["slug"]
         index[name] = slug
-
         html = render_profile_page(name, data, args.build_date, data_hash, generation_id=generation_id)
         out_path = args.output_dir / f"{slug}.html"
-
         if args.verbose or args.dry_run:
             score_disp = (
                 data["overall"]
@@ -714,7 +701,6 @@ def main() -> None:
                 else f"insuff (n={data['resolved_count']})"
             )
             print(f"  {name:30s}  slug={slug:25s}  score={score_disp}  resolved={data['resolved_count']}")
-
         if not args.dry_run:
             out_path.write_text(html, encoding="utf-8")
             written += 1
@@ -732,7 +718,6 @@ def main() -> None:
             json.dumps(index_payload, indent=2, ensure_ascii=False), encoding="utf-8"
         )
         print(f"Wrote search index → {args.index_path}")
-
     print(f"{'Would write' if args.dry_run else 'Wrote'} {written} profile pages under {args.output_dir}/")
     print("Done.")
 

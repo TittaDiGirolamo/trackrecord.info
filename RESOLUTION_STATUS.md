@@ -1,6 +1,18 @@
 # Resolution Status — Trackrecord.info
 
-**Last updated:** 2026-07-21
+**Last updated:** 2026-08-10
+
+## 2026-08-10 — Post-World-Cup pending set resolved
+
+- **Date:** 2026-08-10
+- **Batch:** 2026-08-10_batch01
+- **Records resolved:** 29
+- **True (1.0):** 10
+- **False (0.0):** 19
+- **Source of truth:** predictions_v2.jsonl
+- **Session log:** resolution_sessions/2026-08-10_batch01.md
+- **Updates file:** 2026-08-10_batch01_updates.json (and batch_updates.json)
+- **Notes:** All remaining predictions whose resolution criteria became deterministically resolvable after the 2026 FIFA World Cup final (Spain 1–0 Argentina AET) have been resolved. Exact-score claims scored strictly. Human primary-source verification completed against official FIFA match-centre and final tournament standings pages.
 
 ## Current Status
 

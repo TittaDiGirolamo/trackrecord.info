@@ -283,7 +283,8 @@ def render_profile_page(
         og_score = f"{index_str} (n={resolved})"
         n_caption = f"n = {resolved} resolved"
 
-    initials, avatar_bg = initials_and_color(name)    def category_for(topic: str) -> str:
+    initials, avatar_bg = initials_and_color(name)
+    def category_for(topic: str) -> str:
         t = (topic or "").lower()
         if "winner" in t or "final" in t or "semi" in t or "quarter" in t or "knockout" in t or "round of 16" in t or "last 16" in t:
             return "Knockout & winner"

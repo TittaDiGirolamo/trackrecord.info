@@ -1,28 +1,53 @@
 {
-  "commit": "004df325562ded1138d924915ccf143e8f62cc44",
+  "commit": "114e63064bf5d4229163c9c7c52c894ed2fa6591",
   "forecasters": {
     "Anka, Carl": {
-      "overall_score": null,
-      "pending_count": 1,
-      "prediction_ids": [],
-      "resolved_count": 0,
-      "topics": {}
-    },
-    "Balague, Guillem": {
-      "overall_score": null,
-      "pending_count": 3,
-      "prediction_ids": [],
-      "resolved_count": 0,
-      "topics": {}
-    },
-    "Becherano, Lizzy": {
-      "overall_score": 0.06760000000000001,
-      "pending_count": 1,
+      "overall_score": 0.6400000000000001,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-becherano-mexico-qf"
+        "pred-2026-08-04-anka-spain-wins-the-2026-fifa-world-c"
       ],
       "resolved_count": 1,
       "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "n": 1,
+          "score": 0.6400000000000001
+        }
+      }
+    },
+    "Balague, Guillem": {
+      "overall_score": 0.5900000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-08-04-balague-spain-is-the-best-team-at-the-20",
+        "pred-2026-08-04-balague-spain-reaches-the-final-of-the-2",
+        "pred-2026-08-04-balague-the-winner-of-spain-vs-france-if"
+      ],
+      "resolved_count": 3,
+      "topics": {
+        "FIFA World Cup 2026 - Final": {
+          "n": 2,
+          "score": 0.6400000000000001
+        },
+        "FIFA World Cup 2026 - Winner": {
+          "n": 1,
+          "score": 0.48999999999999994
+        }
+      }
+    },
+    "Becherano, Lizzy": {
+      "overall_score": 0.04505000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-06-10-becherano-mexico-qf",
+        "pred-2026-08-04-becherano-japan-makes-a-notable-deep-run-a"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026": {
+          "n": 1,
+          "score": 0.0225
+        },
         "FIFA World Cup 2026 - Mexico Performance - Quarterfinals": {
           "n": 1,
           "score": 0.06760000000000001
@@ -30,18 +55,32 @@
       }
     },
     "Burke, Adam": {
-      "overall_score": null,
-      "pending_count": 1,
-      "prediction_ids": [],
-      "resolved_count": 0,
-      "topics": {}
+      "overall_score": 0.0484,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-08-04-burke-france-wins-the-2026-fifa-world"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "n": 1,
+          "score": 0.0484
+        }
+      }
     },
     "Carragher, Jamie": {
-      "overall_score": null,
-      "pending_count": 1,
-      "prediction_ids": [],
-      "resolved_count": 0,
-      "topics": {}
+      "overall_score": 0.5184,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-08-04-carragher-england-reaches-the-semi-finals"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Semifinals": {
+          "n": 1,
+          "score": 0.5184
+        }
+      }
     },
     "Connelly, Bill": {
       "overall_score": 0.042249999999999996,
@@ -77,16 +116,26 @@
       }
     },
     "Dawson, Rob": {
-      "overall_score": 0.0324,
-      "pending_count": 2,
+      "overall_score": 0.2549666666666666,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-dawson-nl-no-advance"
+        "pred-2026-06-10-dawson-nl-no-advance",
+        "pred-2026-08-04-dawson-norway-makes-a-deep-run-at-the-2",
+        "pred-2026-08-04-dawson-thomas-tuchel-leaves-the-england"
       ],
-      "resolved_count": 1,
+      "resolved_count": 3,
       "topics": {
+        "FIFA World Cup 2026": {
+          "n": 1,
+          "score": 0.7224999999999999
+        },
         "FIFA World Cup 2026 - Netherlands Performance - Group Stage": {
           "n": 1,
           "score": 0.0324
+        },
+        "General": {
+          "n": 1,
+          "score": 0.010000000000000002
         }
       }
     },
@@ -105,13 +154,18 @@
       }
     },
     "Frank, Thomas": {
-      "overall_score": 0.04000000000000001,
-      "pending_count": 1,
+      "overall_score": 0.38125,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-frank-england-winner"
+        "pred-2026-06-10-frank-england-winner",
+        "pred-2026-08-04-frank-norway-springs-a-surprise-makes"
       ],
-      "resolved_count": 1,
+      "resolved_count": 2,
       "topics": {
+        "FIFA World Cup 2026": {
+          "n": 1,
+          "score": 0.7224999999999999
+        },
         "FIFA World Cup 2026 - Winner": {
           "n": 1,
           "score": 0.04000000000000001
@@ -119,13 +173,18 @@
       }
     },
     "Hamilton, Tom": {
-      "overall_score": 0.04000000000000001,
-      "pending_count": 1,
+      "overall_score": 0.0362,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-hamilton-paraguay-no-advance"
+        "pred-2026-06-10-hamilton-paraguay-no-advance",
+        "pred-2026-08-04-hamilton-ecuador-is-the-surprise-package"
       ],
-      "resolved_count": 1,
+      "resolved_count": 2,
       "topics": {
+        "FIFA World Cup 2026": {
+          "n": 1,
+          "score": 0.0324
+        },
         "FIFA World Cup 2026 - Paraguay Performance - Group Stage": {
           "n": 1,
           "score": 0.04000000000000001
@@ -207,13 +266,19 @@
       }
     },
     "Laurens, Julien": {
-      "overall_score": 0.06760000000000001,
-      "pending_count": 2,
+      "overall_score": 0.0642,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-laurens-japan-deeper"
+        "pred-2026-06-10-laurens-japan-deeper",
+        "pred-2026-08-04-laurens-the-2026-fifa-world-cup-final-is",
+        "pred-2026-08-04-laurens-the-2026-fifa-world-cup-final-is-2"
       ],
-      "resolved_count": 1,
+      "resolved_count": 3,
       "topics": {
+        "FIFA World Cup 2026 - Final": {
+          "n": 2,
+          "score": 0.0625
+        },
         "FIFA World Cup 2026 - Japan Performance - Quarterfinals": {
           "n": 1,
           "score": 0.06760000000000001
@@ -221,13 +286,23 @@
       }
     },
     "Lindop, Beth": {
-      "overall_score": 0.0324,
-      "pending_count": 2,
+      "overall_score": 0.26496666666666663,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-lindop-usmnt-qf"
+        "pred-2026-06-10-lindop-usmnt-qf",
+        "pred-2026-08-04-lindop-norway-makes-a-strong-deep-run-a",
+        "pred-2026-08-04-lindop-the-2026-fifa-world-cup-final-is"
       ],
-      "resolved_count": 1,
+      "resolved_count": 3,
       "topics": {
+        "FIFA World Cup 2026": {
+          "n": 1,
+          "score": 0.7224999999999999
+        },
+        "FIFA World Cup 2026 - Final": {
+          "n": 1,
+          "score": 0.04000000000000001
+        },
         "FIFA World Cup 2026 - United States Performance - Quarterfinals": {
           "n": 1,
           "score": 0.0324
@@ -235,11 +310,19 @@
       }
     },
     "Lineker, Gary": {
-      "overall_score": null,
-      "pending_count": 2,
-      "prediction_ids": [],
-      "resolved_count": 0,
-      "topics": {}
+      "overall_score": 0.6400000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-08-04-lineker-spain-wins-the-2026-fifa-world-c",
+        "pred-2026-08-04-lineker-spain-wins-the-2026-fifa-world-c-2"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "n": 2,
+          "score": 0.6400000000000001
+        }
+      }
     },
     "Marcotti, Gab": {
       "overall_score": 0.3932666666666667,
@@ -266,11 +349,19 @@
       }
     },
     "McNulty, Phil": {
-      "overall_score": null,
-      "pending_count": 2,
-      "prediction_ids": [],
-      "resolved_count": 0,
-      "topics": {}
+      "overall_score": 0.07045000000000001,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-08-04-mcnulty-france-wins-the-2026-fifa-world",
+        "pred-2026-08-04-mcnulty-france-is-the-clear-favourite-to"
+      ],
+      "resolved_count": 2,
+      "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "n": 2,
+          "score": 0.07045000000000001
+        }
+      }
     },
     "Mewis, Joe": {
       "overall_score": 0.48042500000000005,
@@ -302,13 +393,18 @@
       }
     },
     "O'Halloran, Connor": {
-      "overall_score": 0.04000000000000001,
-      "pending_count": 1,
+      "overall_score": 0.027200000000000002,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-ohalloran-senegal-deep"
+        "pred-2026-06-10-ohalloran-senegal-deep",
+        "pred-2026-08-04-ohalloran-two-african-teams-reach-the-semi"
       ],
-      "resolved_count": 1,
+      "resolved_count": 2,
       "topics": {
+        "FIFA World Cup 2026 - Semifinals": {
+          "n": 1,
+          "score": 0.0144
+        },
         "FIFA World Cup 2026 - Senegal Performance - Knockout Stages": {
           "n": 1,
           "score": 0.04000000000000001
@@ -354,27 +450,33 @@
       }
     },
     "Richards, Micah": {
-      "overall_score": 0.6084,
-      "pending_count": 1,
+      "overall_score": 0.33545,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-richards-spain-winner"
+        "pred-2026-06-10-richards-spain-winner",
+        "pred-2026-08-04-richards-france-wins-the-2026-fifa-world"
       ],
-      "resolved_count": 1,
+      "resolved_count": 2,
       "topics": {
         "FIFA World Cup 2026 - Winner": {
-          "n": 1,
-          "score": 0.6084
+          "n": 2,
+          "score": 0.33545
         }
       }
     },
     "Rooney, Wayne": {
       "overall_score": 0.0324,
-      "pending_count": 1,
+      "pending_count": 0,
       "prediction_ids": [
-        "pred-2026-06-10-rooney-england-winner"
+        "pred-2026-06-10-rooney-england-winner",
+        "pred-2026-08-04-rooney-ecuador-is-a-dark-horse-makes-a"
       ],
-      "resolved_count": 1,
+      "resolved_count": 2,
       "topics": {
+        "FIFA World Cup 2026": {
+          "n": 1,
+          "score": 0.0324
+        },
         "FIFA World Cup 2026 - Winner": {
           "n": 1,
           "score": 0.0324
@@ -382,11 +484,18 @@
       }
     },
     "Sciola, Santi": {
-      "overall_score": null,
-      "pending_count": 1,
-      "prediction_ids": [],
-      "resolved_count": 0,
-      "topics": {}
+      "overall_score": 0.0484,
+      "pending_count": 0,
+      "prediction_ids": [
+        "pred-2026-08-04-sciola-france-wins-the-2026-fifa-world"
+      ],
+      "resolved_count": 1,
+      "topics": {
+        "FIFA World Cup 2026 - Winner": {
+          "n": 1,
+          "score": 0.0484
+        }
+      }
     },
     "Shearer, Alan": {
       "overall_score": 0.18505000000000002,
@@ -446,8 +555,8 @@
       }
     },
     "Sutton, Chris": {
-      "overall_score": 0.15760689655172416,
-      "pending_count": 6,
+      "overall_score": 0.14404285714285714,
+      "pending_count": 0,
       "prediction_ids": [
         "pred-2026-06-10-sutton-japan-group",
         "pred-2026-06-10-sutton-brazil-group",
@@ -477,10 +586,20 @@
         "pred-2026-06-10-sutton-swe-tun-1-1",
         "pred-2026-06-10-sutton-eng-cro-2-0",
         "pred-2026-06-10-sutton-gha-pan-2-1",
-        "pred-2026-06-10-sutton-por-cod-2-1"
+        "pred-2026-06-10-sutton-por-cod-2-1",
+        "pred-2026-08-03-sutton-france-wins-the-2026-fifa-world",
+        "pred-2026-08-04-sutton-morocco-beats-canada-2-0-in-the",
+        "pred-2026-08-04-sutton-france-beats-paraguay-5-0-in-the",
+        "pred-2026-08-04-sutton-norway-beats-brazil-on-penalties",
+        "pred-2026-08-04-sutton-england-beats-mexico-2-1-in-the",
+        "pred-2026-08-04-sutton-spain-beats-portugal-3-1-in-the"
       ],
-      "resolved_count": 29,
+      "resolved_count": 35,
       "topics": {
+        "FIFA World Cup 2026": {
+          "n": 5,
+          "score": 0.08449999999999999
+        },
         "FIFA World Cup 2026 - Argentina Performance - Group Stage": {
           "n": 1,
           "score": 0.1444
@@ -596,6 +715,10 @@
         "FIFA World Cup 2026 - Turkey Performance - Group Stage": {
           "n": 1,
           "score": 0.1444
+        },
+        "FIFA World Cup 2026 - Winner": {
+          "n": 1,
+          "score": 0.0484
         }
       }
     },
@@ -633,7 +756,7 @@
       }
     }
   },
-  "generation_id": "20260807T175115Z",
+  "generation_id": "20260810T192139Z",
   "rules_version": "brier-1.0.0",
   "source": "predictions_v2.jsonl"
 }

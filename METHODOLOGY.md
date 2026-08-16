@@ -37,6 +37,7 @@ A prediction is eligible for tracking only if it satisfies all of the following:
 2. Clear, falsifiable claim about a future event or measurable outcome.
 3. Explicit or implicit time horizon.
 4. Forecaster explicitly named and source archived.
+5. All candidate predictions must pass LOGGING_CHECKLIST.md (v1.2) before promotion.
 
 **Exclusions**: Vague/hedged statements, predictions without a defined resolution date or event, and post-hoc reinterpretations.
 
@@ -88,6 +89,7 @@ All resolutions follow this process:
    - Resolution rationale (1–3 sentences)
    - Final score
 5. Regenerate public reports.
+6. All resolutions must pass RESOLUTION_CHECKLIST.md (v1.2) before the record is marked resolved.
 
 **Gold Standard vs Public Predictions**:
 - **Gold Standard** records (`gold_standard/wc2026/`) are manually created high-fidelity examples used for prompt development and calibration.

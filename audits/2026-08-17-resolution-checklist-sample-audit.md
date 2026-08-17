@@ -69,14 +69,6 @@ The checklist is functioning as a discriminative quality gate. The only systemic
 
 ---
 
-## 6. Recommendations arising from this audit
-
-1. Publish this audit summary in the repository as a permanent public record.
-2. Proceed with drafting the Editorial Charter, referencing both the checklists and this audit result.
-3. Consider, as a separate longer-horizon project, the systematic publication of filled Resolution checklists (starting with this sample of 20) as a public “Resolution Audit Trail”.
-
----
-
 ## Appendix — Sampled statement_ids (seed 20260816)
 
 1. pred-2026-06-10-sutton-can-bih-1-1  

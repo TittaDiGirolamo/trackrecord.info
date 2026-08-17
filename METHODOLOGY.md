@@ -106,7 +106,7 @@ An LLM, guided by a controlled and versioned prompt from `prompts/resolution_dra
 The human resolver must:
 - Access primary/official sources directly (FIFA, official match reports, etc.).
 - Validate or correct the LLM’s interpretation of the `resolution_criteria`.
-- Confirm or revise the proposed `outcome` (including any application of `scoring_rules.md` or `apply_partial_scoring.py`).
+- Confirm or revise the proposed `outcome`.
 - Ensure `outcome_proof` and `outcome_verification_url` are accurate and point to authoritative sources.
 - Approve or rewrite the final 1–3 sentence rationale.
 

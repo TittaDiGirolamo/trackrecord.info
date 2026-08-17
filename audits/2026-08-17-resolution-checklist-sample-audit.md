@@ -3,7 +3,7 @@
 **Date:** 2026-08-17  
 **Checklist version:** RESOLUTION_CHECKLIST.md v1.2 (2026-08-15)  
 **Status:** Complete  
-**Auditor:** Project founder (self-audit)  
+**Auditor:** Tonnis Sebo Anko Douma
 **Aligned with:** 90-Day Action Plan v1.0 Phase 3 target (≥ 95 % Overall Pass)
 
 ---

@@ -96,7 +96,7 @@ The table below is the single source of truth for active and recently completed 
 
 | Initiative | Size | Hypothesis (incl. long-run view for Medium+) | Target funnel step | Expected impact | Ship date | Result (1–2 weeks later) | Status |
 |------------|------|---------------------------------------------|--------------------|-----------------|-----------|---------------------------|--------|
-|            |      |                                             |                    |                 |           |                           |        |
+|Phase 0 — Measurement Validation & Freeze|Medium|Reliable measurement is a necessary condition for any subsequent claim about demand|Full North Star sequence (figure_selected → profile_viewed → prediction_detail_viewed with status=resolved)|Enables trustworthy baseline and all later demand claims|—|—|In progress|
 |            |      |                                             |                    |                 |           |                           |        |
 
 **Status values:** `Planned` · `In progress` · `Shipped` · `Moved the needle` · `No clear impact` · `Negative` · `Abandoned`

@@ -617,11 +617,16 @@
                         item.innerHTML = '<i class="fa-solid fa-user text-emerald-600 w-4"></i> <span></span>';
                         item.querySelector('span').textContent = f.name;
                         item.onclick = () => {
-                            suggestionsContainer.classList.add('hidden');
-                            input.value = f.name;
-                            if (window.plausible) window.plausible('Search', { props: { query: f.name } });
-                            window.location.href = profileUrl(f);
-                        };
+    suggestionsContainer.classList.add('hidden');
+    input.value = f.name;
+    if (window.plausible) {
+        window.plausible('Search', { props: { query: f.name } });
+        // Required North Star event
+        const slug = f.slug || (f.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        window.plausible('figure_selected', { props: { figure: slug } });
+    }
+    window.location.href = profileUrl(f);
+};
                         suggestionsContainer.appendChild(item);
                     });
                 }

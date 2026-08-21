@@ -91,7 +91,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
         profile_url = f"forecasters/{slug}.html"
 
         cards_html += f"""
-        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors">
+        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){{plausible('figure_selected',{{props:{{figure:'{slug}'}}}})}}">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">{initials}</div>
                 <div>

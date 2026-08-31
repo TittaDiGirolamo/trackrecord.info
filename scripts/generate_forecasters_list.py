@@ -51,7 +51,6 @@ def load_and_score(jsonl_path: Path = Path("predictions_v2.jsonl")) -> Dict[str,
                 "outcome": raw.get("outcome"),
             })
         scored = score_forecaster(normalized)
-        # Canonical naming (shared helper)
         result[name] = {
             "slug": slugify_name(name),
             "initials": initials_from_name(name),
@@ -65,14 +64,12 @@ def load_and_score(jsonl_path: Path = Path("predictions_v2.jsonl")) -> Dict[str,
 
 
 def render_page(scores: Dict[str, Any], build_date: str) -> str:
-    # Sort by Index descending (Higher is better)
     ordered = sorted(
         scores.items(),
         key=lambda x: (-(x[1].get("overall_index") or 0), -x[1]["resolved_count"]),
     )
 
     cards = []
-    # Palette matches profile pages (excludes site primary emerald)
     palette = ["blue", "violet", "rose", "amber", "indigo", "cyan", "fuchsia", "orange", "sky", "pink", "teal", "slate"]
     import hashlib
     for idx, (name, data) in enumerate(ordered):
@@ -80,13 +77,12 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
         color = palette[int(h[:8], 16) % len(palette)]
         index_str = format_index(data.get("overall_index"))
         n = data["resolved_count"]
-        # Same content model as homepage Top-3 cards, slightly smaller type/padding
         if data.get("overall_index") is None or n == 0:
             score_block = (
                 f'<div>'
                 f'<div class="text-sm text-slate-500">Brier Index</div>'
                 f'<div class="text-base font-medium text-slate-600 mt-1">No resolved predictions</div>'
-                f'<div class="text-sm text-slate-500 mt-1">As of {build_date} · n = 0</div>'
+                f'<div class="text-sm text-slate-500 mt-1">As of {build_date} \u00b7 n = 0</div>'
                 f'</div>'
             )
         else:
@@ -97,14 +93,14 @@ def render_page(scores: Dict[str, Any], build_date: str) -> str:
                 f'<span class="text-4xl font-medium text-slate-900 tabular-nums">{index_str}</span>'
                 f'<span class="text-lg font-normal text-slate-900">/100</span>'
                 f'</div>'
-                f'<div class="text-sm text-emerald-600 mt-1">As of {build_date} · n = {n}</div>'
+                f'<div class="text-sm text-emerald-600 mt-1">As of {build_date} \u00b7 n = {n}</div>'
                 f'</div>'
             )
 
         cards.append(
             f'<a href="forecasters/{data["slug"]}.html" '
             f'class="block bg-slate-100 rounded-3xl p-6 hover:bg-slate-50 transition-colors" '
-            f'onclick="if(window.plausible) plausible(\'figure_selected\', {{props: {{figure: \'{data["slug"]}\'}}}})">'
+            f'onclick="if(window.plausible) plausible(\'figure_selected\', {{props: {{figure_id: \'{data["slug"]}\'}}}})">'
             f'<div class="flex items-center gap-x-4 mb-5">'
             f'<div class="w-11 h-11 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-lg">{data["initials"]}</div>'
             f'<div>'

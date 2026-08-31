@@ -34,7 +34,7 @@ def calculate_forecaster_scores(jsonl_path: Path = Path("predictions_v2.jsonl"))
             name = (rec.get("forecaster") or "").strip()
             if not name:
                 author = rec.get("author") or {}
-                name = f"{author.get("firstname", "")} {author.get("lastname", "")}".strip()
+                name = f"{author.get('firstname', '')} {author.get('lastname', '')}".strip()
             if not name:
                 continue
             buckets[name].append(rec)
@@ -91,7 +91,7 @@ def render_homepage_scorecards(top_forecasters, build_date, n, min_resolved):
         profile_url = f"forecasters/{slug}.html"
 
         cards_html += f"""
-        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){{plausible('figure_selected',{{props:{{figure:'{slug}'}}}})}}">
+        <a href="{profile_url}" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){{plausible('figure_selected',{{props:{{figure_id:'{slug}'}}}})}}">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-{color}-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">{initials}</div>
                 <div>
@@ -144,17 +144,20 @@ def main():
     parser.add_argument("--min-resolved", type=int, default=2)
     parser.add_argument("--n", type=int, default=3)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--build-date", default=None)
+    parser.add_argument("--index-html", default="index.html")
     args = parser.parse_args()
 
     scores = calculate_forecaster_scores()
     top = get_top_forecasters(scores, args.n, args.min_resolved)
-    html = render_homepage_scorecards(top, date.today().isoformat(), args.n, args.min_resolved)
+    build_date = args.build_date or date.today().isoformat()
+    html = render_homepage_scorecards(top, build_date, args.n, args.min_resolved)
 
     if args.dry_run:
         print(html)
     else:
         Path("homepage_scorecards.html").write_text(html, encoding="utf-8")
-        success = inject_into_index(Path("index.html"), html)
+        success = inject_into_index(Path(args.index_html), html)
         if success:
             print("✅ homepage_scorecards.html updated and injected into index.html!")
         else:

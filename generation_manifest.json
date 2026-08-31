@@ -1,6 +1,6 @@
 {
-  "generation_id": "20260810T192139Z",
-  "commit": "114e63064bf5d4229163c9c7c52c894ed2fa6591",
+  "generation_id": "20260831T180355Z",
+  "commit": "576f4263faddc5f484eae17269a02dc0bc9e07f6",
   "rules_version": "brier-1.0.0",
   "source": "predictions_v2.jsonl",
   "record_count": 102,

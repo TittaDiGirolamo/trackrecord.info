@@ -1,5 +1,5 @@
 {
-  "commit": "114e63064bf5d4229163c9c7c52c894ed2fa6591",
+  "commit": "576f4263faddc5f484eae17269a02dc0bc9e07f6",
   "forecasters": {
     "Anka, Carl": {
       "overall_score": 0.6400000000000001,
@@ -230,7 +230,7 @@
       }
     },
     "Klement, Joachim": {
-      "overall_score": 0.095,
+      "overall_score": 0.09499999999999999,
       "pending_count": 0,
       "prediction_ids": [
         "pred-2026-05-25-klement-nl-winner",
@@ -261,7 +261,7 @@
         },
         "FIFA World Cup 2026 - Winner": {
           "n": 3,
-          "score": 0.028433333333333335
+          "score": 0.028433333333333328
         }
       }
     },
@@ -555,7 +555,7 @@
       }
     },
     "Sutton, Chris": {
-      "overall_score": 0.14404285714285714,
+      "overall_score": 0.1440428571428571,
       "pending_count": 0,
       "prediction_ids": [
         "pred-2026-06-10-sutton-japan-group",
@@ -756,7 +756,7 @@
       }
     }
   },
-  "generation_id": "20260810T192139Z",
+  "generation_id": "20260831T180355Z",
   "rules_version": "brier-1.0.0",
   "source": "predictions_v2.jsonl"
 }

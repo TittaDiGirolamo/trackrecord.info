@@ -25,7 +25,7 @@ jobs:
         run: pip install pydantic
 
       - name: Run table generator
-        run: python scripts/generate_prediction_tables.py --build-date $(date +%Y-%m-%d)
+        run: python scripts/generate_prediction_tables.py
 
       - name: Generate prediction detail pages
         run: python scripts/generate_prediction_details.py

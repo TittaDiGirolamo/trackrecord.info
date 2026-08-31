@@ -51,9 +51,12 @@
 	  gtag('config', 'G-9WXVR9NY9S');
 	</script>
 
-    <!-- Privacy-respecting analytics (Plausible) -->
-    <script defer data-domain="trackrecord.info" src="https://plausible.io/js/script.js"></script>
-    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+    <!-- Privacy-respecting analytics (Plausible) — custom-events snippet, same family as profiles/details -->
+    <script async src="https://plausible.io/js/pa-MQu87Y2WzO-sB_YzB2L-N.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
 
   <style>
     html, body { overflow-x: hidden; width: 100%; max-width: 100%; }
@@ -174,12 +177,12 @@
         <div class="text-sm font-normal text-emerald-600 mb-2">Live rankings</div>
         <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-6 text-slate-900">Top 3 Forecasters</h2>
         <p class="mt-2 text-slate-600">Based on all resolved predictions (minimum 2). Higher Brier Index is better.</p>
-        <p class="mt-1 text-xs text-slate-400">As of 2026-08-10 · Pure mean Brier backend</p>
+        <p class="mt-1 text-xs text-slate-400">As of 2026-08-31 · Pure mean Brier backend</p>
     </div>
     <div class="w-full max-w-full overflow-x-auto overscroll-x-contain pb-4 snap-x snap-mandatory md:overflow-visible md:pb-0">
       <div class="flex gap-6 md:grid md:grid-cols-3">
         
-        <a href="forecasters/connor-o-halloran.html" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){plausible('figure_selected',{props:{figure:'connor-o-halloran'}})}">
+        <a href="forecasters/connor-o-halloran.html" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){plausible('figure_selected',{props:{figure_id:'connor-o-halloran'}})}">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-teal-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">CO</div>
                 <div>
@@ -193,10 +196,10 @@
                     <span class="text-6xl font-medium text-slate-900">83.5</span>
                     <span class="text-xl font-normal text-slate-900">/100</span>
                 </div>
-                <div class="text-sm text-emerald-600 mt-1">As of 2026-08-10 · n = 2</div>
+                <div class="text-sm text-emerald-600 mt-1">As of 2026-08-31 · n = 2</div>
             </div>
         </a>
-        <a href="forecasters/wayne-rooney.html" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){plausible('figure_selected',{props:{figure:'wayne-rooney'}})}">
+        <a href="forecasters/wayne-rooney.html" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){plausible('figure_selected',{props:{figure_id:'wayne-rooney'}})}">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-cyan-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">WR</div>
                 <div>
@@ -210,10 +213,10 @@
                     <span class="text-6xl font-medium text-slate-900">82.0</span>
                     <span class="text-xl font-normal text-slate-900">/100</span>
                 </div>
-                <div class="text-sm text-emerald-600 mt-1">As of 2026-08-10 · n = 2</div>
+                <div class="text-sm text-emerald-600 mt-1">As of 2026-08-31 · n = 2</div>
             </div>
         </a>
-        <a href="forecasters/tom-hamilton.html" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){plausible('figure_selected',{props:{figure:'tom-hamilton'}})}">
+        <a href="forecasters/tom-hamilton.html" class="block bg-slate-100 rounded-3xl p-8 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 hover:bg-slate-50 transition-colors" onclick="if(window.plausible){plausible('figure_selected',{props:{figure_id:'tom-hamilton'}})}">
             <div class="flex items-center gap-x-4 mb-6">
                 <div class="w-12 h-12 bg-amber-600 rounded-2xl flex items-center justify-center text-white font-normal text-xl">TH</div>
                 <div>
@@ -227,7 +230,7 @@
                     <span class="text-6xl font-medium text-slate-900">81.0</span>
                     <span class="text-xl font-normal text-slate-900">/100</span>
                 </div>
-                <div class="text-sm text-emerald-600 mt-1">As of 2026-08-10 · n = 2</div>
+                <div class="text-sm text-emerald-600 mt-1">As of 2026-08-31 · n = 2</div>
             </div>
         </a>
       </div>
@@ -621,9 +624,9 @@
     input.value = f.name;
     if (window.plausible) {
         window.plausible('Search', { props: { query: f.name } });
-        // Required North Star event
-        const slug = f.slug || (f.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        window.plausible('figure_selected', { props: { figure: slug } });
+        if (f.slug) {
+            window.plausible('figure_selected', { props: { figure_id: f.slug } });
+        }
     }
     window.location.href = profileUrl(f);
 };
@@ -665,6 +668,9 @@
                     const exact = FORECASTERS.find(f => f.name.toLowerCase() === val);
                     const partial = FORECASTERS.find(f => f.name.toLowerCase().includes(val));
                     const hit = exact || partial;
+                    if (hit && hit.slug && window.plausible) {
+                        window.plausible('figure_selected', { props: { figure_id: hit.slug } });
+                    }
                     window.location.href = hit ? profileUrl(hit) : 'forecasters.html';
                 }
             });

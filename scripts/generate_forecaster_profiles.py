@@ -550,7 +550,7 @@ def render_profile_page(
   <script>
     document.addEventListener('DOMContentLoaded', function() {{
       if (window.plausible) {{
-        plausible('profile_viewed', {{props: {{figure: '{slug}'}}}});
+        plausible('profile_viewed', {{props: {{figure_id: '{slug}'}}}});
       }}
     }});
   </script>

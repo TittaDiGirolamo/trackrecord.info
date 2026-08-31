@@ -23,7 +23,7 @@ import json
 import sys
 from pathlib import Path as _Path
 sys.path.insert(0, str(_Path(__file__).resolve().parent.parent))
-from scoring import brier_to_index, format_brier, format_index
+from scoring import brier_to_index, format_brier, format_index, slugify_name
 from scoring.rules import score_one
 from templates.nav import render_nav, nav_script
 from datetime import date, datetime
@@ -161,7 +161,12 @@ def render_detail_page(
 
     sid = rec["statement_id"]
     predictor = get_predictor_display_name(rec)
-    slug = "-".join(predictor.lower().replace(",", "").split())
+    slug = slugify_name(predictor)
+    figure_id = slug
+    fs_onclick = (
+        "if(window.plausible){plausible('figure_selected',{props:{figure_id:'%s'}})}"
+        % figure_id
+    )
     claim = clean_claim(rec.get("original_statement", "").strip())
     source_url = rec.get("statement_original_url", "#")
     archive_url = (rec.get("statement_original_url_archive") or "").strip()
@@ -212,6 +217,15 @@ def render_detail_page(
                         <svg class="w-3.5 h-3.5 inline-block ml-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </a>
                 </p>"""
+
+    proof_html = ""
+    if outcome is not None:
+        proof_html = f"""
+                <p class="mt-5 font-normal text-slate-800 leading-relaxed">
+                    {proof}
+                </p>"""
+        if verify_url:
+            proof_html += verify_block
 
     gen_date = (build_date or date.today()).isoformat()
 
@@ -266,13 +280,95 @@ def render_detail_page(
                     </div>
                 </div>
                 <div class="mt-4">
-                    <a href="../forecasters/{slug}.html" class="inline-flex items-center text-sm font-medium text-emerald-700 hover:text-emerald-800 transition-colors">
+                    <a href="../forecasters/{slug}.html" class="inline-flex items-center text-sm font-medium text-emerald-700 hover:text-emerald-800 transition-colors" onclick="{fs_onclick}">
                         View updated profile →
                     </a>
                 </div>
             </div>
         </section>
         """
+
+    context_html = ""
+    if context:
+        context_html = f"""
+                <div class="{section_h}">Statement context</div>
+                <p class="font-normal text-slate-800 leading-relaxed mb-6">{context}</p>
+                """
+
+    rationale_html = ""
+    if probability_rationale:
+        rationale_html = f"""
+                <div class="{section_h}">Probability accountability</div>
+                <p class="font-normal text-slate-800 leading-relaxed mb-6">{probability_rationale}</p>
+                """
+
+    verification_html = ""
+    if outcome is not None:
+        verification_html = f"""
+        <section class="mb-12">
+            <div class="{section_h}">Verification</div>
+            <p class="font-normal text-slate-800 leading-relaxed">
+                This resolution was performed by human examination of primary sources against the exact wording of the resolution criteria.
+                The resolver ({resolver}) takes personal responsibility for the recorded outcome.
+                Full methodological rules are published in the project’s
+                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls}">METHODOLOGY.md</a>.
+            </p>
+        </section>
+                """
+
+    logged_row = ""
+    if logged_date and logged_date != "—":
+        logged_row = f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Logged</td>
+                        <td class="py-1.5 align-top">{logged_date}</td>
+                    </tr>"""
+
+    resolved_row = ""
+    if outcome is not None:
+        resolved_row = f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Resolved</td>
+                        <td class="py-1.5 align-top">{res_date}</td>
+                    </tr>"""
+
+    prob_row = ""
+    if probability is not None:
+        prob_row = f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Stated probability</td>
+                        <td class="py-1.5 align-top">{probability:.0%}</td>
+                    </tr>"""
+
+    this_brier = None
+    brier_row = ""
+    index_row = ""
+    if probability is not None and outcome is not None:
+        this_brier = score_one({"probability": probability, "outcome": outcome})
+        brier_row = f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier contribution</td>
+                        <td class="py-1.5 align-top">{format_brier(this_brier)}</td>
+                    </tr>"""
+        index_row = f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier Index (this prediction)</td>
+                        <td class="py-1.5 align-top">{format_index(brier_to_index(this_brier))}</td>
+                    </tr>"""
+
+    topic_row = ""
+    if topic_html:
+        topic_row = f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Topic</td>
+                        <td class="py-1.5 align-top">
+                            <div class="flex flex-wrap items-center gap-x-2 gap-y-2">
+                                {topic_html}
+                            </div>
+                        </td>
+                    </tr>"""
+
+    archive_row = ""
+    if archive_url:
+        archive_row = f"""<tr>
+                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Archived source</td>
+                        <td class="py-1.5 align-top"><a href="{archive_url}" target="_blank" rel="noopener noreferrer" class="{link_cls}">View archive link</a></td>
+                    </tr>"""
+
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -300,6 +396,7 @@ def render_detail_page(
           plausible('prediction_detail_viewed', {{
             props: {{
               prediction_id: '{sid}',
+              figure_id: '{figure_id}',
               status: '{("resolved" if outcome is not None else "pending")}'
             }}
           }});
@@ -318,7 +415,7 @@ def render_detail_page(
             <div class="{card_bg} rounded-3xl p-6 sm:p-8 shadow-sm">
                 <div class="flex items-start justify-between gap-4 mb-4">
                     <div class="text-sm font-normal text-slate-500">
-                        <a href="../forecasters/{slug}.html" class="hover:text-slate-900 transition-colors">{predictor}</a>
+                        <a href="../forecasters/{slug}.html" class="hover:text-slate-900 transition-colors" onclick="{fs_onclick}">{predictor}</a>
                     </div>
                     <span class="{pill_classes}">{label}</span>
                 </div>
@@ -331,21 +428,7 @@ def render_detail_page(
                         <svg class="w-3.5 h-3.5 inline-block ml-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </a>
                 </p>
-                {f"""
-                <p class="mt-5 font-normal text-slate-800 leading-relaxed">
-                    {proof}
-                </p>
-                <p class="mt-3">
-                    <a href="{verify_url}" target="_blank" rel="noopener noreferrer" class="{link_cls} inline-flex items-center">
-                        Primary evidence source
-                        <svg class="w-3.5 h-3.5 inline-block ml-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                    </a>
-                </p>
-                """ if outcome is not None and verify_url else (f"""
-                <p class="mt-5 font-normal text-slate-800 leading-relaxed">
-                    {proof}
-                </p>
-                """ if outcome is not None else "")}
+                {proof_html}
             </div>
         </section>
 
@@ -354,30 +437,13 @@ def render_detail_page(
 
         <!-- ========== DETAILS (claim details + outcome status, no doublings) ========== -->
         <section class="mb-10">
-            {f'''
-                <div class="{section_h}">Statement context</div>
-                <p class="font-normal text-slate-800 leading-relaxed mb-6">{context}</p>
-                ''' if context else ""}
-            {f'''
-                <div class="{section_h}">Probability accountability</div>
-                <p class="font-normal text-slate-800 leading-relaxed mb-6">{probability_rationale}</p>
-                ''' if probability_rationale else ""}
+            {context_html}
+            {rationale_html}
             <div class="{section_h}">Resolution criteria</div>
                 <p class="font-normal text-slate-800 leading-relaxed whitespace-pre-line mb-6">{criteria}</p>
         </section>
 
-                {f'''
-        <!-- Verification (resolved only) -->
-        <section class="mb-12">
-            <div class="{section_h}">Verification</div>
-            <p class="font-normal text-slate-800 leading-relaxed">
-                This resolution was performed by human examination of primary sources against the exact wording of the resolution criteria.
-                The resolver ({resolver}) takes personal responsibility for the recorded outcome.
-                Full methodological rules are published in the project’s
-                <a href="https://github.com/TittaDiGirolamo/trackrecord.info/blob/main/METHODOLOGY.md" class="{link_cls}">METHODOLOGY.md</a>.
-            </p>
-        </section>
-                ''' if outcome is not None else ""}
+                {verification_html}
 
             <div class="{section_h}">Claim details</div>
             <table class="w-full text-left border-collapse mb-5">
@@ -386,42 +452,17 @@ def render_detail_page(
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Published</td>
                         <td class="py-1.5 align-top">{pub_date}</td>
                     </tr>
-                    {f"""<tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Logged</td>
-                        <td class="py-1.5 align-top">{logged_date}</td>
-                    </tr>""" if logged_date and logged_date != "—" else ""}
-                    {f"""<tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Resolved</td>
-                        <td class="py-1.5 align-top">{res_date}</td>
-                    </tr>""" if outcome is not None else ""}
-                    {f"""<tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Stated probability</td>
-                        <td class="py-1.5 align-top">{probability:.0%}</td>
-                    </tr>""" if probability is not None else ""}
-                    {f"""<tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier contribution</td>
-                        <td class="py-1.5 align-top">{format_brier(score_one({"probability": probability, "outcome": outcome}))}</td>
-                    </tr>""" if probability is not None and outcome is not None else ""}
-                    {f"""<tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Brier Index (this prediction)</td>
-                        <td class="py-1.5 align-top">{format_index(brier_to_index(score_one({"probability": probability, "outcome": outcome})))}</td>
-                    </tr>""" if probability is not None and outcome is not None else ""}
+                    {logged_row}
+                    {resolved_row}
+                    {prob_row}
+                    {brier_row}
+                    {index_row}
                     <tr>
                         <td class="py-1.5 pr-4 align-top whitespace-nowrap">Prediction id</td>
                         <td class="py-1.5 align-top">{sid}</td>
                     </tr>
-                    {f"""<tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Topic</td>
-                        <td class="py-1.5 align-top">
-                            <div class="flex flex-wrap items-center gap-x-2 gap-y-2">
-                                {topic_html}
-                            </div>
-                        </td>
-                    </tr>""" if topic_html else ""}
-                    {f"""<tr>
-                        <td class="py-1.5 pr-4 align-top whitespace-nowrap">Archived source</td>
-                        <td class="py-1.5 align-top"><a href="{archive_url}" target="_blank" rel="noopener noreferrer" class="{link_cls}">View archive link</a></td>
-                    </tr>""" if archive_url else ""}
+                    {topic_row}
+                    {archive_row}
                 </tbody>
             </table>
 

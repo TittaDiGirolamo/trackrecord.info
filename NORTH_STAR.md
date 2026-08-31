@@ -96,7 +96,7 @@ The table below is the single source of truth for active and recently completed 
 
 | Initiative | Size | Hypothesis (incl. long-run view for Medium+) | Target funnel step | Expected impact | Ship date | Result (1–2 weeks later) | Status |
 |------------|------|---------------------------------------------|--------------------|-----------------|-----------|---------------------------|--------|
-|Phase 0 — Measurement Validation & Freeze|Medium|Reliable measurement is a necessary condition for any subsequent claim about demand|Full North Star sequence (figure_selected → profile_viewed → prediction_detail_viewed with status=resolved)|Enables trustworthy baseline and all later demand claims|—|—|In progress|
+| Phase 0 — Measurement Validation & Freeze | Medium | Reliable measurement is a necessary condition for any subsequent claim about demand. Counting rule under test: REQUIREMENTS_Phase0_Measurement.md v1.0.0 §4.1 (profile_viewed + prediction_detail_viewed status=resolved in one Plausible visit). figure_selected remains diagnostic. | Official funnel last step (not yet frozen) | Enables a trustworthy baseline. No demand claim until Pass. | Pass required by 2026-09-02 | Time-box exception recorded 2026-08-29. Reason: definition conflict between NORTH_STAR.md v1.0 three-event “session” wording and the 90-day plan’s direct-landing clause, discovered during measurement validation on 2026-08-26. 14-day baseline starts at freeze and is not part of Pass. | In progress |
 |            |      |                                             |                    |                 |           |                           |        |
 
 **Status values:** `Planned` · `In progress` · `Shipped` · `Moved the needle` · `No clear impact` · `Negative` · `Abandoned`
@@ -144,6 +144,8 @@ These secondary metrics help diagnose *where* an initiative had (or failed to ha
 
 - **Problem & Vision Document v1.5** — defines the user outcome this metric measures.
 - **90-Day Action Plan v1.0** — early targets and scope constraints.
+- **90-DAY_DEMAND_VALIDATION_PLAN_v1.1.md** — active demand-validation plan (2026-08-20 → 2026-11-18). Phase 0 is a hard gate.
+- **REQUIREMENTS_Phase0_Measurement.md v1.0.0** — measurement contract, validation protocol, and §14 acceptance list. Not a freeze until the Phase 0 row is Pass.
 - **METHODOLOGY.md / SCORING.md / PROVENANCE.md** — govern data quality and resolution integrity (necessary conditions for the metric to be meaningful).
 
 This document is the operational layer that connects product work to measurable user value.

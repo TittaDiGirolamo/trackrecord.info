@@ -15,7 +15,7 @@
 - Added operational boundary rules for visibility actions.  
 - Added explicit note on reconciliation with Problem & Vision Document v1.5 demand OKRs.  
 - Acknowledged statistical power limitations of the observed base rate and adjusted interpretation rules accordingly.
-- **Operational note (2026-08-29):** Phase 0 Pass deadline exception is 2026-09-02 (see NORTH_STAR.md tracking table). The operational counting rule under test is REQUIREMENTS_Phase0_Measurement.md v1.0.0 §4.1 / definition `completed_accountability_lookup` v1.1: `profile_viewed` + `prediction_detail_viewed` with `status=resolved` in one Plausible visit. `figure_selected` is diagnostic only. Phase 0 Pass does not include finishing the 14-day baseline; that window starts at the freeze timestamp. This note does not rewrite the plan.
+- **Operational note (2026-08-31):** Phase 0 is **Pass**. Freeze timestamp: **2026-08-31 20:31 Europe/Amsterdam**. Frozen counting rule: REQUIREMENTS_Phase0_Measurement.md v1.0.0 §4.1 / `completed_accountability_lookup` v1.1: `profile_viewed` + `prediction_detail_viewed` with `status=resolved` in one Plausible visit. Official funnel: `Completed Accountability Lookup` (sequential; other activity allowed; last step = `prediction_detail_viewed (resolved)`). `figure_selected` is diagnostic only. The 14-day baseline window **starts at this freeze timestamp**. Pre-freeze Plausible totals are not the North Star. T-05 remains blocked until a genuine pending record exists. This note does not rewrite the plan.
 
 ---
 

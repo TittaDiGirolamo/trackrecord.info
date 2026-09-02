@@ -119,6 +119,7 @@ The real standard is personal and documentary:
 - Before starting any Medium or Large initiative, update the tracking table with a hypothesis appropriate to its size.
 - Treat the written hypothesis as a public commitment (even if only to your future self).
 - Review progress against the hypothesis during the regular weekly North Star check.
+- Post-freeze weekly number: Plausible FUNNELS → `Completed Accountability Lookup` → last-step unique visitors, timezone Europe/Amsterdam. Running log: `audits/2026-09-02-baseline-readout.md`. 14-day baseline ends 2026-09-14.
 
 The goal is better decisions and clearer learning, not process theatre.
 

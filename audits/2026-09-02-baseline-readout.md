@@ -49,14 +49,39 @@ Browsers: Chrome 43, Safari 3 (Safari is the only weak hint of a second device/p
 
 Top pages 28d: `/`, `index.html`, `predictions.html`, `forecasters.html`, Richards Spain, Sutton, Connor, Öztürk, Rooney. Öztürk matches an Aug 15 operator X reply with that profile URL. Do not read that as inbound demand.
 
+## Week 1 official cell — 2026-09-06 ~20:04 Europe/Amsterdam
+
+**Period:** `2026-08-31`–`2026-09-06` (custom range, Europe/Amsterdam)  
+**North Star (last-step unique):** **2**  
+**Known operator T-01 (31 Aug):** 1 of those 2  
+**Unattributed last-step:** 1 — do **not** call this demand yet  
+
+| Funnel step | Unique visitors | Conversion |
+|-------------|-----------------|------------|
+| profile_viewed | 4 | 100% of funnel starters |
+| prediction_detail_viewed (resolved) | **2** | 50% |
+
+Site-wide (not the North Star): 12 unique visitors, 13 visits, 42 pageviews. 1 current visitor during readout (treat 6 Sep dotted spike as operator).
+
+### Sources week 1
+
+| Channel | Visitors | Notes |
+|---------|----------|--------|
+| Direct | 9 | Still the bulk. NL 6. |
+| AI Assistants | 4 | Same class as Grok (this chat / fetches). US 4 + HK 1 consistent with that. |
+| Google / Bing / Twitter / GitHub | **0** | No row. |
+
+Browsers: Chrome 9, Safari 3. Countries also: Serbia 1.  
+New profile vs 2 Sep: `/forecasters/carl-anka.html` (1). Connor still the most-opened profile (4).
+
+4 Sep and 5 Sep were **zero** uniques on the chart. Quiet days are the baseline, not the 12-visitor headline.
+
 ## How to read this
 
-- Running North Star since freeze: **1 unique completed lookup**, and it is the tester.
-- Organic completed lookups since freeze: **0**.
-- Organic *search* visitors: **0** (not “unknown” — the Sources list has no Google row).
-- “Direct” is not organic Google. It is mostly the operator, plus anyone who typed the URL or whose referrer was stripped.
-- Grok-sourced visits during this chat are operator-adjacent. Do not count them as discovered demand.
-- Next official weekly cell: calendar week 2026-08-31–2026-09-06, last-step unique visitors, taken on or after Sunday 6 Sep. Subtract the known operator T-01 when interpreting demand; do not delete it from Plausible.
+- Week 1 North Star = **2** last-step uniques. Subtract the known operator test: **at most 1** unexplained completed lookup.
+- 12 unique visitors is not 12 people who got value. Only 4 opened a profile; only 2 finished a resolved detail.
+- Organic search/social still **0**. Direct + Grok is not a market.
+- Next cell: Sunday **13 Sep** (or 14 Sep, end of 14-day window), custom range **31 Aug – 13/14 Sep**, same two boxes + Channels.
 
 ## Operator rule (rest of baseline)
 

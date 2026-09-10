@@ -76,12 +76,31 @@ New profile vs 2 Sep: `/forecasters/carl-anka.html` (1). Connor still the most-o
 
 4 Sep and 5 Sep were **zero** uniques on the chart. Quiet days are the baseline, not the 12-visitor headline.
 
+## Mid-window running total — 2026-09-10 ~19:40 Europe/Amsterdam
+
+**Period:** `2026-08-31`–`2026-09-10`  
+**North Star (last-step unique):** **2** (unchanged since week 1)  
+1 current visitor during readout (operator).
+
+| Funnel step | Unique visitors |
+|-------------|-----------------|
+| profile_viewed | 4 |
+| prediction_detail_viewed (resolved) | **2** |
+
+| Channel | Visitors | vs week 1 (6 Sep) |
+|---------|----------|-------------------|
+| Direct | 13 | 9 → 13 |
+| AI Assistants | 6 | 4 → 6 |
+| Google / X / GitHub | **0** | still 0 |
+
+Homepage `/` visitors 12 → 18. Connor profile still 4; no new profile or resolved-detail rows. **6–10 Sep added visits, not completed lookups.**
+
 ## How to read this
 
 - Week 1 North Star = **2** last-step uniques. Subtract the known operator test: **at most 1** unexplained completed lookup.
 - 12 unique visitors is not 12 people who got value. Only 4 opened a profile; only 2 finished a resolved detail.
 - Organic search/social still **0**. Direct + Grok is not a market.
-- Next cell: Sunday **13 Sep** (or 14 Sep, end of 14-day window), custom range **31 Aug – 13/14 Sep**, same two boxes + Channels.
+- Next cell: Sunday **13 Sep** or Monday **14 Sep** (end of 14-day window), custom range **31 Aug – 13/14 Sep**, same two boxes + Channels.
 
 ## Operator rule (rest of baseline)
 

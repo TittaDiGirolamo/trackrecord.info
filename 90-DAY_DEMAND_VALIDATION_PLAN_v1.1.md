@@ -15,7 +15,8 @@
 - Added operational boundary rules for visibility actions.  
 - Added explicit note on reconciliation with Problem & Vision Document v1.5 demand OKRs.  
 - Acknowledged statistical power limitations of the observed base rate and adjusted interpretation rules accordingly.
-- **Operational note (2026-08-31):** Phase 0 is **Pass**. Freeze timestamp: **2026-08-31 20:31 Europe/Amsterdam**. Frozen counting rule: REQUIREMENTS_Phase0_Measurement.md v1.0.0 §4.1 / `completed_accountability_lookup` v1.1: `profile_viewed` + `prediction_detail_viewed` with `status=resolved` in one Plausible visit. Official funnel: `Completed Accountability Lookup` (sequential; other activity allowed; last step = `prediction_detail_viewed (resolved)`). `figure_selected` is diagnostic only. The 14-day baseline window **starts at this freeze timestamp**. Pre-freeze Plausible totals are not the North Star. T-05 remains blocked until a genuine pending record exists. This note does not rewrite the plan.
+- **Operational note (2026-08-31):** Phase 0 is **Pass**. Freeze timestamp: **2026-08-31 20:31 Europe/Amsterdam**. Frozen counting rule: REQUIREMENTS_Phase0_Measurement.md v1.0.0 §4.1 / `completed_accountability_lookup` v1.1: `profile_viewed` + `prediction_detail_viewed` with `status=resolved` in one Plausible visit. Official funnel: `Completed Accountability Lookup` (sequential; other activity allowed; last step = `prediction_detail_viewed (resolved)`). `figure_selected` is diagnostic only. The 14-day baseline window started at this freeze timestamp. T-05 remains blocked until a genuine pending record exists.
+- **Operational note (2026-09-14):** 14-day baseline window **closed**. Official last-step unique visitors `2026-08-31`–`2026-09-14` = **2** (1 known operator T-01). Sources: Direct 17, AI Assistants 7, Google/X/GitHub 0. Phase 1 / Phase 2 / topic pivot still require a NORTH_STAR row before work. This note does not rewrite the plan.
 
 ---
 

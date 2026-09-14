@@ -95,13 +95,52 @@ New profile vs 2 Sep: `/forecasters/carl-anka.html` (1). Connor still the most-o
 
 Homepage `/` visitors 12 → 18. Connor profile still 4; no new profile or resolved-detail rows. **6–10 Sep added visits, not completed lookups.**
 
+## 14-day close-out — 2026-09-14 ~19:17 Europe/Amsterdam
+
+**Window closed.** Freeze 2026-08-31 20:31 → 2026-09-14, timezone Europe/Amsterdam.  
+1 current visitor during readout (operator). Do not treat the 14 Sep dotted point as demand.
+
+### Official baseline (the North Star)
+
+| Period | profile_viewed | Last-step unique | Conversion |
+|--------|----------------|------------------|------------|
+| Week 1 (31 Aug–6 Sep) | 4 | **2** | 50% |
+| Running (31 Aug–10 Sep) | 4 | **2** | 50% |
+| **Full window (31 Aug–14 Sep)** | **6** | **2** | **33.3%** |
+
+**Baseline last-step = 2 unique completed lookups in 14 days.**  
+Of which known operator T-01 (31 Aug) = 1. Unattributed = 1.  
+**Weekly rate (raw):** 1.0 last-step unique / week.  
+**Weekly rate (minus known tester):** 0.5 / week.  
+**Organic completed lookups (search or social referrer):** **0** (no Google/X/GitHub row in any snapshot).
+
+10–14 Sep: profile_viewed 4 → 6; last-step stayed 2. Two more profile visits, both dropped off. Homepage `/` 18 → 23. Connor 4 → 6.
+
+### Sources 31 Aug – 14 Sep (site-wide)
+
+| Channel | Visitors |
+|---------|----------|
+| Direct | 17 |
+| AI Assistants | 7 |
+| Google / Bing / Twitter / GitHub | **0** |
+
+Countries: NL 10, US 7, DE 2, HK 1, Serbia 1, Singapore 1, UK 1.  
+Browsers: Chrome 16, Safari 7.
+
+Safari 7 and non-NL countries are compatible with AI/crawler plus some other devices. They did **not** produce extra last-step completions.
+
+### What this baseline is not
+
+- Not “12 or 23 people got the core value.”
+- Not a reason to claim demand, nor to claim the product is disproven (n is still tiny; discovery is zero).
+- Not a reason to ship a new topic tonight.
+
 ## How to read this
 
-- Week 1 North Star = **2** last-step uniques. Subtract the known operator test: **at most 1** unexplained completed lookup.
-- 12 unique visitors is not 12 people who got value. Only 4 opened a profile; only 2 finished a resolved detail.
-- Organic search/social still **0**. Direct + Grok is not a market.
-- Next cell: Sunday **13 Sep** or Monday **14 Sep** (end of 14-day window), custom range **31 Aug – 13/14 Sep**, same two boxes + Channels.
+- **14-day baseline is closed.** Last-step unique = **2**. Minus known operator = **1** unexplained completion. Search/social = **0**.
+- Week 2 added homepage and profile traffic (Direct + Grok); it did not add completed lookups. Conversion 50% → 33% because the left box grew and the right box did not.
+- Next step is a **written choice**, not a rebuild: Phase 1 friction (NORTH_STAR row first), pause/maintenance, or a scoped topic pivot (also a NORTH_STAR row first).
 
-## Operator rule (rest of baseline)
+## Operator rule (closed window)
 
-Do not open live profiles or resolved details “to check.” Plausible-only is enough. If you must use the site as a reader, note it on the next row.
+Baseline measurement window is finished. Further operator clicks still contaminate the weekly series; log them if they happen. Do not delete Plausible history.

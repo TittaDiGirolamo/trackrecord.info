@@ -144,3 +144,33 @@ Safari 7 and non-NL countries are compatible with AI/crawler plus some other dev
 ## Operator rule (closed window)
 
 Baseline measurement window is finished. Further operator clicks still contaminate the weekly series; log them if they happen. Do not delete Plausible history.
+
+## Phase 2 early readout — 2026-09-27
+
+**Period:** `2026-09-21`–`2026-09-27` (custom range, Europe/Amsterdam). One day short of the scheduled 2026-09-28 cell.  
+**0 current visitors** at readout.  
+**Not a demand claim.**
+
+| Funnel step | Unique visitors | Conversion |
+|-------------|-----------------|------------|
+| profile_viewed | **4** | 100% of funnel starters |
+| prediction_detail_viewed (resolved) | **2** | **50%** |
+
+**North Star for this window = 2 last-step uniques in 7 days.** Raw rate ~2/week, against baseline raw ~1/week and operator-adjusted ~0.5/week. n is too small for “moved the needle.”
+
+Known contamination: operator phone walk 2026-09-21 ~19:46–19:48 Europe/Amsterdam is inside the window (Sutton search, profile, Japan detail). It is not separable from this screenshot. If that walk is one of the two completions, the unattributed rate is ~1/week, which is the raw baseline, not above it.
+
+### Sources (site-wide, not funnel-filtered)
+
+| Channel | Visitors | Notes |
+|---------|----------|--------|
+| Direct | 9 | Still the bulk. |
+| AI Assistants | 2 | Same class as prior Grok/fetch traffic. Not search. |
+| Organic Search | **1** | New row versus the baseline’s 0. One visitor is not a channel opening. |
+| X / Twitter / GitHub | **no row** | Phase 2 action 1 did not appear as an X referrer. |
+
+Visible top pages (screenshot truncated): `/` 9, `forecasters.html` 3, Connor profile 3, Adam Burke 2, Wayne Rooney 2, Sutton Argentina detail 2, Sutton profile 1, Tom Hamilton 1, `predictions.html` 1. Sutton Argentina detail (2) is higher than Sutton profile (1); detail-only landings do not count unless the profile is in the same visit. The official 2 already come from the sequential funnel, not from page totals. The Japan detail URL used in the X post is not in the visible top-page list; the list may be cut off, so do not record that page as zero.
+
+Countries panel was partial: one view showed Netherlands 1, Singapore 1, United Kingdom 1; another showed Anonymous VPN 2, China 2, then cut off. Browsers: Chrome 11, Safari 1.
+
+X post engagement at readout (not the metric): 6 views, 0 likes, 0 replies.

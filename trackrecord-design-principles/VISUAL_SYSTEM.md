@@ -42,8 +42,16 @@ When a page diverges from this document, the document wins.
 | Pills | `rounded-full` |
 
 ### Case
-- **Sentence case only** for every label, heading and nav item
-- Never Title Case
+- **No Title Case in UI chrome.** Headings and labels are sentence case. Proper nouns stay capitalised.
+- **No ALL CAPS in UI chrome.** Status is True / False, not TRUE / FALSE. Acronyms (FIFA, BBC) and verbatim quotes are exempt.
+- Nav items follow the same rule (Predictions, Forecasters, Methodology stay as those words; they are single words, not Title Case phrases).
+- Statement IDs, file names, and monospace codes are not chrome prose; leave them unchanged.
+
+Examples:
+- Brier Index → Brier index
+- Latest resolution → Latest resolution (already sentence case)
+- FALSE → False
+- FIFA World Cup → FIFA World Cup
 
 ### Borders
 - **No grey horizontal rules or section borders** on content pages
@@ -75,6 +83,8 @@ inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-normal bg-w
 (with optional `w-2 h-2 bg-emerald-500 rounded-full animate-pulse` inside)
 
 Do not invent new pill shapes, paddings or font weights.
+
+Status pill copy is exactly `True`, `False`, or `Pending`. Never `TRUE`, `FALSE`, or `PENDING`.
 
 ---
 
@@ -164,7 +174,8 @@ Date format everywhere: `6 December 2025` (day + full month + year).
 
 - No second typeface
 - No `font-semibold` / weight 600
-- No Title Case labels
+- No Title Case in UI chrome. Headings and labels are sentence case. Proper nouns stay capitalised.
+- No ALL CAPS in UI chrome. Status is True / False, not TRUE / FALSE. Acronyms (FIFA, BBC) and verbatim quotes are exempt.
 - No grey section borders or horizontal rules
 - No centred footnotes
 - No new pill colours without updating this document
@@ -176,12 +187,13 @@ Date format everywhere: `6 December 2025` (day + full month + year).
 
 - [ ] Only Inter 400 / 500 — body text always 400 (`font-normal`)
 - [ ] All pills use the shared base structure
+- [ ] Status pill copy is True / False / Pending — never TRUE / FALSE / PENDING
 - [ ] Section labels use the emerald eyebrow style
 - [ ] Footnotes are `text-xs text-slate-400` and left-aligned
 - [ ] Published / Resolved use `text-sm font-mono text-slate-500`
 - [ ] External links have the icon and open in a new tab
 - [ ] Nav matches homepage (including mobile)
-- [ ] Sentence case throughout
+- [ ] Sentence case in headings and labels; proper nouns capitalised; no Title Case chrome; no ALL CAPS chrome
 - [ ] No grey lines
 
 ---
@@ -214,9 +226,11 @@ Layout (top → bottom):
 
 ### Shared rules (already in this document)
 
-- Inter 400/500 only; sentence case
+- Inter 400/500 only; sentence case in chrome; no ALL CAPS in chrome
 - No grey horizontal rules or borders on pills/cards — spacing separates sections
 - Status pill structure and colours unchanged
 - Accent remains emerald; initials badges never use the primary emerald
 
 *Living document. Update this file first, then the pages.*
+
+**2026-09-29:** Case section restated. Replaced “No Title Case labels” / “Never Title Case” with the two chrome rules above. Live pages that still use Title Case labels or `FALSE` are now out of date with this file; they are not updated by this commit.

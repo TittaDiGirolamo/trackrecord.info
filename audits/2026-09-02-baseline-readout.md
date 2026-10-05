@@ -174,3 +174,31 @@ Visible top pages (screenshot truncated): `/` 9, `forecasters.html` 3, Connor pr
 Countries panel was partial: one view showed Netherlands 1, Singapore 1, United Kingdom 1; another showed Anonymous VPN 2, China 2, then cut off. Browsers: Chrome 11, Safari 1.
 
 X post engagement at readout (not the metric): 6 views, 0 likes, 0 replies.
+
+## Phase 2 readout — 2026-10-05
+
+**Period:** `2026-09-28`–`2026-10-05` (custom range, Europe/Amsterdam). Scheduled 2026-10-04 cell, taken one day late.  
+**0 current visitors** at readout.  
+**Not a demand claim.** Operator confirms no second mail to the two interest-form addresses.
+
+| Funnel step | Unique visitors | Conversion |
+|-------------|-----------------|------------|
+| profile_viewed | **2** | 100% of funnel starters |
+| prediction_detail_viewed (resolved) | **0** | **0%** |
+
+**North Star for this window = 0 last-step uniques in 8 days.** Below baseline raw ~1/week and operator-adjusted ~0.5/week. n is still too small to call the product disproven. It is a zero on the official step.
+
+Diagnostic, not the metric: `figure_selected` 2 uniques (Connor O'Halloran, Wayne Rooney). Search goal 1. `figure_id` `(none)` 14 visitors / 22 events — most visits did not carry a figure id.
+
+### Sources (site-wide)
+
+| Channel | Visitors | Notes |
+|---------|----------|--------|
+| Direct | 12 | Still the bulk. |
+| AI Assistants | 1 | Same class as prior Grok/fetch traffic. |
+| Organic Search | 1 | Still one visitor. Not a channel opening. |
+| X / Twitter / GitHub | **no row** | Action 1 did not appear as an X referrer in this later window either. |
+
+Site-wide: 14 unique visitors, 14 visits, 21 pageviews, 1.5 views/visit, bounce 86%, duration 8s. Chart: 0 on 28–29 Sep, spike to 8 uniques on 30 Sep, then 2, 1, 2, 0, and a partial 5 Oct dotted point. Homepage `/` 14. `forecasters.html` 2, `predictions.html` 2, Connor profile 1, Rooney profile 1. No resolved-detail page in the visible top pages.
+
+Countries: Brazil 5, Turkey 2, United States 2, Algeria 1, Bulgaria 1, Canada 1, Japan 1, Netherlands 1. Browsers: Chrome 10, Safari 4. Brazil 5 lines up with the 30 Sep spike. Do not read country rows as completed lookups.
